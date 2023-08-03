@@ -1,0 +1,12 @@
+c:\Users\USER PC\Desktop\EasyProduce\Domain\bin\Debug\net6.0\Domain.deps.json
+c:\Users\USER PC\Desktop\EasyProduce\Domain\bin\Debug\net6.0\Domain.dll
+c:\Users\USER PC\Desktop\EasyProduce\Domain\bin\Debug\net6.0\Domain.pdb
+c:\Users\USER PC\Desktop\EasyProduce\Domain\obj\Debug\net6.0\Domain.csproj.AssemblyReference.cache
+c:\Users\USER PC\Desktop\EasyProduce\Domain\obj\Debug\net6.0\Domain.GeneratedMSBuildEditorConfig.editorconfig
+c:\Users\USER PC\Desktop\EasyProduce\Domain\obj\Debug\net6.0\Domain.AssemblyInfoInputs.cache
+c:\Users\USER PC\Desktop\EasyProduce\Domain\obj\Debug\net6.0\Domain.AssemblyInfo.cs
+c:\Users\USER PC\Desktop\EasyProduce\Domain\obj\Debug\net6.0\Domain.csproj.CoreCompileInputs.cache
+c:\Users\USER PC\Desktop\EasyProduce\Domain\obj\Debug\net6.0\Domain.dll
+c:\Users\USER PC\Desktop\EasyProduce\Domain\obj\Debug\net6.0\refint\Domain.dll
+c:\Users\USER PC\Desktop\EasyProduce\Domain\obj\Debug\net6.0\Domain.pdb
+c:\Users\USER PC\Desktop\EasyProduce\Domain\obj\Debug\net6.0\ref\Domain.dll
