@@ -1,29 +1,33 @@
 ﻿using System.Collections.Generic;
 using System.Security.Claims;
 using System.Text;
+using Microsoft.IdentityModel.Tokens;
+using Application.Abstractions;
 using Application.Dtos;
+using System.IdentityModel.Tokens.Jwt;
+using System;
 
 namespace Persistence
 {
-    // public class JwtAuthenticationManager : IJwtAuthenticationManager
-    // {
-    //     public string GenerateToken(string key, string issuer, UserDto user)
-    //     {
-    //         // _ = new JwtSecurityTokenHandler();
+    public class JwtAuthenticationManager : IJwtAuthenticationManager
+    {
+        public string GenerateToken(string key, string issuer, UserDto user)
+        {
+            // _ = new JwtSecurityTokenHandler();
 
-    //         var claims = new List<Claim>
-    //         {
-    //             new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-    //             new Claim(ClaimTypes.Email, user.Email),
-    //         };
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                new Claim(ClaimTypes.Email, user.Email),
+            };
 
-    //         var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key));
-    //         var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256Signature);
-    //         var tokenDescriptor = new JwtSecurityToken(issuer, issuer, claims,
-    //             expires: DateTime.Now.AddHours(1), signingCredentials: credentials);
-    //         return new JwtSecurityTokenHandler().WriteToken(tokenDescriptor);
+            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key));
+            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256Signature);
+            var tokenDescriptor = new JwtSecurityToken(issuer, issuer, claims,
+                expires: DateTime.Now.AddHours(1), signingCredentials: credentials);
+            return new JwtSecurityTokenHandler().WriteToken(tokenDescriptor);
 
-    //     }
+        }
 
     //     public bool IsTokenValid(string key, string issuer, string token)
     //     {
@@ -70,6 +74,6 @@ namespace Persistence
     //             // Handle the case when the ID claim is not present in the token
     //             return 0;
     //         }
-    //     }
-    // }
+        // }
+    }
 }

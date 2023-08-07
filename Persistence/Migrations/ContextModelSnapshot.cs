@@ -22,9 +22,10 @@ namespace Persistence.Migrations
             modelBuilder.Entity("Domain.Entity.CartItem", b =>
                 {
                     b.Property<Guid>("Id")
-                        .HasColumnType("varchar(255)");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
 
-                    b.Property<Guid>("CreatedBy")
+                    b.Property<string>("CreatedBy")
                         .IsRequired()
                         .HasColumnType("longtext");
 
@@ -34,27 +35,26 @@ namespace Persistence.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("tinyint(1)");
 
-                    b.Property<Guid>("ModifiedBy")
+                    b.Property<string>("ModifiedBy")
                         .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<DateTime>("ModifiedOn")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<Guid>("NameOfCategory")
+                    b.Property<string>("NameOfCategory")
                         .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(65,30)");
 
-                    b.Property<Guid>("ProduceName")
+                    b.Property<string>("ProduceName")
                         .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<Guid>("ProduceTypeId")
-                        .IsRequired()
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("char(36)");
 
                     b.Property<double>("Quantity")
                         .HasColumnType("double");
@@ -62,13 +62,12 @@ namespace Persistence.Migrations
                     b.Property<decimal>("TotalPrice")
                         .HasColumnType("decimal(65,30)");
 
-                    b.Property<Guid>("UnitOfMeasurement")
+                    b.Property<string>("UnitOfMeasurement")
                         .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<Guid>("UserId")
-                        .IsRequired()
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("char(36)");
 
                     b.HasKey("Id");
 
@@ -82,9 +81,10 @@ namespace Persistence.Migrations
             modelBuilder.Entity("Domain.Entity.CartItemForOrder", b =>
                 {
                     b.Property<Guid>("Id")
-                        .HasColumnType("varchar(255)");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
 
-                    b.Property<Guid>("CreatedBy")
+                    b.Property<string>("CreatedBy")
                         .IsRequired()
                         .HasColumnType("longtext");
 
@@ -94,27 +94,26 @@ namespace Persistence.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("tinyint(1)");
 
-                    b.Property<Guid>("ModifiedBy")
+                    b.Property<string>("ModifiedBy")
                         .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<DateTime>("ModifiedOn")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<Guid>("NameOfCategory")
+                    b.Property<string>("NameOfCategory")
                         .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(65,30)");
 
-                    b.Property<Guid>("ProduceName")
+                    b.Property<string>("ProduceName")
                         .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<Guid>("ProductTypeId")
-                        .IsRequired()
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("char(36)");
 
                     b.Property<double>("Quantity")
                         .HasColumnType("double");
@@ -122,13 +121,12 @@ namespace Persistence.Migrations
                     b.Property<decimal>("TotalPrice")
                         .HasColumnType("decimal(65,30)");
 
-                    b.Property<Guid>("UnitOfMeasurement")
+                    b.Property<string>("UnitOfMeasurement")
                         .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<Guid>("UserId")
-                        .IsRequired()
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("char(36)");
 
                     b.HasKey("Id");
 
@@ -142,30 +140,31 @@ namespace Persistence.Migrations
             modelBuilder.Entity("Domain.Entity.Category", b =>
                 {
                     b.Property<Guid>("Id")
-                        .HasColumnType("varchar(255)");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
 
-                    b.Property<Guid>("CreatedBy")
+                    b.Property<string>("CreatedBy")
                         .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<Guid>("DescriptionOfCategory")
+                    b.Property<string>("DescriptionOfCategory")
                         .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("tinyint(1)");
 
-                    b.Property<Guid>("ModifiedBy")
+                    b.Property<string>("ModifiedBy")
                         .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<DateTime>("ModifiedOn")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<Guid>("NameOfCategory")
+                    b.Property<string>("NameOfCategory")
                         .IsRequired()
                         .HasColumnType("longtext");
 
@@ -177,9 +176,10 @@ namespace Persistence.Migrations
             modelBuilder.Entity("Domain.Entity.Customer", b =>
                 {
                     b.Property<Guid>("Id")
-                        .HasColumnType("varchar(255)");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
 
-                    b.Property<Guid>("CreatedBy")
+                    b.Property<string>("CreatedBy")
                         .IsRequired()
                         .HasColumnType("longtext");
 
@@ -189,20 +189,19 @@ namespace Persistence.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("tinyint(1)");
 
-                    b.Property<Guid>("ModifiedBy")
+                    b.Property<string>("ModifiedBy")
                         .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<DateTime>("ModifiedOn")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<Guid>("RegistrationNumber")
+                    b.Property<string>("RegistrationNumber")
                         .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<Guid>("UserId")
-                        .IsRequired()
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("char(36)");
 
                     b.HasKey("Id");
 
@@ -214,16 +213,17 @@ namespace Persistence.Migrations
             modelBuilder.Entity("Domain.Entity.Farmer", b =>
                 {
                     b.Property<Guid>("Id")
-                        .HasColumnType("varchar(255)");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
 
-                    b.Property<Guid>("CreatedBy")
+                    b.Property<string>("CreatedBy")
                         .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<Guid>("FarmName")
+                    b.Property<string>("FarmName")
                         .IsRequired()
                         .HasColumnType("longtext");
 
@@ -233,20 +233,19 @@ namespace Persistence.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("tinyint(1)");
 
-                    b.Property<Guid>("ModifiedBy")
+                    b.Property<string>("ModifiedBy")
                         .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<DateTime>("ModifiedOn")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<Guid>("RegistrationNumber")
+                    b.Property<string>("RegistrationNumber")
                         .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<Guid>("UserId")
-                        .IsRequired()
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("char(36)");
 
                     b.HasKey("Id");
 
@@ -258,9 +257,10 @@ namespace Persistence.Migrations
             modelBuilder.Entity("Domain.Entity.Manager", b =>
                 {
                     b.Property<Guid>("Id")
-                        .HasColumnType("varchar(255)");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
 
-                    b.Property<Guid>("CreatedBy")
+                    b.Property<string>("CreatedBy")
                         .IsRequired()
                         .HasColumnType("longtext");
 
@@ -270,20 +270,19 @@ namespace Persistence.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("tinyint(1)");
 
-                    b.Property<Guid>("ModifiedBy")
+                    b.Property<string>("ModifiedBy")
                         .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<DateTime>("ModifiedOn")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<Guid>("RegistrationNumber")
+                    b.Property<string>("RegistrationNumber")
                         .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<Guid>("UserId")
-                        .IsRequired()
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("char(36)");
 
                     b.HasKey("Id");
 
@@ -295,15 +294,15 @@ namespace Persistence.Migrations
             modelBuilder.Entity("Domain.Entity.Order", b =>
                 {
                     b.Property<Guid>("Id")
-                        .HasColumnType("varchar(255)");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
 
-                    b.Property<Guid>("CreatedBy")
+                    b.Property<string>("CreatedBy")
                         .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<Guid>("CustomerId")
-                        .IsRequired()
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("char(36)");
 
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime(6)");
@@ -311,14 +310,14 @@ namespace Persistence.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("tinyint(1)");
 
-                    b.Property<Guid>("ModifiedBy")
+                    b.Property<string>("ModifiedBy")
                         .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<DateTime>("ModifiedOn")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<Guid>("OrderNumber")
+                    b.Property<string>("OrderNumber")
                         .IsRequired()
                         .HasColumnType("longtext");
 
@@ -338,9 +337,10 @@ namespace Persistence.Migrations
             modelBuilder.Entity("Domain.Entity.OrderProductType", b =>
                 {
                     b.Property<Guid>("Id")
-                        .HasColumnType("varchar(255)");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
 
-                    b.Property<Guid>("CreatedBy")
+                    b.Property<string>("CreatedBy")
                         .IsRequired()
                         .HasColumnType("longtext");
 
@@ -350,7 +350,7 @@ namespace Persistence.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("tinyint(1)");
 
-                    b.Property<Guid>("ModifiedBy")
+                    b.Property<string>("ModifiedBy")
                         .IsRequired()
                         .HasColumnType("longtext");
 
@@ -358,15 +358,13 @@ namespace Persistence.Migrations
                         .HasColumnType("datetime(6)");
 
                     b.Property<Guid>("OrderId")
-                        .IsRequired()
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("char(36)");
 
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(65,30)");
 
                     b.Property<Guid>("ProductTypeId")
-                        .IsRequired()
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("char(36)");
 
                     b.Property<double>("Quantity")
                         .HasColumnType("double");
@@ -383,30 +381,34 @@ namespace Persistence.Migrations
             modelBuilder.Entity("Domain.Entity.Produce", b =>
                 {
                     b.Property<Guid>("Id")
-                        .HasColumnType("varchar(255)");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
 
                     b.Property<Guid>("CategoryId")
-                        .IsRequired()
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("char(36)");
 
-                    b.Property<Guid>("CreatedBy")
+                    b.Property<string>("CreatedBy")
                         .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime(6)");
 
+                    b.Property<string>("DescriptionOfProduce")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("tinyint(1)");
 
-                    b.Property<Guid>("ModifiedBy")
+                    b.Property<string>("ModifiedBy")
                         .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<DateTime>("ModifiedOn")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<Guid>("ProduceName")
+                    b.Property<string>("ProduceName")
                         .IsRequired()
                         .HasColumnType("longtext");
 
@@ -420,12 +422,13 @@ namespace Persistence.Migrations
             modelBuilder.Entity("Domain.Entity.ProduceType", b =>
                 {
                     b.Property<Guid>("Id")
-                        .HasColumnType("varchar(255)");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
 
                     b.Property<decimal>("CostPrice")
                         .HasColumnType("decimal(65,30)");
 
-                    b.Property<Guid>("CreatedBy")
+                    b.Property<string>("CreatedBy")
                         .IsRequired()
                         .HasColumnType("longtext");
 
@@ -435,7 +438,7 @@ namespace Persistence.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("tinyint(1)");
 
-                    b.Property<Guid>("ModifiedBy")
+                    b.Property<string>("ModifiedBy")
                         .IsRequired()
                         .HasColumnType("longtext");
 
@@ -443,8 +446,7 @@ namespace Persistence.Migrations
                         .HasColumnType("datetime(6)");
 
                     b.Property<Guid>("ProduceId")
-                        .IsRequired()
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("char(36)");
 
                     b.Property<double>("QuantityToBuy")
                         .HasColumnType("double");
@@ -455,15 +457,11 @@ namespace Persistence.Migrations
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
-                    b.Property<Guid>("TypeName")
+                    b.Property<string>("TypeName")
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<Guid>("TypePicture")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<Guid>("UnitOfMeasurement")
+                    b.Property<string>("UnitOfMeasurement")
                         .IsRequired()
                         .HasColumnType("longtext");
 
@@ -477,13 +475,13 @@ namespace Persistence.Migrations
             modelBuilder.Entity("Domain.Entity.Product", b =>
                 {
                     b.Property<Guid>("Id")
-                        .HasColumnType("varchar(255)");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
 
                     b.Property<Guid>("CategoryId")
-                        .IsRequired()
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("char(36)");
 
-                    b.Property<Guid>("CreatedBy")
+                    b.Property<string>("CreatedBy")
                         .IsRequired()
                         .HasColumnType("longtext");
 
@@ -493,14 +491,14 @@ namespace Persistence.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("tinyint(1)");
 
-                    b.Property<Guid>("ModifiedBy")
+                    b.Property<string>("ModifiedBy")
                         .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<DateTime>("ModifiedOn")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<Guid>("ProduceName")
+                    b.Property<string>("ProduceName")
                         .IsRequired()
                         .HasColumnType("longtext");
 
@@ -514,12 +512,13 @@ namespace Persistence.Migrations
             modelBuilder.Entity("Domain.Entity.ProductType", b =>
                 {
                     b.Property<Guid>("Id")
-                        .HasColumnType("varchar(255)");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
 
                     b.Property<decimal>("CostPrice")
                         .HasColumnType("decimal(65,30)");
 
-                    b.Property<Guid>("CreatedBy")
+                    b.Property<string>("CreatedBy")
                         .IsRequired()
                         .HasColumnType("longtext");
 
@@ -532,7 +531,7 @@ namespace Persistence.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("tinyint(1)");
 
-                    b.Property<Guid>("ModifiedBy")
+                    b.Property<string>("ModifiedBy")
                         .IsRequired()
                         .HasColumnType("longtext");
 
@@ -540,11 +539,10 @@ namespace Persistence.Migrations
                         .HasColumnType("datetime(6)");
 
                     b.Property<Guid>("ProduceId")
-                        .IsRequired()
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("char(36)");
 
-                    b.Property<Guid>("ProductId")
-                        .HasColumnType("varchar(255)");
+                    b.Property<Guid?>("ProductId")
+                        .HasColumnType("char(36)");
 
                     b.Property<double>("QuantityToBuy")
                         .HasColumnType("double");
@@ -555,15 +553,15 @@ namespace Persistence.Migrations
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
-                    b.Property<Guid>("TypeName")
+                    b.Property<string>("TypeName")
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<Guid>("TypePicture")
+                    b.Property<string>("TypePicture")
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<Guid>("UnitOfMeasurement")
+                    b.Property<string>("UnitOfMeasurement")
                         .IsRequired()
                         .HasColumnType("longtext");
 
@@ -579,9 +577,10 @@ namespace Persistence.Migrations
             modelBuilder.Entity("Domain.Entity.Role", b =>
                 {
                     b.Property<Guid>("Id")
-                        .HasColumnType("varchar(255)");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
 
-                    b.Property<Guid>("CreatedBy")
+                    b.Property<string>("CreatedBy")
                         .IsRequired()
                         .HasColumnType("longtext");
 
@@ -591,18 +590,18 @@ namespace Persistence.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("tinyint(1)");
 
-                    b.Property<Guid>("ModifiedBy")
+                    b.Property<string>("ModifiedBy")
                         .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<DateTime>("ModifiedOn")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<Guid>("RoleDescription")
+                    b.Property<string>("RoleDescription")
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<Guid>("RoleName")
+                    b.Property<string>("RoleName")
                         .IsRequired()
                         .HasColumnType("longtext");
 
@@ -614,9 +613,10 @@ namespace Persistence.Migrations
             modelBuilder.Entity("Domain.Entity.Transaction", b =>
                 {
                     b.Property<Guid>("Id")
-                        .HasColumnType("varchar(255)");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
 
-                    b.Property<Guid>("CreatedBy")
+                    b.Property<string>("CreatedBy")
                         .IsRequired()
                         .HasColumnType("longtext");
 
@@ -624,13 +624,12 @@ namespace Persistence.Migrations
                         .HasColumnType("datetime(6)");
 
                     b.Property<Guid>("FarmerId")
-                        .IsRequired()
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("char(36)");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("tinyint(1)");
 
-                    b.Property<Guid>("ModifiedBy")
+                    b.Property<string>("ModifiedBy")
                         .IsRequired()
                         .HasColumnType("longtext");
 
@@ -646,7 +645,7 @@ namespace Persistence.Migrations
                     b.Property<double>("TotalQuantity")
                         .HasColumnType("double");
 
-                    b.Property<Guid>("TransactionNum")
+                    b.Property<string>("TransactionNum")
                         .IsRequired()
                         .HasColumnType("longtext");
 
@@ -660,9 +659,10 @@ namespace Persistence.Migrations
             modelBuilder.Entity("Domain.Entity.TransactionProduceType", b =>
                 {
                     b.Property<Guid>("Id")
-                        .HasColumnType("varchar(255)");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
 
-                    b.Property<Guid>("CreatedBy")
+                    b.Property<string>("CreatedBy")
                         .IsRequired()
                         .HasColumnType("longtext");
 
@@ -672,7 +672,7 @@ namespace Persistence.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("tinyint(1)");
 
-                    b.Property<Guid>("ModifiedBy")
+                    b.Property<string>("ModifiedBy")
                         .IsRequired()
                         .HasColumnType("longtext");
 
@@ -683,15 +683,13 @@ namespace Persistence.Migrations
                         .HasColumnType("decimal(65,30)");
 
                     b.Property<Guid>("ProduceTypeId")
-                        .IsRequired()
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("char(36)");
 
                     b.Property<double>("Quantity")
                         .HasColumnType("double");
 
                     b.Property<Guid>("TransactionId")
-                        .IsRequired()
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("char(36)");
 
                     b.HasKey("Id");
 
@@ -705,24 +703,25 @@ namespace Persistence.Migrations
             modelBuilder.Entity("Domain.Entity.User", b =>
                 {
                     b.Property<Guid>("Id")
-                        .HasColumnType("varchar(255)");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
 
-                    b.Property<Guid>("Address")
+                    b.Property<string>("Address")
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<Guid>("CreatedBy")
+                    b.Property<string>("CreatedBy")
                         .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<Guid>("Email")
+                    b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<Guid>("FirstName")
+                    b.Property<string>("FirstName")
                         .IsRequired()
                         .HasColumnType("longtext");
 
@@ -732,32 +731,31 @@ namespace Persistence.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("tinyint(1)");
 
-                    b.Property<Guid>("LastName")
+                    b.Property<string>("LastName")
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<Guid>("ModifiedBy")
+                    b.Property<string>("ModifiedBy")
                         .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<DateTime>("ModifiedOn")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<Guid>("Password")
+                    b.Property<string>("Password")
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<Guid>("PhoneNumber")
+                    b.Property<string>("PhoneNumber")
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<Guid>("ProfilePicture")
+                    b.Property<string>("ProfilePicture")
                         .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<Guid>("RoleId")
-                        .IsRequired()
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("char(36)");
 
                     b.HasKey("Id");
 

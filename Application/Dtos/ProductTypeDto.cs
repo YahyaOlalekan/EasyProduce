@@ -9,7 +9,7 @@ namespace Application.Dtos
     {
         public Guid Id { get; set; }
         public string TypeName { get; set; }
-        public string TypePicture { get; set; }
+       // public IFormFile TypePicture { get; set; }
         public Guid ProduceId { get; set; }
         public double QuantityToBuy { get; set; }
         public decimal CostPrice { get; set; }
@@ -48,6 +48,8 @@ namespace Application.Dtos
         [Required]
         [Display(Name = "Category")]
         public Guid CategoryId { get; set; }
+
+        // public IFormFile TypePicture { get; set; }
 
     }
 

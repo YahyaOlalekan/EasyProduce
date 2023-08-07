@@ -7,7 +7,7 @@ namespace Domain.Entity
     public class ProduceType : BaseEntity
     {
         public string TypeName { get; set; }
-        public string TypePicture { get; set; }
+       // public string TypePicture { get; set; }
         public Guid ProduceId { get; set; }
         public Produce Produce { get; set; }
         public double QuantityToBuy { get; set; }

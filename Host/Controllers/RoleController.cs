@@ -33,11 +33,11 @@ namespace Host.Controllers
         }
 
 
-        [HttpPost("DeleteRole")]
-        public async Task<IActionResult> DeleteAsync([FromRoute]Guid id)
+        [HttpDelete("DeleteRole")]
+        public async Task<IActionResult> DeleteAsync([FromQuery] Guid id)
         {
             var role = await _roleService.DeleteAsync(id);
-            //TempData["message"] = role.Message;
+        // TempData["message"] = role.Message;
             if (role.Status)
             {
                 return Ok(role);
@@ -45,13 +45,13 @@ namespace Host.Controllers
             return BadRequest(role);
         }
 
-        [HttpGet("GetRoleDetails")]
-        public async Task<IActionResult> DetailsAsync([FromBody]Guid id)
+        [HttpGet("GetRoleDetails/{id}")]
+        public async Task<IActionResult> DetailsAsync([FromRoute] Guid id)
         {
             var role = await _roleService.GetAsync(id);
-            if(role is not null)
+            if (role is not null)
             {
-             return Ok(role);
+                return Ok(role);
 
             }
             return NotFound(role);
@@ -62,7 +62,7 @@ namespace Host.Controllers
         public async Task<IActionResult> ListAsync()
         {
             var roles = await _roleService.GetAllAsync();
-            if(roles == null)
+            if (roles == null)
             {
                 return BadRequest(roles);
             }
@@ -70,30 +70,20 @@ namespace Host.Controllers
         }
 
 
-        //  [HttpGet("Update Role")]
-        // public async Task<IActionResult> UpdateAsync(Guid id)
-        // {
-        //    var result = await _roleService.GetAsync(id);
-        //    var model = new UpdateRoleRequestModel
-        //    {
-        //        RoleName = result.Data.RoleName,
-        //        RoleDescription = result.Data.RoleDescription,
-        //    };
-        //     return View(model);
-        // }
-        // [HttpPost("Update Role")]
-        // public IActionResult Update(string id, UpdateRoleRequestModel roleModel)
-        // {
-        //    if(ModelState.IsValid)
-        //    {
-        //          var updateRole = _roleService.Update(id, roleModel);
-        //         TempData["message"] = updateRole.Message;
-        //         if (updateRole.Status)
-        //         {
-        //             return RedirectToAction("List");
-        //         }
-        //    }
-        //    return View(roleModel);
-        // }
+       
+        [HttpPut("UpdateRole/{id}")]
+        public async Task<IActionResult> UpdateAsync([FromRoute] Guid id, [FromBody] UpdateRoleRequestModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var result = await _roleService.UpdateAsync(id, model);
+                // TempData["message"] = result.Message;
+                if (result.Status)
+                {
+                    return Ok(result);
+                }
+            }
+            return BadRequest();
+        }
     }
 }

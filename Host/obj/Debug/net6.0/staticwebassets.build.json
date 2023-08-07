@@ -1,11 +1,19 @@
 {
   "Version": 1,
-  "Hash": "C3N08hJd0BHvBBQRgoxzSIyOT3EqEKdoA6Z30+c6fWw=",
+  "Hash": "FP2+vsoWU4Z74mO/umgpUJXbrhF2qgvNhlqM2xaBUT0=",
   "Source": "Host",
   "BasePath": "_content/Host",
   "Mode": "Default",
   "ManifestType": "Build",
   "ReferencedProjectsConfiguration": [],
-  "DiscoveryPatterns": [],
+  "DiscoveryPatterns": [
+    {
+      "Name": "Host\\wwwroot",
+      "Source": "Host",
+      "ContentRoot": "C:\\Users\\USER PC\\Desktop\\EasyProduce\\host\\wwwroot\\",
+      "BasePath": "_content/Host",
+      "Pattern": "**"
+    }
+  ],
   "Assets": []
 }

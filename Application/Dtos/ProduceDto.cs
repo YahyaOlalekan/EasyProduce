@@ -22,6 +22,10 @@ namespace Application.Dtos
         [Required, MaxLength(60), MinLength(3)]
         [Display(Name = "Description of Produce")]
         public string DescriptionOfProduce { get; set; }
+
+        //[Required, MaxLength(60), MinLength(3)]
+        [Display(Name = "Name of Category")]
+        public Guid CategoryId { get; set; }
     }
     public class UpdateProduceRequestModel
     {

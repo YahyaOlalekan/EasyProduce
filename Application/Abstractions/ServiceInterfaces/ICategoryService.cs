@@ -10,7 +10,7 @@ namespace Application.Abstractions.ServiceInterfaces
         Task<BaseResponse<CategoryDto>> CreateAsync(CreateCategoryRequestModel model);
         Task<BaseResponse<CategoryDto>> UpdateAsync(Guid id, UpdateCategoryRequestModel model);
         Task<BaseResponse<CategoryDto>> GetAsync(Guid id);
-        BaseResponse<IEnumerable<CategoryDto>> GetAllAsync();
+        Task<BaseResponse<IEnumerable<CategoryDto>>> GetAllAsync();
         Task<BaseResponse<CategoryDto>> DeleteAsync(Guid id);
     }
 }

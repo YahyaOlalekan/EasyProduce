@@ -1,6 +1,7 @@
 #region ns 
 using System;
 using System.Text;
+using Application.Abstractions;
 using Application.Abstractions.RepositoryInterfaces;
 using Application.Abstractions.ServiceInterfaces;
 using Application.Services;
@@ -13,6 +14,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Persistence;
 using Persistence.AppDbContext;
 using Persistence.RepositoryImplementations;
 #endregion
@@ -66,7 +68,7 @@ builder.Services.AddScoped<IFarmerRepository, FarmerRepository>();
 //builder.Services.AddScoped<IFarmerService, FarmerService>();
 
 builder.Services.AddScoped<IManagerRepository, ManagerRepository>();
-//builder.Services.AddScoped<IManagerService, ManagerService>();
+builder.Services.AddScoped<IManagerService, ManagerService>();
 
 builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
 //builder.Services.AddScoped<ITransactionService, TransactionService>();
@@ -75,10 +77,10 @@ builder.Services.AddScoped<ITransactionProduceTypeRepository, TransactionProduce
 // builder.Services.AddScoped<ITransactionProduceService, TransactionProduceService>();
 
 builder.Services.AddScoped<IProduceRepository, ProduceRepository>();
-//builder.Services.AddScoped<IProduceService, ProduceService>();
+builder.Services.AddScoped<IProduceService, ProduceService>();
 
-builder.Services.AddScoped<IProductRepository, ProductRepository>();
-//builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<IProductTypeRepository, ProductTypeRepository>();
+//builder.Services.AddScoped<IProductTypeService, ProductTypeService>();
 
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 //builder.Services.AddScoped<IProductService, ProductService>();
@@ -89,17 +91,15 @@ builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IOrderProductTypeRepository, OrderProductTypeRepository>();
 // builder.Services.AddScoped<IOrderProductService, OrderProductService>();
 
-builder.Services.AddScoped<IProduceRepository, ProduceRepository>();
-//builder.Services.AddScoped<IProduceService, ProduceService>();
+builder.Services.AddScoped<IProduceTypeRepository, ProduceTypeRepository>();
+builder.Services.AddScoped<IProduceTypeService, ProduceTypeService>();
 
-builder.Services.AddScoped<IProductRepository, ProductRepository>();
-//builder.Services.AddScoped<IProductService, ProductService>();
 
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
-//builder.Services.AddScoped<ICategoryService, CategoryService>();
+builder.Services.AddScoped<ICategoryService, CategoryService>();
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
-//builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IUserService, UserService>();
 
 builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
 //builder.Services.AddScoped<ICustomerService, CustomerService>();
@@ -110,7 +110,9 @@ builder.Services.AddScoped<ICartItemRepository, CartItemRepository>();
 builder.Services.AddScoped<ICartItemForOrderRepository, CartItemForOrderRepository>();
 //builder.Services.AddScoped<ICartItemForOrderService, CartItemForOrderService>();
 
-//builder.Services.AddScoped<IJwtAuthenticationManager, JwtAuthenticationManager>();
+builder.Services.AddScoped<IJwtAuthenticationManager, JwtAuthenticationManager>();
+
+builder.Services.AddScoped<IFileUploadServiceForWWWRoot, FileUploadServiceForWWWRoot>();
 
 
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();

@@ -72,7 +72,7 @@ namespace Application.Dtos
 
         // [Display(Name = "Profile Picture")]
         // [RegularExpression(@"([a-zA-Z0-9\s_\\.\-:])+(.png|.jpg|.gif|.jpeg)$", ErrorMessage = "Only Image file allowed.")]
-        public IFormFile ProgfilePicture { get; set; }
+        public IFormFile ProfilePicture { get; set; }
     }
 
 }

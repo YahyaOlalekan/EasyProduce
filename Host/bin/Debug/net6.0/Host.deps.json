@@ -397,6 +397,7 @@
           "Application": "1.0.0",
           "BCrypt.Net-Next": "4.0.3",
           "Domain": "1.0.0",
+          "Microsoft.AspNetCore.Authentication.JwtBearer": "6.0.0",
           "Microsoft.EntityFrameworkCore": "6.0.14",
           "Pomelo.EntityFrameworkCore.MySql": "6.0.0"
         },

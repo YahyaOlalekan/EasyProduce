@@ -9,7 +9,7 @@ namespace Application.Dtos
     {
         public Guid Id { get; set; }
         public string TypeName { get; set; }
-        public string TypePicture { get; set; }
+       // public string TypePicture { get; set; }
         public Guid ProduceId { get; set; }
         public double QuantityToBuy { get; set; }
         public decimal CostPrice { get; set; }

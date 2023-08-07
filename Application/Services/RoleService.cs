@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
 using Application.Abstractions.RepositoryInterfaces;
 using Application.Abstractions.ServiceInterfaces;
@@ -24,14 +23,14 @@ namespace Application.Services
 
         public async Task<BaseResponse<RoleDto>> CreateAsync(CreateRoleRequestModel model)
         {
-            var loginId = _httpAccessor.HttpContext.User?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            var roleExist = _roleRepository.GetAsync(a => a.RoleName == model.RoleName);
+            // var loginId = _httpAccessor.HttpContext.User?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var roleExist = await _roleRepository.GetAsync(a => a.RoleName == model.RoleName);
             if (roleExist == null)
             {
                 Role role = new();
                 role.RoleName = model.RoleName;
                 role.RoleDescription = model.RoleDescription;
-                role.CreatedBy = loginId;
+                // role.CreatedBy = loginId;
 
                 await _roleRepository.CreateAsync(role);
                 await _roleRepository.SaveAsync();
@@ -111,7 +110,7 @@ namespace Application.Services
         public async Task<BaseResponse<IEnumerable<RoleDto>>> GetAllAsync()
         {
             var role = await _roleRepository.GetAllAsync();
-            if (role.Count() == 0)
+            if (!role.Any())
             {
                 return new BaseResponse<IEnumerable<RoleDto>>
                 {
