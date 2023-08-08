@@ -9,9 +9,9 @@ namespace Domain.Entity
         public double Quantity { get; set; }
         public decimal Price { get; set; }
         public decimal TotalPrice { get; set; }
-        public string ProduceName { get; set; }
-        public string NameOfCategory { get; set; }
-        public string UnitOfMeasurement { get; set; }
+        public string ProduceName { get; set; } = default!;
+        public string NameOfCategory { get; set; } = default!;
+        public string UnitOfMeasurement { get; set; } = default!;
         public Guid UserId { get; set; }
         public User User { get; set; }
     }

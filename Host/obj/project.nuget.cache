@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "vdEBaCoTxP2gXzvklW4fYJFAGdMM1GxX+zqFfg4WIFCAxNNNxriOAN1qLBFzonIM9ukN/JFTW17FryvifEJjGA==",
+  "dgSpecHash": "CZlJmZULMijJo+DI3VpMpGPfXIP1DtAKYKOqVdoKSc4jKZmd9LJT2tUtjD0ED8qQoAXhE3wQ+RrOuQjCEXl17Q==",
   "success": true,
-  "projectFilePath": "C:\\Users\\USER PC\\Desktop\\EasyProduce\\host\\Host.csproj",
+  "projectFilePath": "C:\\Users\\USER PC\\Desktop\\EasyProduce\\Host\\Host.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\USER PC\\.nuget\\packages\\bcrypt.net-next\\4.0.3\\bcrypt.net-next.4.0.3.nupkg.sha512",
     "C:\\Users\\USER PC\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",

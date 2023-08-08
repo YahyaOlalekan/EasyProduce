@@ -9,7 +9,7 @@ using Application.Abstractions.RepositoryInterfaces;
 using Application.Abstractions.ServiceInterfaces;
 using Application.Dtos;
 using Domain.Entity;
-using Microsoft.AspNetCore.Http;
+
 
 namespace Application.Services
 {
@@ -20,6 +20,9 @@ namespace Application.Services
         private readonly IRoleRepository _roleRepository;
         private readonly IUserRepository _userRepository;
         private readonly IFileUploadServiceForWWWRoot _fileUploadServiceForWWWRoot;
+        // private readonly IConfiguration _config;
+        // private readonly IJwtAuthenticationManager _tokenService;
+        // private string generatedToken = null;
 
         public ManagerService(IManagerRepository managerRepository, IRoleRepository roleRepository, IUserRepository userRepository, IFileUploadServiceForWWWRoot fileUploadServiceForWWWRoot)
         {
@@ -64,27 +67,45 @@ namespace Application.Services
                 Address = model.Address,
                 Email = model.Email,
                 ProfilePicture = profilePicture,
-                Role = await _roleRepository.GetAsync(a => a.RoleName.ToLower() == "manager"),
+               // Token = model.Token,
+                Gender = model.Gender,
+                Role = await _roleRepository.GetAsync(a => a.RoleName.ToLower() == "manager".ToLower()),
                 //CreatedBy = loginId,
             };
+
+             await _userRepository.CreateAsync(user);
+
+
 
             var manager = new Manager
             {
                 //CreatedBy = loginId,
-                RegistrationNumber =  await GenerateManagerRegNumAsync(),
+                RegistrationNumber = await GenerateManagerRegNumAsync(),
                 UserId = user.Id,
                 User = user,
             };
-            await _userRepository.CreateAsync(user);
+            // var addUser = await _userRepository.CreateAsync(user);
+            // var userDto = new UserDto
+            // {
+            //     Id = addUser.Id,
+            //     Email = addUser.Email,
+            //     // Role = model.Role
+            //     RoleId = addUser.Role.Id,
+            // };
+            // userDto.Token = _tokenService.GenerateToken(_config["Jwt:Key"].ToString(), _config["Jwt:Issuer"].ToString(), userDto);
+           // userDto.Token = _tokenService.GenerateToken("Jwt:Key", "Jwt:Issuer", userDto);
+
+
+
             await _managerRepository.CreateAsync(manager);
             await _managerRepository.SaveAsync();
 
-         var userFirstLetterToUpperCase = $"{CultureInfo.CurrentCulture.TextInfo.ToTitleCase(user.FirstName)}";
+            var userFirstLetterToUpperCase = $"{CultureInfo.CurrentCulture.TextInfo.ToTitleCase(user.FirstName)}";
 
 
             return new BaseResponse<ManagerDto>
             {
-                Message = $"{user.FirstName} is successfully added as Manager",
+                Message = $"{user.FirstName} is successfully registered as Manager",
                 Status = true,
                 Data = new ManagerDto
                 {
@@ -159,7 +180,7 @@ namespace Application.Services
         public async Task<BaseResponse<IEnumerable<ManagerDto>>> GetAllAsync()
         {
             var managers = await _managerRepository.GetAllAsync();
-            if (managers == null)
+            if (!managers.Any())
             {
                 return new BaseResponse<IEnumerable<ManagerDto>>
                 {
@@ -242,7 +263,7 @@ namespace Application.Services
             return "EP/MAG/00" + $"{count + 1}";
         }
 
-       
+
     }
 }
 

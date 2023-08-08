@@ -340,6 +340,8 @@ OpenCover/
 ASALocalRun/
 
 # MSBuild Binary and Structured Log
+/presentation/appsettings.json
+
 *.binlog
 
 # NVidia Nsight GPU debugger configuration file

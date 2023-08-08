@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using Domain.Enum;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Internal;
 
@@ -19,6 +20,8 @@ namespace Application.Dtos
         public Guid UserId { get; set; }
         public Guid TransactionId { get; set; }
         public List<TransactionDto> Transactions { get; set; }
+        public string Token { get; set; }
+        public Gender Gender { get; set; }
     }
     public class CreateManagerRequestModel
     {
@@ -42,13 +45,16 @@ namespace Application.Dtos
         public string Address { get; set; }
 
         // [Required, MaxLength(12), MinLength(3), Display(Name = "Confirm Password")]
-        [Compare("Password", ErrorMessage = "Password and Confirmation Password do not match.")]
+        [Compare("Password", ErrorMessage = "Password and Confirmation Password do not match!")]
         public string ConfirmPassword { get; set; }
 
 
         [Display(Name = "Profile Picture"), Required(ErrorMessage = "Please select file.")]
         // [RegularExpression(@"([a-zA-Z0-9\s_\\.\-:])+(.png|.jpg|.gif|.jpeg)$", ErrorMessage = "Only Image file allowed.")]
-        public FormFile ProfilePicture { get; set; }
+        public IFormFile ProfilePicture { get; set; }
+
+       // public string Token { get; set; }
+        public Gender Gender { get; set; } 
 
     }
     public class UpdateManagerRequestModel

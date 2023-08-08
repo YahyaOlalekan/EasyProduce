@@ -8,6 +8,7 @@ namespace Application.Abstractions.ServiceInterfaces
     public interface IManagerService
     {
         Task<BaseResponse<ManagerDto>> CreateAsync(CreateManagerRequestModel model);
+        // Task<BaseResponse<Guid>> CreateAsync(CreateManagerRequestModel model);
         // BaseResponse<ManagerDto> Create(Guid id, CreateManagerRequestModel model);
         Task<BaseResponse<ManagerDto>> UpdateAsync(Guid id, UpdateManagerRequestModel model);
         Task<BaseResponse<ManagerDto>> GetAsync(Guid id);

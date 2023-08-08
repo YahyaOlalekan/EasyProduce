@@ -20,7 +20,7 @@ namespace Host.Controllers
 
 
         [HttpPost("RegisterManager")]
-        public async Task<IActionResult> RegisterAsync([FromForm] CreateManagerRequestModel model)
+        public async Task<IActionResult> RegisterAsync([FromForm]CreateManagerRequestModel model)
         {
             var manager = await _managerService.CreateAsync(model);
             if (!manager.Status)
@@ -30,7 +30,7 @@ namespace Host.Controllers
             return Ok(manager);
         }
 
-        [HttpPut("Update/{id}")]
+        [HttpPut("UpdateManager/{id}")]
         public async Task<IActionResult> UpdateAsync([FromRoute] Guid id, [FromForm] UpdateManagerRequestModel model)
         {
             var manager = await _managerService.UpdateAsync(id, model);
@@ -41,7 +41,7 @@ namespace Host.Controllers
             return Ok(manager);
         }
 
-        [HttpGet("Get/{id}")]
+        [HttpGet("GetManagerById{id}")]
         public async Task<IActionResult> GetAsync([FromRoute] Guid id)
         {
             var manager = await _managerService.GetAsync(id);
@@ -52,7 +52,7 @@ namespace Host.Controllers
             return Ok(manager);
         }
 
-        [HttpDelete("Delete/{id}")]
+        [HttpDelete("DeleteManager/{id}")]
         public async Task<IActionResult> DeleteAsync([FromRoute] Guid id)
         {
             var manager = await _managerService.DeleteAsync(id);

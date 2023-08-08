@@ -710,6 +710,10 @@ namespace Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
+                    b.Property<string>("ConfirmPassword")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
                     b.Property<string>("CreatedBy")
                         .IsRequired()
                         .HasColumnType("longtext");
@@ -756,6 +760,10 @@ namespace Persistence.Migrations
 
                     b.Property<Guid>("RoleId")
                         .HasColumnType("char(36)");
+
+                    b.Property<string>("Token")
+                        .IsRequired()
+                        .HasColumnType("longtext");
 
                     b.HasKey("Id");
 
