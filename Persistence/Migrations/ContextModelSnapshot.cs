@@ -19,14 +19,13 @@ namespace Persistence.Migrations
                 .HasAnnotation("ProductVersion", "6.0.14")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
-            modelBuilder.Entity("Domain.Entity.CartItem", b =>
+            modelBuilder.Entity("Domain.Entity.Admin", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
                     b.Property<string>("CreatedBy")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<DateTime>("DateCreated")
@@ -36,21 +35,49 @@ namespace Persistence.Migrations
                         .HasColumnType("tinyint(1)");
 
                     b.Property<string>("ModifiedBy")
-                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime>("ModifiedOn")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("char(36)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Admin");
+                });
+
+            modelBuilder.Entity("Domain.Entity.CartItem", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("ModifiedBy")
                         .HasColumnType("longtext");
 
                     b.Property<DateTime>("ModifiedOn")
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("NameOfCategory")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(65,30)");
 
                     b.Property<string>("ProduceName")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<Guid>("ProduceTypeId")
@@ -63,7 +90,6 @@ namespace Persistence.Migrations
                         .HasColumnType("decimal(65,30)");
 
                     b.Property<string>("UnitOfMeasurement")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<Guid>("UserId")
@@ -85,7 +111,6 @@ namespace Persistence.Migrations
                         .HasColumnType("char(36)");
 
                     b.Property<string>("CreatedBy")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<DateTime>("DateCreated")
@@ -95,21 +120,18 @@ namespace Persistence.Migrations
                         .HasColumnType("tinyint(1)");
 
                     b.Property<string>("ModifiedBy")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<DateTime>("ModifiedOn")
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("NameOfCategory")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(65,30)");
 
                     b.Property<string>("ProduceName")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<Guid>("ProductTypeId")
@@ -122,7 +144,6 @@ namespace Persistence.Migrations
                         .HasColumnType("decimal(65,30)");
 
                     b.Property<string>("UnitOfMeasurement")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<Guid>("UserId")
@@ -144,28 +165,24 @@ namespace Persistence.Migrations
                         .HasColumnType("char(36)");
 
                     b.Property<string>("CreatedBy")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("DescriptionOfCategory")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("tinyint(1)");
 
                     b.Property<string>("ModifiedBy")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<DateTime>("ModifiedOn")
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("NameOfCategory")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.HasKey("Id");
@@ -180,7 +197,6 @@ namespace Persistence.Migrations
                         .HasColumnType("char(36)");
 
                     b.Property<string>("CreatedBy")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<DateTime>("DateCreated")
@@ -190,14 +206,12 @@ namespace Persistence.Migrations
                         .HasColumnType("tinyint(1)");
 
                     b.Property<string>("ModifiedBy")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<DateTime>("ModifiedOn")
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("RegistrationNumber")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<Guid>("UserId")
@@ -217,14 +231,12 @@ namespace Persistence.Migrations
                         .HasColumnType("char(36)");
 
                     b.Property<string>("CreatedBy")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("FarmName")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<int>("FarmerRegStatus")
@@ -234,14 +246,12 @@ namespace Persistence.Migrations
                         .HasColumnType("tinyint(1)");
 
                     b.Property<string>("ModifiedBy")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<DateTime>("ModifiedOn")
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("RegistrationNumber")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<Guid>("UserId")
@@ -254,6 +264,42 @@ namespace Persistence.Migrations
                     b.ToTable("Farmers");
                 });
 
+            modelBuilder.Entity("Domain.Entity.FarmerProduceType", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<Guid>("FarmerId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime>("ModifiedOn")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<Guid>("ProduceTypeId")
+                        .HasColumnType("char(36)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FarmerId");
+
+                    b.HasIndex("ProduceTypeId");
+
+                    b.ToTable("FarmerProduceTypes");
+                });
+
             modelBuilder.Entity("Domain.Entity.Manager", b =>
                 {
                     b.Property<Guid>("Id")
@@ -261,7 +307,6 @@ namespace Persistence.Migrations
                         .HasColumnType("char(36)");
 
                     b.Property<string>("CreatedBy")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<DateTime>("DateCreated")
@@ -271,14 +316,12 @@ namespace Persistence.Migrations
                         .HasColumnType("tinyint(1)");
 
                     b.Property<string>("ModifiedBy")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<DateTime>("ModifiedOn")
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("RegistrationNumber")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<Guid>("UserId")
@@ -298,7 +341,6 @@ namespace Persistence.Migrations
                         .HasColumnType("char(36)");
 
                     b.Property<string>("CreatedBy")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<Guid>("CustomerId")
@@ -311,14 +353,12 @@ namespace Persistence.Migrations
                         .HasColumnType("tinyint(1)");
 
                     b.Property<string>("ModifiedBy")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<DateTime>("ModifiedOn")
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("OrderNumber")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<decimal>("TotalAmount")
@@ -341,7 +381,6 @@ namespace Persistence.Migrations
                         .HasColumnType("char(36)");
 
                     b.Property<string>("CreatedBy")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<DateTime>("DateCreated")
@@ -351,7 +390,6 @@ namespace Persistence.Migrations
                         .HasColumnType("tinyint(1)");
 
                     b.Property<string>("ModifiedBy")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<DateTime>("ModifiedOn")
@@ -388,28 +426,24 @@ namespace Persistence.Migrations
                         .HasColumnType("char(36)");
 
                     b.Property<string>("CreatedBy")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("DescriptionOfProduce")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("tinyint(1)");
 
                     b.Property<string>("ModifiedBy")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<DateTime>("ModifiedOn")
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("ProduceName")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.HasKey("Id");
@@ -429,7 +463,6 @@ namespace Persistence.Migrations
                         .HasColumnType("decimal(65,30)");
 
                     b.Property<string>("CreatedBy")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<DateTime>("DateCreated")
@@ -439,7 +472,6 @@ namespace Persistence.Migrations
                         .HasColumnType("tinyint(1)");
 
                     b.Property<string>("ModifiedBy")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<DateTime>("ModifiedOn")
@@ -458,11 +490,9 @@ namespace Persistence.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("TypeName")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("UnitOfMeasurement")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.HasKey("Id");
@@ -482,7 +512,6 @@ namespace Persistence.Migrations
                         .HasColumnType("char(36)");
 
                     b.Property<string>("CreatedBy")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<DateTime>("DateCreated")
@@ -492,14 +521,12 @@ namespace Persistence.Migrations
                         .HasColumnType("tinyint(1)");
 
                     b.Property<string>("ModifiedBy")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<DateTime>("ModifiedOn")
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("ProduceName")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.HasKey("Id");
@@ -519,7 +546,6 @@ namespace Persistence.Migrations
                         .HasColumnType("decimal(65,30)");
 
                     b.Property<string>("CreatedBy")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<DateTime>("DateCreated")
@@ -532,7 +558,6 @@ namespace Persistence.Migrations
                         .HasColumnType("tinyint(1)");
 
                     b.Property<string>("ModifiedBy")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<DateTime>("ModifiedOn")
@@ -554,15 +579,12 @@ namespace Persistence.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("TypeName")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("TypePicture")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("UnitOfMeasurement")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.HasKey("Id");
@@ -581,7 +603,6 @@ namespace Persistence.Migrations
                         .HasColumnType("char(36)");
 
                     b.Property<string>("CreatedBy")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<DateTime>("DateCreated")
@@ -591,18 +612,15 @@ namespace Persistence.Migrations
                         .HasColumnType("tinyint(1)");
 
                     b.Property<string>("ModifiedBy")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<DateTime>("ModifiedOn")
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("RoleDescription")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("RoleName")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.HasKey("Id");
@@ -617,7 +635,6 @@ namespace Persistence.Migrations
                         .HasColumnType("char(36)");
 
                     b.Property<string>("CreatedBy")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<DateTime>("DateCreated")
@@ -630,7 +647,6 @@ namespace Persistence.Migrations
                         .HasColumnType("tinyint(1)");
 
                     b.Property<string>("ModifiedBy")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<DateTime>("ModifiedOn")
@@ -646,7 +662,6 @@ namespace Persistence.Migrations
                         .HasColumnType("double");
 
                     b.Property<string>("TransactionNum")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.HasKey("Id");
@@ -663,7 +678,6 @@ namespace Persistence.Migrations
                         .HasColumnType("char(36)");
 
                     b.Property<string>("CreatedBy")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<DateTime>("DateCreated")
@@ -673,7 +687,6 @@ namespace Persistence.Migrations
                         .HasColumnType("tinyint(1)");
 
                     b.Property<string>("ModifiedBy")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<DateTime>("ModifiedOn")
@@ -707,26 +720,18 @@ namespace Persistence.Migrations
                         .HasColumnType("char(36)");
 
                     b.Property<string>("Address")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("ConfirmPassword")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("CreatedBy")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("Email")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("FirstName")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<int>("Gender")
@@ -736,40 +741,42 @@ namespace Persistence.Migrations
                         .HasColumnType("tinyint(1)");
 
                     b.Property<string>("LastName")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("ModifiedBy")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<DateTime>("ModifiedOn")
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("Password")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("PhoneNumber")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("ProfilePicture")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<Guid>("RoleId")
                         .HasColumnType("char(36)");
-
-                    b.Property<string>("Token")
-                        .IsRequired()
-                        .HasColumnType("longtext");
 
                     b.HasKey("Id");
 
                     b.HasIndex("RoleId");
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("Domain.Entity.Admin", b =>
+                {
+                    b.HasOne("Domain.Entity.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Domain.Entity.CartItem", b =>
@@ -830,6 +837,25 @@ namespace Persistence.Migrations
                         .IsRequired();
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Domain.Entity.FarmerProduceType", b =>
+                {
+                    b.HasOne("Domain.Entity.Farmer", "Farmer")
+                        .WithMany("FarmerProduceTypes")
+                        .HasForeignKey("FarmerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Entity.ProduceType", "ProduceType")
+                        .WithMany("FarmerProduceTypes")
+                        .HasForeignKey("ProduceTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Farmer");
+
+                    b.Navigation("ProduceType");
                 });
 
             modelBuilder.Entity("Domain.Entity.Manager", b =>
@@ -974,6 +1000,8 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.Entity.Farmer", b =>
                 {
+                    b.Navigation("FarmerProduceTypes");
+
                     b.Navigation("Transactions");
                 });
 
@@ -989,6 +1017,8 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.Entity.ProduceType", b =>
                 {
+                    b.Navigation("FarmerProduceTypes");
+
                     b.Navigation("TransactionProduceTypes");
                 });
 

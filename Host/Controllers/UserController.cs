@@ -65,15 +65,15 @@ namespace Host.Controllers
             return Ok(users);
         }
 
-        [HttpGet("GetUserByToken")]
-        public async Task<IActionResult> GetUserByTokenAsync([FromQuery]string token)
-        {
-            var user = await _userService.GetUserByTokenAsync(token);
-            if (!user.Status)
-            {
-                return BadRequest(user);
-            }
-            return Ok(user);
-        }
+        // [HttpGet("GetUserByToken")]
+        // public async Task<IActionResult> GetUserByTokenAsync([FromQuery]string token)
+        // {
+        //     var user = await _userService.GetUserByTokenAsync(token);
+        //     if (!user.Status)
+        //     {
+        //         return BadRequest(user);
+        //     }
+        //     return Ok(user);
+        // }
     }
 }

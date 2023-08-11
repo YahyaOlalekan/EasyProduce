@@ -39,12 +39,14 @@ namespace Application.Services
                 {
                     Message = "Role Successfully Created",
                     Status = true,
-                    Data = new RoleDto
-                    {
-                        Id = role.Id,
-                        RoleName = role.RoleName,
-                        RoleDescription = role.RoleDescription
-                    }
+                    Data = null,
+
+                    // Data = new RoleDto
+                    // {
+                    //     Id = role.Id,
+                    //     RoleName = role.RoleName,
+                    //     RoleDescription = role.RoleDescription
+                    // }
                 };
             }
             return new BaseResponse<RoleDto>

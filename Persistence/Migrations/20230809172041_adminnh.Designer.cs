@@ -11,8 +11,8 @@ using Persistence.AppDbContext;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20230805210902_in")]
-    partial class @in
+    [Migration("20230809172041_adminnh")]
+    partial class adminnh
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -20,6 +20,79 @@ namespace Persistence.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "6.0.14")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
+
+            modelBuilder.Entity("Domain.Entity.Admin", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("ConfirmPassword")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("Gender")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("ModifiedBy")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime>("ModifiedOn")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("PhoneNumber")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("ProfilePicture")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<Guid>("RoleId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("char(36)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RoleId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Admin");
+                });
 
             modelBuilder.Entity("Domain.Entity.CartItem", b =>
                 {
@@ -226,7 +299,6 @@ namespace Persistence.Migrations
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("FarmName")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<int>("FarmerRegStatus")
@@ -460,10 +532,6 @@ namespace Persistence.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("TypeName")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("TypePicture")
                         .IsRequired()
                         .HasColumnType("longtext");
 
@@ -716,6 +784,10 @@ namespace Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
+                    b.Property<string>("ConfirmPassword")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
                     b.Property<string>("CreatedBy")
                         .IsRequired()
                         .HasColumnType("longtext");
@@ -768,6 +840,25 @@ namespace Persistence.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("Domain.Entity.Admin", b =>
+                {
+                    b.HasOne("Domain.Entity.Role", "Role")
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Entity.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Role");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Domain.Entity.CartItem", b =>

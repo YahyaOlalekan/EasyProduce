@@ -15,14 +15,10 @@ namespace Application.Services
 {
     public class ManagerService : IManagerService
     {
-
         private readonly IManagerRepository _managerRepository;
         private readonly IRoleRepository _roleRepository;
         private readonly IUserRepository _userRepository;
         private readonly IFileUploadServiceForWWWRoot _fileUploadServiceForWWWRoot;
-        // private readonly IConfiguration _config;
-        // private readonly IJwtAuthenticationManager _tokenService;
-        // private string generatedToken = null;
 
         public ManagerService(IManagerRepository managerRepository, IRoleRepository roleRepository, IUserRepository userRepository, IFileUploadServiceForWWWRoot fileUploadServiceForWWWRoot)
         {
@@ -40,7 +36,7 @@ namespace Application.Services
             {
                 return new BaseResponse<ManagerDto>
                 {
-                    Message = "Email already exists",
+                    Message = $"Email '{managerExist.User.Email}' already exists",
                     Status = false,
                 };
             }
@@ -49,13 +45,14 @@ namespace Application.Services
             {
                 return new BaseResponse<ManagerDto>
                 {
-                    Message = "Phone number already exists",
+                    Message = $"phone Numer '{phoneNumer.User.PhoneNumber}' already exists",
                     Status = false,
                 };
             }
 
             var profilePicture = await _fileUploadServiceForWWWRoot.UploadFileAsync(model.ProfilePicture);
 
+            var role = await _roleRepository.GetAsync(a => a.RoleName.ToLower() == "manager".ToLower());
 
             var user = new User
             {
@@ -63,19 +60,17 @@ namespace Application.Services
                 LastName = model.LastName,
                 PhoneNumber = model.PhoneNumber,
                 Password = BCrypt.Net.BCrypt.HashPassword(model.Password),
-                ConfirmPassword = BCrypt.Net.BCrypt.HashPassword(model.ConfirmPassword),
+                // ConfirmPassword = BCrypt.Net.BCrypt.HashPassword(model.ConfirmPassword),
                 Address = model.Address,
                 Email = model.Email,
                 ProfilePicture = profilePicture,
-               // Token = model.Token,
                 Gender = model.Gender,
-                Role = await _roleRepository.GetAsync(a => a.RoleName.ToLower() == "manager".ToLower()),
+                Role = role,
+                RoleId = role.Id,
                 //CreatedBy = loginId,
             };
 
-             await _userRepository.CreateAsync(user);
-
-
+            await _userRepository.CreateAsync(user);
 
             var manager = new Manager
             {
@@ -84,39 +79,30 @@ namespace Application.Services
                 UserId = user.Id,
                 User = user,
             };
-            // var addUser = await _userRepository.CreateAsync(user);
-            // var userDto = new UserDto
-            // {
-            //     Id = addUser.Id,
-            //     Email = addUser.Email,
-            //     // Role = model.Role
-            //     RoleId = addUser.Role.Id,
-            // };
-            // userDto.Token = _tokenService.GenerateToken(_config["Jwt:Key"].ToString(), _config["Jwt:Issuer"].ToString(), userDto);
-           // userDto.Token = _tokenService.GenerateToken("Jwt:Key", "Jwt:Issuer", userDto);
-
-
 
             await _managerRepository.CreateAsync(manager);
             await _managerRepository.SaveAsync();
 
-            var userFirstLetterToUpperCase = $"{CultureInfo.CurrentCulture.TextInfo.ToTitleCase(user.FirstName)}";
-
+            var userFirstLetterOfFirstNameToUpperCase = $"{CultureInfo.CurrentCulture.TextInfo.ToTitleCase(user.FirstName)}";
+            var userFirstLetterOfLastNameToUpperCase = $"{CultureInfo.CurrentCulture.TextInfo.ToTitleCase(user.LastName)}";
+            var fullName = userFirstLetterOfFirstNameToUpperCase + " " + userFirstLetterOfLastNameToUpperCase;
 
             return new BaseResponse<ManagerDto>
             {
-                Message = $"{user.FirstName} is successfully registered as Manager",
+                Message = $"{fullName} is successfully registered as Manager",
                 Status = true,
-                Data = new ManagerDto
-                {
-                    Id = manager.Id,
-                    RegistrationNumber = manager.RegistrationNumber,
-                    FirstName = manager.User.FirstName,
-                    LastName = manager.User.LastName,
-                    Email = manager.User.Email,
-                    PhoneNumber = manager.User.PhoneNumber,
-                    ProfilePicture = manager.User.ProfilePicture,
-                }
+                Data = null,
+
+                // Data = new ManagerDto
+                // {
+                //     Id = manager.Id,
+                //     RegistrationNumber = manager.RegistrationNumber,
+                //     FirstName = manager.User.FirstName,
+                //     LastName = manager.User.LastName,
+                //     Email = manager.User.Email,
+                //     PhoneNumber = manager.User.PhoneNumber,
+                //     ProfilePicture = manager.User.ProfilePicture,
+                // }
             };
         }
 
@@ -134,7 +120,7 @@ namespace Application.Services
 
                 return new BaseResponse<ManagerDto>
                 {
-                    Message = "successful",
+                    Message = "Successful",
                     Status = true
                 };
             }
@@ -189,7 +175,6 @@ namespace Application.Services
                 };
             }
 
-
             return new BaseResponse<IEnumerable<ManagerDto>>
             {
                 Message = "Successful",
@@ -203,7 +188,7 @@ namespace Application.Services
                     Email = m.User.Email,
                     PhoneNumber = m.User.PhoneNumber,
                     Address = m.User.Address,
-                    ProfilePicture = m.User.ProfilePicture,
+                    // ProfilePicture = m.User.ProfilePicture,
                 })
             };
         }
@@ -212,39 +197,41 @@ namespace Application.Services
 
         public async Task<BaseResponse<ManagerDto>> UpdateAsync(Guid id, UpdateManagerRequestModel model)
         {
-            var manager = await _managerRepository.GetAsync(a => a.UserId == id);
+            var manager = await _managerRepository.GetAsync(a => a.Id == id ) ;
             if (manager is not null)
             {
                 if (model.ProfilePicture != null)
                 {
                     var profilePicture = await _fileUploadServiceForWWWRoot.UploadFileAsync(model.ProfilePicture);
-
-                    //var profilePicture = UploadFile(model.ProfilePicture);
                     manager.User.ProfilePicture = profilePicture;
                 }
 
-                manager.User.FirstName = model.FirstName;
                 manager.User.Address = model.Address;
-                manager.User.LastName = model.LastName;
-                manager.User.Email = model.Email;
-                // manager.User.Password = model.Password;
                 manager.User.PhoneNumber = model.PhoneNumber;
+                manager.User.Password = model.Password;
+
+
+                // manager.User.FirstName = model.FirstName ?? manager.User.FirstName;
+                // manager.User.LastName = model.LastName ?? manager.User.LastName;
+                // manager.User.Address = model.Address ?? manager.User.Address;
+                // manager.User.PhoneNumber = model.PhoneNumber ?? manager.User.PhoneNumber;
+                // manager.User.Email = model.Email ?? manager.User.Email;
+
+                // manager.User.Password = model.Password;
 
                 _managerRepository.Update(manager);
                 await _managerRepository.SaveAsync();
 
                 return new BaseResponse<ManagerDto>
                 {
-                    Message = "Manager Updated Successfully",
+                    Message = "Profile Updated Successfully",
                     Status = true,
                     Data = new ManagerDto
                     {
                         ProfilePicture = manager.User.ProfilePicture,
-                        FirstName = manager.User.FirstName,
-                        LastName = manager.User.LastName,
                         PhoneNumber = manager.User.PhoneNumber,
-                        Email = manager.User.Email,
                         Address = manager.User.Address,
+                        Password = manager.User.Password,
                     }
                 };
             }
@@ -256,13 +243,11 @@ namespace Application.Services
         }
 
 
-
         private async Task<string> GenerateManagerRegNumAsync()
         {
             var count = (await _managerRepository.GetAllAsync()).Count();
-            return "EP/MAG/00" + $"{count + 1}";
+            return "EP/MAG/" + $"{count + 1}";
         }
-
 
     }
 }

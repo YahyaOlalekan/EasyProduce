@@ -43,15 +43,17 @@ namespace Application.Services
                 {
                     Message = "Produce Type Successfully Created",
                     Status = true,
-                    Data = new ProduceTypeDto
-                    {
-                        Id = produceType.Id,
-                        TypeName = produceType.TypeName,
-                        UnitOfMeasurement = produceType.UnitOfMeasurement,
-                        CostPrice = produceType.CostPrice,
-                        SellingPrice = produceType.SellingPrice,
+                    Data = null,
+                  
+                    // Data = new ProduceTypeDto
+                    // {
+                    //     Id = produceType.Id,
+                    //     TypeName = produceType.TypeName,
+                    //     UnitOfMeasurement = produceType.UnitOfMeasurement,
+                    //     CostPrice = produceType.CostPrice,
+                    //     SellingPrice = produceType.SellingPrice,
 
-                    }
+                    // }
                 };
             }
             return new BaseResponse<ProduceTypeDto>

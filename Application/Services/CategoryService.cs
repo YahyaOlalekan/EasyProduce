@@ -44,12 +44,14 @@ namespace Application.Services
                 {
                     Message = $"Category '{categoryFirstLetterToUpperCase}' Successfully Created",
                     Status = true,
-                    Data = new CategoryDto
-                    {
-                        Id = category.Id,
-                        NameOfCategory = category.NameOfCategory,
-                        DescriptionOfCategory = category.DescriptionOfCategory
-                    }
+                    Data = null,
+                   
+                    // Data = new CategoryDto
+                    // {
+                    //     Id = category.Id,
+                    //     NameOfCategory = category.NameOfCategory,
+                    //     DescriptionOfCategory = category.DescriptionOfCategory
+                    // }
                 };
             }
 

@@ -11,7 +11,7 @@ namespace Persistence.AppDbContext
 
         }
 
-        // public DbSet<Admin> Admin { get; set; }
+        public DbSet<Admin> Admin { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Farmer> Farmers { get; set; }
         public DbSet<User> Users { get; set; }
@@ -28,5 +28,51 @@ namespace Persistence.AppDbContext
         public DbSet<Order> Orders { get; set; }
         public DbSet<CartItemForOrder> CartItemForOrders { get; set; }
         public DbSet<CartItem> CartItems { get; set; }
+        public DbSet<FarmerProduceType> FarmerProduceTypes { get; set; }
+
+
+        // protected override void OnModelCreating(ModelBuilder modelBuilder)
+        // {
+        //     var role = new Role
+        //     {
+        //        RoleName = "admin",
+        //        RoleDescription = "AppOwner"
+        //     };
+
+        //     var user = new User
+        //     {
+        //         FirstName = "Ola",
+        //         LastName = "Bisi",
+        //         PhoneNumber = "08132759937",
+        //         Email = "ola@gmail.com",
+        //         Password = BCrypt.Net.BCrypt.HashPassword("123"),
+        //         Address = "Abk",
+        //         ProfilePicture = "admin.jpg",
+        //         RoleId = role.Id
+        //     };
+
+        //      var admin = new Admin
+        //     {
+        //         UserId = user.Id,
+        //         User = user,
+        //         CreatedBy = "System",
+        //         ModifiedBy = "System"
+        //     };
+
+            // modelBuilder.Entity<Admin>().HasData(
+            //     role, user, admin,
+
+            // Add(role),
+            //  Users.Add(user),
+            // Admin.Add(admin),
+            // SaveChanges()
+            // // SaveChangesAsync()
+            // );
+
+            // modelBuilder.Entity<Role>().HasData(role);
+            // modelBuilder.Entity<User>().HasData(user);
+            // modelBuilder.Entity<Admin>().HasData(admin);
+            // base.OnModelCreating(modelBuilder);
+        // }
     }
 }

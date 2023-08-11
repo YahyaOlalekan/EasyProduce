@@ -1,60 +1,75 @@
-// using System;
-// using System.Collections.Generic;
-// using System.Linq;
-// using System.Threading.Tasks;
-// using Domain.Entity;
-// using Microsoft.AspNetCore.Builder;
-// using Microsoft.Extensions.DependencyInjection;
-// using Persistence.AppDbContext;
+using System;
+using System.Linq;
+using Domain.Entity;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using Persistence.AppDbContext;
 
-// namespace Persistence
-// {
-//     public class AdminMocking
-//     {
-        
+namespace Persistence
+{
+    public class AdminMocking
+    {
 
-//         public static void Mock(IApplicationBuilder _applicationBuilder)
-//         {
-//             using (var service = _applicationBuilder.ApplicationServices.CreateScope())
-//             {
-//                 var _context = service.ServiceProvider.GetService<Context>();
 
-//                 if (!_context.Users.Any())
-//                 {
-//                     var role = new Role
-//                     {
-//                         RoleName = "Admin",
-//                         RoleDescription = "AppOwner"
-//                     };
-                   
-//                     var user = new User
-//                     {
-//                         FirstName = "Ola",
-//                         LastName = "Bisi",
-//                         PhoneNumber = "08132759937",
-//                         Email ="ola@gmail.com",
-//                         Password = BCrypt.Net.BCrypt.HashPassword("123"),
-//                         Address="Abk",
-//                         ProfilePicture="admin.jpg",
-//                         RoleId = role.Id
-//                     };
-                   
-//                     // var admin = new Admin
-//                     // {
-//                     //     UserId = user.Id,
-//                     //     CompanyWallet = 0,
-//                     //     CreatedBy = "System",
-//                     //     ModifiedBy = "System"
-//                     // };
-                   
-//                     // _context.Roles.Add(role);
-//                     // _context.Users.Add(user);
-//                     // _context.Admin.Add(admin);
-//                     // _context.SaveChanges();
-//                 }
-//             }
-//         }
-//     }
-// }
- 
-    
+        public static async void Mock(IApplicationBuilder _applicationBuilder)
+        {
+            using (var service = _applicationBuilder.ApplicationServices.CreateScope())
+            {
+                var _context = service.ServiceProvider.GetService<Context>();
+                // _context.Database.EnsureCreated();
+                       await _context.Database.MigrateAsync();
+                if (!_context.Users.Any())
+                {
+                    var role = new Role
+                    {
+                        Id = Guid.NewGuid(),
+                        RoleName = "admin",
+                        RoleDescription = "AppOwner",
+                        CreatedBy = "System",
+                        ModifiedBy = "System",
+                        DateCreated = DateTime.UtcNow,
+                        ModifiedOn = DateTime.UtcNow,
+                    };
+
+                    var user = new User
+                    {
+                        Id = Guid.NewGuid(),
+                        FirstName = "Ola",
+                        LastName = "Bisi",
+                        PhoneNumber = "08132759937",
+                        Email = "ola@gmail.com",
+                        Password = BCrypt.Net.BCrypt.HashPassword("123"),
+                        Address = "Abk",
+                        ProfilePicture = "admin.jpg",
+                        RoleId = role.Id,
+                        Gender = Domain.Enum.Gender.Male,
+                        Role = role,
+                        CreatedBy = "System",
+                        ModifiedBy = "System",
+                        DateCreated = DateTime.UtcNow,
+                        ModifiedOn = DateTime.UtcNow,
+                    };
+                    role.Users.Add(user);
+                    var admin = new Admin
+                    {
+                        Id = Guid.NewGuid(),
+                        UserId = user.Id,
+                        CreatedBy = "System",
+                        ModifiedBy = "System",
+                        User = user,
+                        DateCreated = DateTime.UtcNow,
+                        ModifiedOn = DateTime.UtcNow,
+                    };
+
+                    // _context.Roles.Add(role);
+                    // _context.Users.Add(user);
+                    // _context.SaveChanges();
+                   await _context.Admin.AddAsync(admin);
+                   await _context.SaveChangesAsync();
+                }
+            }
+        }
+    }
+}
+

@@ -27,10 +27,12 @@ namespace Persistence.RepositoryImplementations
 
         public async Task<Manager> GetAsync(Expression<Func<Manager, bool>> expression)
         {
-            return await _context.Managers
+            var result = await _context.Managers
            .Where(a => !a.IsDeleted )
             .Include(a => a.User)
             .SingleOrDefaultAsync(expression);
+
+            return result;
         }
 
         public async Task<IEnumerable<Manager>> GetAllAsync()

@@ -16,6 +16,9 @@ namespace Domain.Entity
         public string UnitOfMeasurement { get; set; }
         public Status Status { get; set; } = Status.Pending;
         public ICollection<TransactionProduceType> TransactionProduceTypes { get; set; } = new HashSet<TransactionProduceType>();
+
+        public ICollection<FarmerProduceType> FarmerProduceTypes {get;set;} = new HashSet<FarmerProduceType>();
+
         
        
     }

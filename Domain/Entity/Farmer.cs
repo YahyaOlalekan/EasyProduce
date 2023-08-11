@@ -7,12 +7,14 @@ namespace Domain.Entity
     public class Farmer : BaseEntity
     {
        
-        public string FarmName { get; set; } 
+        public string? FarmName { get; set; } 
         public string RegistrationNumber { get; set; } 
         public FarmerRegStatus FarmerRegStatus { get; set; } = FarmerRegStatus.Pending;
         public Guid UserId { get; set; }
         public User User { get; set; }
         public ICollection<Transaction> Transactions { get; set; } = new HashSet<Transaction>();
+
+        public ICollection<FarmerProduceType> FarmerProduceTypes {get;set;} = new HashSet<FarmerProduceType>();
         
         //public ICollection<Produce>? ProduceToBeSupplying { get; set; } = new HashSet<Produce>();
     }

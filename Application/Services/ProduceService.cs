@@ -40,12 +40,14 @@ namespace Application.Services
                 {
                     Message = "Produce Successfully Created",
                     Status = true,
-                    Data = new ProduceDto
-                    {
-                        Id = produce.Id,
-                        ProduceName = produce.ProduceName,
-                        DescriptionOfProduce = produce.DescriptionOfProduce
-                    }
+                    Data = null,
+                  
+                    // Data = new ProduceDto
+                    // {
+                    //     Id = produce.Id,
+                    //     ProduceName = produce.ProduceName,
+                    //     DescriptionOfProduce = produce.DescriptionOfProduce
+                    // }
                 };
             }
             return new BaseResponse<ProduceDto>

@@ -65,7 +65,7 @@ builder.Services.AddScoped<IRoleRepository, RoleRepository>();
 builder.Services.AddScoped<IRoleService, RoleService>();
 
 builder.Services.AddScoped<IFarmerRepository, FarmerRepository>();
-//builder.Services.AddScoped<IFarmerService, FarmerService>();
+builder.Services.AddScoped<IFarmerService, FarmerService>();
 
 builder.Services.AddScoped<IManagerRepository, ManagerRepository>();
 builder.Services.AddScoped<IManagerService, ManagerService>();
@@ -102,13 +102,15 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
 
 builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
-//builder.Services.AddScoped<ICustomerService, CustomerService>();
+builder.Services.AddScoped<ICustomerService, CustomerService>();
 
 builder.Services.AddScoped<ICartItemRepository, CartItemRepository>();
 //builder.Services.AddScoped<ICartItemService, CartItemService>();
 
 builder.Services.AddScoped<ICartItemForOrderRepository, CartItemForOrderRepository>();
 //builder.Services.AddScoped<ICartItemForOrderService, CartItemForOrderService>();
+
+builder.Services.AddScoped<IFarmerProduceTypeRepository, FarmerProduceTypeRepository>();
 
 builder.Services.AddScoped<IJwtAuthenticationManager, JwtAuthenticationManager>();
 
@@ -136,6 +138,8 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.UseCors("EasyProduce");
+
+ AdminMocking.Mock(app);    
 
 app.Run();
 #endregion

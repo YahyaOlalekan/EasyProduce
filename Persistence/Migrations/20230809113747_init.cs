@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Persistence.Migrations
 {
-    public partial class @in : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -131,6 +131,8 @@ namespace Persistence.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Password = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
+                    ConfirmPassword = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     Gender = table.Column<int>(type: "int", nullable: false),
                     Address = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
@@ -163,8 +165,6 @@ namespace Persistence.Migrations
                 {
                     Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     TypeName = table.Column<string>(type: "longtext", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    TypePicture = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     ProduceId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     QuantityToBuy = table.Column<double>(type: "double", nullable: false),
@@ -233,6 +233,32 @@ namespace Persistence.Migrations
                         column: x => x.ProductId,
                         principalTable: "Products",
                         principalColumn: "Id");
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "Admin",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    UserId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    IsDeleted = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    DateCreated = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    CreatedBy = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    ModifiedOn = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    ModifiedBy = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Admin", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Admin_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -539,6 +565,11 @@ namespace Persistence.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Admin_UserId",
+                table: "Admin",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_CartItemForOrders_ProductTypeId",
                 table: "CartItemForOrders",
                 column: "ProductTypeId");
@@ -636,6 +667,9 @@ namespace Persistence.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Admin");
+
             migrationBuilder.DropTable(
                 name: "CartItemForOrders");
 

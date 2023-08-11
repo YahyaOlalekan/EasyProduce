@@ -15,7 +15,7 @@ namespace Application.Services
     {
         private readonly IConfiguration _config;
         private readonly IJwtAuthenticationManager _tokenService;
-        private string generatedToken = null;
+        // private string generatedToken = null;
         private readonly IUserRepository _userRepository;
         private readonly IFarmerRepository _farmerRepository;
         public UserService(IConfiguration config, IJwtAuthenticationManager tokenService, IUserRepository userRepository, IFarmerRepository farmerRepository)
@@ -42,7 +42,11 @@ namespace Application.Services
                 {
 
                     var farmer = await _farmerRepository.GetAsync(f => f.UserId == user.Id);
-                    var firstLetterToUpperCase = $"{CultureInfo.CurrentCulture.TextInfo.ToTitleCase(farmer.FarmName)}";
+                    // var firstLetterToUpperCase = $"{CultureInfo.CurrentCulture.TextInfo.ToTitleCase(farmer.FarmName)}";
+
+                    var farmerFirstLetterOfFirstNameToUpperCase = $"{CultureInfo.CurrentCulture.TextInfo.ToTitleCase(farmer.User.FirstName)}";
+                    var farmerFirstLetterOfLastNameToUpperCase = $"{CultureInfo.CurrentCulture.TextInfo.ToTitleCase(farmer.User.LastName)}";
+                    var farmerFullName = farmerFirstLetterOfFirstNameToUpperCase + " " + farmerFirstLetterOfLastNameToUpperCase;
 
                     if (farmer.FarmerRegStatus != Domain.Enum.FarmerRegStatus.Approved)
                     {
@@ -50,7 +54,7 @@ namespace Application.Services
                         {
                             return new BaseResponse<UserDto>
                             {
-                                Message = $"Dear {firstLetterToUpperCase}, approval of your application is still pending!",
+                                Message = $"Dear {farmerFullName}, approval of your application is still pending!",
                                 Status = false,
                             };
                         }
@@ -58,19 +62,21 @@ namespace Application.Services
                         {
                             return new BaseResponse<UserDto>
                             {
-                                Message = $"Dear {firstLetterToUpperCase}, Sorry, your application is declined!",
+                                Message = $"Dear {farmerFullName}, Sorry, your application is declined!",
                                 Status = false,
                             };
                         }
                     }
                 }
 
-                var userFirstLetterToUpperCase = $"{CultureInfo.CurrentCulture.TextInfo.ToTitleCase(user.FirstName)}";
+                var userFirstLetterOfFirstNameToUpperCase = $"{CultureInfo.CurrentCulture.TextInfo.ToTitleCase(user.FirstName)}";
+                var userFirstLetterOfLastNameToUpperCase = $"{CultureInfo.CurrentCulture.TextInfo.ToTitleCase(user.LastName)}";
+                var fullName = userFirstLetterOfFirstNameToUpperCase + " " + userFirstLetterOfLastNameToUpperCase;
 
 
                 return new BaseResponse<UserDto>
                 {
-                    Message = $"{userFirstLetterToUpperCase}, Logged in Successful",
+                    Message = $"{fullName}, Logged in Successful",
                     Status = true,
                     Data = new UserDto
                     {
@@ -86,7 +92,7 @@ namespace Application.Services
                         Gender = user.Gender,
                         ProfilePicture = user.ProfilePicture,
 
-                        Token = generatedToken = _tokenService.GenerateToken(_config["Jwt:Key"].ToString(), _config["Jwt:Issuer"].ToString(), userDto)
+                        Token = _tokenService.GenerateToken(_config["Jwt:Key"].ToString(), _config["Jwt:Issuer"].ToString(), userDto)
 
                     }
                 };
@@ -206,40 +212,40 @@ namespace Application.Services
         }
 
 
-        public async Task<BaseResponse<UserDto>> GetUserByTokenAsync(string token)
-        {
-            var user = await _userRepository.GetAsync(x => x.Token == token);
+        // public async Task<BaseResponse<UserDto>> GetUserByTokenAsync(string token)
+        // {
+        //     var user = await _userRepository.GetAsync(x => x.Token == token);
 
-             if (user != null)
-            {
-                var userFirstLetterToUpperCase = $"{CultureInfo.CurrentCulture.TextInfo.ToTitleCase(user.FirstName)}";
+        //      if (user != null)
+        //     {
+        //         var userFirstLetterToUpperCase = $"{CultureInfo.CurrentCulture.TextInfo.ToTitleCase(user.FirstName)}";
 
-                return new BaseResponse<UserDto>
-                {
-                    Message = $"{userFirstLetterToUpperCase} found successfully",
-                    Status = true,
-                    Data = new UserDto
-                    {
-                        Id = user.Id,
-                        FirstName = user.FirstName,
-                        LastName = user.LastName,
-                        Email = user.Email,
-                        PhoneNumber = user.PhoneNumber,
-                        RoleId = user.Role.Id,
-                        RoleName = user.Role.RoleName,
-                        RoleDescription = user.Role.RoleDescription,
-                        Address = user.Address,
-                        Gender = user.Gender,
-                        // ProfilePicture = user.ProfilePicture,
-                    }
-                };
-            }
-            return new BaseResponse<UserDto>
-            {
-                Message = "User not found!",
-                Status = false,
-            };
-        }
+        //         return new BaseResponse<UserDto>
+        //         {
+        //             Message = $"{userFirstLetterToUpperCase} found successfully",
+        //             Status = true,
+        //             Data = new UserDto
+        //             {
+        //                 Id = user.Id,
+        //                 FirstName = user.FirstName,
+        //                 LastName = user.LastName,
+        //                 Email = user.Email,
+        //                 PhoneNumber = user.PhoneNumber,
+        //                 RoleId = user.Role.Id,
+        //                 RoleName = user.Role.RoleName,
+        //                 RoleDescription = user.Role.RoleDescription,
+        //                 Address = user.Address,
+        //                 Gender = user.Gender,
+        //                 // ProfilePicture = user.ProfilePicture,
+        //             }
+        //         };
+        //     }
+        //     return new BaseResponse<UserDto>
+        //     {
+        //         Message = "User not found!",
+        //         Status = false,
+        //     };
+        // }
 
 
     }

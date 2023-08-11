@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Application.Abstractions.ServiceInterfaces;
 using Application.Dtos;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Host.Controllers
@@ -19,8 +20,9 @@ namespace Host.Controllers
         }
 
 
+        // [Authorize(Roles = "admin")]
         [HttpPost("RegisterManager")]
-        public async Task<IActionResult> RegisterAsync([FromForm]CreateManagerRequestModel model)
+        public async Task<IActionResult> RegisterAsync([FromForm] CreateManagerRequestModel model)
         {
             var manager = await _managerService.CreateAsync(model);
             if (!manager.Status)
@@ -41,6 +43,7 @@ namespace Host.Controllers
             return Ok(manager);
         }
 
+        // [Authorize(Roles = "admin")]
         [HttpGet("GetManagerById{id}")]
         public async Task<IActionResult> GetAsync([FromRoute] Guid id)
         {
@@ -52,6 +55,7 @@ namespace Host.Controllers
             return Ok(manager);
         }
 
+        // [Authorize(Roles = "admin")]
         [HttpDelete("DeleteManager/{id}")]
         public async Task<IActionResult> DeleteAsync([FromRoute] Guid id)
         {
@@ -63,6 +67,7 @@ namespace Host.Controllers
             return Ok(manager);
         }
 
+        // [Authorize(Roles = "admin")]
         [HttpGet("GetAllManagers")]
         public async Task<IActionResult> ListOfManagersAsync()
         {

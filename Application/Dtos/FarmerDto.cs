@@ -14,8 +14,11 @@ namespace Application.Dtos
         public string PhoneNumber { get; set; }
         public string Email { get; set; }
         public string Address { get; set; }
+        public Gender Gender { get; set; }
         public string ProfilePicture { get; set; }
+        public string Password { get; set; }
         public string RegistrationNumber { get; set; }
+        public string? FarmName { get; set; }
         public FarmerRegStatus FarmerRegStatus { get; set; }
         public Guid UserId { get; set; }
         public string Role { get; set; }
@@ -25,8 +28,11 @@ namespace Application.Dtos
 
     }
 
+
     public class CreateFarmerRequestModel
     {
+       public List<string> produceTypes {get;set;}
+
         [Required, MaxLength(20), MinLength(3)]
         [Display(Name = "First Name")]
         public string FirstName { get; set; }
@@ -57,36 +63,35 @@ namespace Application.Dtos
         [Required, MaxLength(20), MinLength(3)]
         public string Address { get; set; }
 
+        public Gender Gender { get; set; }
+
+        public string? FarmName { get; set; }
+
+
+
         [Display(Name = "Profile Picture"), Required(ErrorMessage = "Please select file.")]
         // [RegularExpression(@"([a-zA-Z0-9\s_\\.\-:])+(.png|.jpg|.gif|.jpeg)$", ErrorMessage = "Only Image file allowed.")]
         public IFormFile ProfilePicture { get; set; }
 
-        
+
     }
-
-
+    
+   
     public class UpdateFarmerRequestModel
     {
-        [Required, MaxLength(20), MinLength(3)]
-        [Display(Name = "First Name")]
-        public string FirstName { get; set; }
-        [Required, MaxLength(20), MinLength(3)]
-        [Display(Name = "Last Name")]
-        public string LastName { get; set; }
-        [Required, MaxLength(14), MinLength(11)]
+        // [MaxLength(14), MinLength(11)]
         [Display(Name = "Phone Number")]
         public string PhoneNumber { get; set; }
-        [RegularExpression(@"^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$",
-        ErrorMessage = "Enter a valid email address!")]
-        public string Email { get; set; }
-        // [Required, MaxLength(12), MinLength(3)]
-        // public string Password { get; set; }
-        [Required, MaxLength(20), MinLength(3)]
+
+        [Required, MaxLength(12), MinLength(3)]
+        public string Password { get; set; }
+
+        [MaxLength(20), MinLength(3)]
         public string Address { get; set; }
 
         [Display(Name = "Profile Picture")]
+        // [RegularExpression(@"([a-zA-Z0-9\s_\\.\-:])+(.png|.jpg|.gif|.jpeg)$", ErrorMessage = "Only Image file allowed.")]
         public IFormFile ProfilePicture { get; set; }
-
     }
 
     public class ApproveFarmerDto

@@ -11,6 +11,8 @@ namespace Application.Dtos
         public string TypeName { get; set; }
        // public string TypePicture { get; set; }
         public Guid ProduceId { get; set; }
+        public string ProduceName { get; set; }
+        public string NameOfCategory { get; set; }
         public double QuantityToBuy { get; set; }
         public decimal CostPrice { get; set; }
         public decimal SellingPrice { get; set; }

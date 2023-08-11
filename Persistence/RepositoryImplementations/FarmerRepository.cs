@@ -20,23 +20,26 @@ namespace Persistence.RepositoryImplementations
         public async Task<Farmer> GetAsync(Guid id)
         {
             return await _context.Farmers
+            .Include(a => a.FarmerProduceTypes)
             .Include(a => a.Transactions)
-             .Include(a => a.User)
-             .SingleOrDefaultAsync(a => a.Id == id && !a.IsDeleted );
+            .Include(a => a.User)
+             .SingleOrDefaultAsync(a => a.Id == id && !a.IsDeleted);
         }
 
         public async Task<Farmer> GetAsync(Expression<Func<Farmer, bool>> expression)
         {
             return await _context.Farmers
             .Where((Farmer a) => !a.IsDeleted)
+            .Include(a => a.FarmerProduceTypes)
             .Include(a => a.Transactions)
-             .Include(a => a.User)
+            .Include(a => a.User)
             .SingleOrDefaultAsync(expression);
         }
 
         public async Task<IEnumerable<Farmer>> GetAllAsync(Expression<Func<Farmer, bool>> expression)
         {
-            return await _context.Farmers 
+            return await _context.Farmers
+            .Include(a => a.FarmerProduceTypes)
             .Include(a => a.User)
             .Include(a => a.Transactions)
             .Where(expression)
@@ -45,20 +48,22 @@ namespace Persistence.RepositoryImplementations
 
 
 
-        public async Task<IEnumerable<Farmer>>  GetAllAsync()
+        public async Task<IEnumerable<Farmer>> GetAllAsync()
         {
             return await _context.Farmers.AsNoTracking()
+            .Include(a => a.FarmerProduceTypes)
             .Where(a => !a.IsDeleted)
             .Include(a => a.User)
             .Include(a => a.Transactions)
             .ToListAsync();
         }
 
-       
-         public async Task<IEnumerable<Farmer>> GetSelectedAsync(List<Guid> ids)
+
+        public async Task<IEnumerable<Farmer>> GetSelectedAsync(List<Guid> ids)
         {
             return await _context.Farmers
             .Where(a => ids.Contains(a.Id) && !a.IsDeleted)
+            .Include(a => a.FarmerProduceTypes)
             .Include(a => a.User)
             .Include(a => a.Transactions)
             .ToListAsync();
@@ -69,11 +74,12 @@ namespace Persistence.RepositoryImplementations
         {
             return await _context.Farmers
             .Where(expression)
+            .Include(a => a.FarmerProduceTypes)
             .Include(a => a.Transactions)
             .Include(a => a.User)
             .ToListAsync();
         }
 
-       
+
     }
 }

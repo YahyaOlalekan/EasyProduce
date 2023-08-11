@@ -11,8 +11,8 @@ using Persistence.AppDbContext;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20230805220748_removepp")]
-    partial class removepp
+    [Migration("20230809113747_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -20,6 +20,39 @@ namespace Persistence.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "6.0.14")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
+
+            modelBuilder.Entity("Domain.Entity.Admin", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("ModifiedBy")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime>("ModifiedOn")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("char(36)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Admin");
+                });
 
             modelBuilder.Entity("Domain.Entity.CartItem", b =>
                 {
@@ -712,6 +745,10 @@ namespace Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
+                    b.Property<string>("ConfirmPassword")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
                     b.Property<string>("CreatedBy")
                         .IsRequired()
                         .HasColumnType("longtext");
@@ -764,6 +801,17 @@ namespace Persistence.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("Domain.Entity.Admin", b =>
+                {
+                    b.HasOne("Domain.Entity.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Domain.Entity.CartItem", b =>
