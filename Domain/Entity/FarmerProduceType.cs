@@ -1,4 +1,6 @@
 using System;
+using Domain.Enum;
+
 
 namespace Domain.Entity;
 public class FarmerProduceType : BaseEntity
@@ -7,4 +9,6 @@ public class FarmerProduceType : BaseEntity
     public Farmer Farmer {get;set;}
     public Guid ProduceTypeId {get;set;}
     public ProduceType ProduceType {get;set;}
+    public Status Status { get; set; }
+
 }

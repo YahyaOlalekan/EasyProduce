@@ -86,7 +86,7 @@ namespace Application.Services
 
             return new BaseResponse<CustomerDto>
             {
-                Message = $"Dear {fullName}, you have successfully registered as Customer",
+                Message = $"Dear {fullName}, you have been successfully registered as a Customer",
                 Status = true,
                 Data = null,
 

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using Application.Abstractions.RepositoryInterfaces;
@@ -24,7 +25,7 @@ namespace Application.Services
         public async Task<BaseResponse<RoleDto>> CreateAsync(CreateRoleRequestModel model)
         {
             // var loginId = _httpAccessor.HttpContext.User?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            var roleExist = await _roleRepository.GetAsync(a => a.RoleName == model.RoleName);
+            var roleExist = await _roleRepository.GetAsync(a => a.RoleName.ToLower() == model.RoleName.ToLower());
             if (roleExist == null)
             {
                 Role role = new();
@@ -32,12 +33,15 @@ namespace Application.Services
                 role.RoleDescription = model.RoleDescription;
                 // role.CreatedBy = loginId;
 
+                                string roleFirstLetterToUpperCase = $"{CultureInfo.CurrentCulture.TextInfo.ToTitleCase(role.RoleName)}";
+
                 await _roleRepository.CreateAsync(role);
                 await _roleRepository.SaveAsync();
 
                 return new BaseResponse<RoleDto>
                 {
-                    Message = "Role Successfully Created",
+                                        Message = $"Role '{roleFirstLetterToUpperCase}' Successfully Created",
+                    // Message = "Role Successfully Created",
                     Status = true,
                     Data = null,
 
@@ -49,9 +53,14 @@ namespace Application.Services
                     // }
                 };
             }
+
+            string roleExistFirstLetterToUpperCase = $"{CultureInfo.CurrentCulture.TextInfo.ToTitleCase(roleExist.RoleName)}";
+
+
             return new BaseResponse<RoleDto>
             {
-                Message = "Role Already Exists!",
+                                Message = $"Role '{roleExistFirstLetterToUpperCase}' Already Exists!",
+                // Message = "Role Already Exists!",
                 Status = false
             };
 
@@ -74,9 +83,14 @@ namespace Application.Services
 
             _roleRepository.Update(role);
             await _roleRepository.SaveAsync();
+
+            string roleFirstLetterToUpperCase = $"{CultureInfo.CurrentCulture.TextInfo.ToTitleCase(role.RoleName)}";
+
+
             return new BaseResponse<RoleDto>
             {
-                Message = "Role Deleted Successfully",
+                                Message = $"Role '{roleFirstLetterToUpperCase}' Deleted Successfully",
+                // Message = "Role Deleted Successfully",
                 Status = true
             };
 

@@ -24,6 +24,12 @@ namespace Persistence.RepositoryImplementations
            .Include(a => a.User)
            .SingleOrDefaultAsync(a => a.UserId == id && !a.IsDeleted);
         }
+        public async Task<Manager> GetManagerByManagerIdAsync(Guid id)
+        {
+            return await _context.Managers
+           .Include(a => a.User)
+           .SingleOrDefaultAsync(a => a.Id == id && !a.IsDeleted);
+        }
 
         public async Task<Manager> GetAsync(Expression<Func<Manager, bool>> expression)
         {

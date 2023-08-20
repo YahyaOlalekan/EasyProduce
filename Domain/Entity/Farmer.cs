@@ -15,7 +15,7 @@ namespace Domain.Entity
         public ICollection<Transaction> Transactions { get; set; } = new HashSet<Transaction>();
 
         public ICollection<FarmerProduceType> FarmerProduceTypes {get;set;} = new HashSet<FarmerProduceType>();
+        public ICollection<Chat> Chats {get;set;} = new HashSet<Chat>();
         
-        //public ICollection<Produce>? ProduceToBeSupplying { get; set; } = new HashSet<Produce>();
     }
 }

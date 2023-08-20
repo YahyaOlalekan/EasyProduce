@@ -7,16 +7,19 @@ namespace Application.Abstractions.ServiceInterfaces
 {
     public interface IFarmerService
     {
-        Task<BaseResponse<FarmerDto>> CreateAsync(CreateFarmerRequestModel model);
-        Task<BaseResponse<FarmerDto>> UpdateAsync(Guid id, UpdateFarmerRequestModel model);
-        Task<BaseResponse<FarmerDto>> GetAsync(Guid id);
+        Task<BaseResponse<FarmerDto>> RegisterFarmerAsync(CreateFarmerRequestModel model);
+        Task<BaseResponse<FarmerDto>> UpdateFarmerAsync(Guid id, UpdateFarmerRequestModel model);
+        // Task<BaseResponse<FarmerDto>> EditApprovedProduceTypeAsync(Guid id, UpdateFarmerRequestModel model);
+        // Task<BaseResponse<FarmerDto>> GetAsync(Guid id);
+        public Task<BaseResponse<FarmerProduceTypeDto>> GetFarmerAlongWithRegisteredProduceTypeAsync(Guid id);
+        // public Task<BaseResponse<FarmerProduceTypeDto>> GetAsync(Guid id);
         Task<BaseResponse<IEnumerable<FarmerDto>>> GetAllAsync(Func<FarmerDto, bool> expression);
-        Task<BaseResponse<IEnumerable<FarmerDto>>> GetAllAsync();
-        Task<BaseResponse<FarmerDto>> DeleteAsync(Guid id);
+        Task<BaseResponse<IEnumerable<FarmerDto>>> GetAllFarmersAsync();
+        Task<BaseResponse<FarmerDto>> DeleteFarmerAsync(Guid id);
         Task<BaseResponse<IEnumerable<FarmerDto>>> GetPendingFarmersAsync();
-        Task<BaseResponse<IEnumerable<FarmerDto>>> ApprovedFarmersAsync();
+        Task<BaseResponse<IEnumerable<FarmerDto>>> GetApprovedFarmersAsync();
         Task<BaseResponse<IEnumerable<FarmerDto>>> GetDeclinedFarmersAsync();
-        Task<BaseResponse<FarmerDto>> VerifyFarmersAsync(ApproveFarmerDto model);
+        Task<BaseResponse<string>> VerifyFarmerAsync(ApproveFarmerDto model);
 
     }
 }

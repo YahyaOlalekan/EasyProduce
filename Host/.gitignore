@@ -1,1 +1,2 @@
-presentation.host.appsettings.json
+host/appsettings.json
+host/appsettings.Development.json

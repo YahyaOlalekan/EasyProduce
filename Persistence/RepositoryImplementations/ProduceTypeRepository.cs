@@ -36,6 +36,13 @@ namespace Persistence.RepositoryImplementations
             .Include(a => a.TransactionProduceTypes)
             .SingleOrDefaultAsync(expression);
         }
+        // public async Task<ProduceType> GetMatchigAsync(Expression<Func<ProduceType, bool>> expression)
+        // {
+        //     return await _context.ProduceTypes
+        //     .Where(a => List<ProduceTypeId>)
+        //     .Include(a => a.TransactionProduceTypes)
+        //     .SingleOrDefaultAsync(expression);
+        // }
 
        
         public async Task<IEnumerable<ProduceType>> GetAllAsync()

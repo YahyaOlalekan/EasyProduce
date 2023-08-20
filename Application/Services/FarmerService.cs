@@ -8,6 +8,7 @@ using Application.Abstractions.RepositoryInterfaces;
 using Application.Abstractions.ServiceInterfaces;
 using Application.Dtos;
 using Domain.Entity;
+using Domain.Enum;
 
 namespace Application.Services
 {
@@ -19,8 +20,11 @@ namespace Application.Services
         private readonly IProduceTypeRepository _produceTypeRepository;
         private readonly IFileUploadServiceForWWWRoot _fileUploadServiceForWWWRoot;
         private readonly IFarmerProduceTypeRepository _farmerProduceTypeRepository;
+        private readonly IMailService _mailService;
 
-        public FarmerService(IFarmerRepository farmerRepository, IRoleRepository roleRepository, IUserRepository userRepository, IFileUploadServiceForWWWRoot fileUploadServiceForWWWRoot, IProduceTypeRepository produceTypeRepository, IFarmerProduceTypeRepository farmerProduceTypeRepository)
+
+
+        public FarmerService(IFarmerRepository farmerRepository, IRoleRepository roleRepository, IUserRepository userRepository, IFileUploadServiceForWWWRoot fileUploadServiceForWWWRoot, IProduceTypeRepository produceTypeRepository, IFarmerProduceTypeRepository farmerProduceTypeRepository, IMailService mailService)
         {
             _farmerRepository = farmerRepository;
             _roleRepository = roleRepository;
@@ -28,9 +32,11 @@ namespace Application.Services
             _fileUploadServiceForWWWRoot = fileUploadServiceForWWWRoot;
             _produceTypeRepository = produceTypeRepository;
             _farmerProduceTypeRepository = farmerProduceTypeRepository;
+            _mailService = mailService;
         }
 
-        public async Task<BaseResponse<FarmerDto>> CreateAsync(CreateFarmerRequestModel model)
+
+        public async Task<BaseResponse<FarmerDto>> RegisterFarmerAsync(CreateFarmerRequestModel model)
         {
             var farmerExist = await _farmerRepository.GetAsync(c => c.User.Email == model.Email);
             if (farmerExist != null)
@@ -100,30 +106,27 @@ namespace Application.Services
             var userFirstLetterOfLastNameToUpperCase = $"{CultureInfo.CurrentCulture.TextInfo.ToTitleCase(user.LastName)}";
             var fullName = userFirstLetterOfFirstNameToUpperCase + " " + userFirstLetterOfLastNameToUpperCase;
 
+            var emailSender = new EmailSenderDetails
+            {
+                Subject = "Registration Status",
+                ReceiverEmail = user.Email,
+                ReceiverName = model.FirstName,
+                HtmlContent = "<!DOCTYPE html><html lang=\"en\"><head><meta charset=\"UTF-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"><title>Document</title></head><body><h4>Hello, welcome on board</h4></body></html>"
+            };
+            await _mailService.EmailVerificationTemplate(emailSender);
+
             return new BaseResponse<FarmerDto>
             {
                 Message = $"Dear {fullName}, you will receive a notification through your registered email for the status of your application, thanks",
                 Status = true,
                 Data = null,
 
-                // Data = new FarmerDto
-                // {
-                //     Id = farmer.Id,
-                //     RegistrationNumber = farmer.RegistrationNumber,
-                //     FirstName = farmer.User.FirstName,
-                //     LastName = farmer.User.LastName,
-                //     Email = farmer.User.Email,
-                //     PhoneNumber = farmer.User.PhoneNumber,
-                //     ProfilePicture = farmer.User.ProfilePicture,
-                //     FarmName = farmer.FarmName,
-
-                // }
             };
         }
 
 
 
-        public async Task<BaseResponse<FarmerDto>> DeleteAsync(Guid id)
+        public async Task<BaseResponse<FarmerDto>> DeleteFarmerAsync(Guid id)
         {
             var farmer = await _farmerRepository.GetAsync(d => d.Id == id);
             if (farmer != null)
@@ -148,10 +151,10 @@ namespace Application.Services
 
 
 
-        public async Task<BaseResponse<FarmerProduceTypeDto>> GetAsync(Guid id)
+        public async Task<BaseResponse<FarmerProduceTypeDto>> GetFarmerAlongWithRegisteredProduceTypeAsync(Guid id)
         {
             var farmer = await _farmerProduceTypeRepository.GetAsync(id);
-            if (farmer != null)
+            if (farmer.Any())
             {
 
                 return new BaseResponse<FarmerProduceTypeDto>
@@ -171,11 +174,13 @@ namespace Application.Services
                             ProfilePicture = farmer[0].Farmer.User.ProfilePicture,
                             Address = farmer[0].Farmer.User.Address,
                             FarmName = farmer[0].Farmer.FarmName,
+                            FarmerRegStatus = farmer[0].Farmer.FarmerRegStatus,
+
                         },
                         produceTypeDto = farmer.Select(pt => new ProduceTypeDto
                         {
                             Id = pt.Id,
-                            TypeName=pt.ProduceType.TypeName,
+                            TypeName = pt.ProduceType.TypeName,
                             ProduceName = pt.ProduceType.Produce.ProduceName,
                             NameOfCategory = pt.ProduceType.Produce.Category.NameOfCategory,
                         }).ToList()
@@ -190,7 +195,7 @@ namespace Application.Services
             };
         }
 
-        public async Task<BaseResponse<IEnumerable<FarmerDto>>> GetAllAsync()
+        public async Task<BaseResponse<IEnumerable<FarmerDto>>> GetAllFarmersAsync()
         {
             var farmers = await _farmerRepository.GetAllAsync();
             if (!farmers.Any())
@@ -224,7 +229,7 @@ namespace Application.Services
 
 
 
-        public async Task<BaseResponse<FarmerDto>> UpdateAsync(Guid id, UpdateFarmerRequestModel model)
+        public async Task<BaseResponse<FarmerDto>> UpdateFarmerAsync(Guid id, UpdateFarmerRequestModel model)
         {
             var farmer = await _farmerRepository.GetAsync(a => a.Id == id);
             if (farmer is not null)
@@ -265,6 +270,125 @@ namespace Application.Services
 
 
 
+
+        public async Task<BaseResponse<string>> VerifyFarmerAsync(ApproveFarmerDto model)
+        {
+            var farmer = await _farmerRepository.GetAsync(model.Id);
+
+            if (farmer == null)
+            {
+                return new BaseResponse<string>
+                {
+                    Message = "Farmer not found",
+                    Status = false,
+                };
+            }
+
+            farmer.FarmerRegStatus = model.Status;
+            _farmerRepository.Update(farmer);
+            await _farmerRepository.SaveAsync();
+
+            return new BaseResponse<string>
+            {
+                Message = "Successful",
+                Status = true
+            };
+        }
+
+
+        public async Task<BaseResponse<IEnumerable<FarmerDto>>> GetApprovedFarmersAsync()
+        {
+            var approvedFarmer = await _farmerRepository.GetSelectedAsync(f => f.FarmerRegStatus == FarmerRegStatus.Approved && !f.IsDeleted);
+
+            if (!approvedFarmer.Any())
+            {
+                return new BaseResponse<IEnumerable<FarmerDto>>
+                {
+                    Message = "Farmer not found",
+                    Status = false,
+                };
+            }
+
+            return new BaseResponse<IEnumerable<FarmerDto>>
+            {
+                Message = "Successful",
+                Status = true,
+                Data = approvedFarmer.Select(f => new FarmerDto
+                {
+                    Id = f.Id,
+                    RegistrationNumber = f.RegistrationNumber,
+                    FirstName = f.User.FirstName,
+                    LastName = f.User.LastName,
+                    Email = f.User.Email,
+                    PhoneNumber = f.User.PhoneNumber,
+                    Address = f.User.Address,
+                    ProfilePicture = f.User.ProfilePicture,
+                })
+            };
+        }
+
+        public async Task<BaseResponse<IEnumerable<FarmerDto>>> GetPendingFarmersAsync()
+        {
+            var pendingFarmers = await _farmerRepository.GetSelectedAsync(f => f.FarmerRegStatus == FarmerRegStatus.Pending && !f.IsDeleted);
+            if (!pendingFarmers.Any())
+            {
+                return new BaseResponse<IEnumerable<FarmerDto>>
+                {
+                    Message = "No Farmer found",
+                    Status = false,
+                };
+            }
+
+            return new BaseResponse<IEnumerable<FarmerDto>>
+            {
+                Message = "Successful",
+                Status = true,
+                Data = pendingFarmers.Select(f => new FarmerDto
+                {
+                    Id = f.Id,
+                    RegistrationNumber = f.RegistrationNumber,
+                    UserId = f.UserId,
+                    FirstName = f.User.FirstName,
+                    LastName = f.User.LastName,
+                    Email = f.User.Email,
+                    PhoneNumber = f.User.PhoneNumber,
+                    Address = f.User.Address,
+                    ProfilePicture = f.User.ProfilePicture,
+                }).ToList()
+            };
+        }
+        public async Task<BaseResponse<IEnumerable<FarmerDto>>> GetDeclinedFarmersAsync()
+        {
+            var declinedFarmers = await _farmerRepository.GetSelectedAsync(f => f.FarmerRegStatus == FarmerRegStatus.Declined && !f.IsDeleted);
+            if (!declinedFarmers.Any())
+            {
+                return new BaseResponse<IEnumerable<FarmerDto>>
+                {
+                    Message = "No Farmer found",
+                    Status = false,
+                };
+            }
+
+            return new BaseResponse<IEnumerable<FarmerDto>>
+            {
+                Message = "Successful",
+                Status = true,
+                Data = declinedFarmers.Select(f => new FarmerDto
+                {
+                    Id = f.Id,
+                    RegistrationNumber = f.RegistrationNumber,
+                    UserId = f.UserId,
+                    FirstName = f.User.FirstName,
+                    LastName = f.User.LastName,
+                    Email = f.User.Email,
+                    PhoneNumber = f.User.PhoneNumber,
+                    Address = f.User.Address,
+                    ProfilePicture = f.User.ProfilePicture,
+                }).ToList()
+            };
+        }
+
+
         private async Task<string> GeneratefarmerRegNumAsync()
         {
             var count = (await _farmerRepository.GetAllAsync()).Count();
@@ -273,34 +397,15 @@ namespace Application.Services
 
 
 
+
+
+
         public Task<BaseResponse<IEnumerable<FarmerDto>>> GetAllAsync(Func<FarmerDto, bool> expression)
         {
             throw new NotImplementedException();
         }
 
-        public Task<BaseResponse<IEnumerable<FarmerDto>>> GetPendingFarmersAsync()
-        {
-            throw new NotImplementedException();
-        }
 
-        public Task<BaseResponse<IEnumerable<FarmerDto>>> ApprovedFarmersAsync()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<BaseResponse<IEnumerable<FarmerDto>>> GetDeclinedFarmersAsync()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<BaseResponse<FarmerDto>> VerifyFarmersAsync(ApproveFarmerDto model)
-        {
-            throw new NotImplementedException();
-        }
-
-        Task<BaseResponse<FarmerDto>> IFarmerService.GetAsync(Guid id)
-        {
-            throw new NotImplementedException();
-        }
+        
     }
 }

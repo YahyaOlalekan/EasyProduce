@@ -13,8 +13,13 @@ namespace Application.Abstractions.ServiceInterfaces
         Task<BaseResponse<ProduceTypeDto>> GetAsync(Guid id);
         //Task<BaseResponse<ProduceTypeDto>> GetByStatus(Status status);
         Task<BaseResponse<IEnumerable<ProduceTypeDto>>> GetAllAsync();
+        Task<BaseResponse<ProduceTypeDto>> VerifyProduceTypeAsync(ProduceTypeToBeApprovedRequestModel model);
+
         Task<BaseResponse<IEnumerable<ProduceTypeDto>>> GetByProduceIdAsync(Guid ProduceId);
         Task<BaseResponse<IEnumerable<ProduceTypeDto>>> GetByCategoryIdAsync(Guid categoryId);
         Task<BaseResponse<ProduceTypeDto>> DeleteAsync(Guid id);
+        Task<BaseResponse<IEnumerable<ProduceTypeDto>>> GetApprovedProduceTypesForAFarmerAsync(Guid farmerId);
+
+
     }
 }

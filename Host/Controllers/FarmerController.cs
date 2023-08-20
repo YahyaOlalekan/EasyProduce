@@ -1,11 +1,7 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Application.Abstractions.ServiceInterfaces;
 using Application.Dtos;
-using Domain.Entity;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Host.Controllers
@@ -24,7 +20,7 @@ namespace Host.Controllers
         [HttpPost("RegisterFarmer")]
         public async Task<IActionResult> RegisterAsync([FromForm] CreateFarmerRequestModel model)
         {
-            var farmer = await _farmerService.CreateAsync(model);
+            var farmer = await _farmerService.RegisterFarmerAsync(model);
             if (!farmer.Status)
             {
                 return BadRequest(farmer);
@@ -35,7 +31,7 @@ namespace Host.Controllers
         [HttpPut("UpdateFarmer/{id}")]
         public async Task<IActionResult> UpdateAsync([FromRoute] Guid id, [FromForm] UpdateFarmerRequestModel model)
         {
-            var farmer = await _farmerService.UpdateAsync(id, model);
+            var farmer = await _farmerService.UpdateFarmerAsync(id, model);
             if (!farmer.Status)
             {
                 return BadRequest(farmer);
@@ -43,11 +39,11 @@ namespace Host.Controllers
             return Ok(farmer);
         }
 
-        // [Authorize(Roles = "admin manager")]
-        [HttpGet("GetFarmerById{id}")]
-        public async Task<IActionResult> GetAsync([FromRoute] Guid id)
+        //  [Authorize(Roles = "admin manager")]
+        [HttpGet("GetFarmerAlongWithRegisteredProduceType{id}")]
+        public async Task<IActionResult> GetFarmerAlongWithRegisteredProduceTypeByIdAsync([FromRoute] Guid id)
         {
-            var farmer = await _farmerService.GetAsync(id);
+            var farmer = await _farmerService.GetFarmerAlongWithRegisteredProduceTypeAsync(id);
             if (!farmer.Status)
             {
                 return BadRequest(farmer);
@@ -55,11 +51,11 @@ namespace Host.Controllers
             return Ok(farmer);
         }
 
-        // [Authorize(Roles = "admin manager")]
+        // [Authorize(Roles = "admin")]
         [HttpDelete("DeleteFarmer/{id}")]
         public async Task<IActionResult> DeleteAsync([FromRoute] Guid id)
         {
-            var farmer = await _farmerService.DeleteAsync(id);
+            var farmer = await _farmerService.DeleteFarmerAsync(id);
             if (!farmer.Status)
             {
                 return BadRequest(farmer);
@@ -71,7 +67,7 @@ namespace Host.Controllers
         [HttpGet("GetAllFarmers")]
         public async Task<IActionResult> ListOfFarmersAsync()
         {
-            var farmers = await _farmerService.GetAllAsync();
+            var farmers = await _farmerService.GetAllFarmersAsync();
             if (farmers == null)
             {
                 return NotFound(farmers);
@@ -79,5 +75,59 @@ namespace Host.Controllers
             return Ok(farmers);
         }
 
+        [HttpGet("GetPendingFarmers")]
+        public async Task<IActionResult> PendingFarmersAsync()
+        {
+            var result = await _farmerService.GetPendingFarmersAsync();
+            if (result == null)
+            {
+                return NotFound(result);
+            }
+            return Ok(result);
+
+        }
+
+
+        [HttpPost("VerifyFarmer")]
+        public async Task<IActionResult> VerifyAsync(ApproveFarmerDto model)
+        {
+            var result = await _farmerService.VerifyFarmerAsync(model);
+
+            if (!result.Status)
+            {
+                return BadRequest(result);
+            }
+
+            return Ok(result);
+
+        }
+
+        [HttpGet("ApprovedFarmers")]
+        public async Task<IActionResult> ApprovedAsync()
+        {
+            var result = await _farmerService.GetApprovedFarmersAsync();
+            if (result == null)
+            {
+                return BadRequest(result);
+            }
+            return Ok(result);
+
+        }
+
+        [HttpGet("DeclinedFarmers")]
+        public async Task<IActionResult> DeclinedAsync()
+        {
+            var result = await _farmerService.GetDeclinedFarmersAsync();
+            if (result == null)
+            {
+                NotFound(result);
+            }
+
+            return Ok(result);
+        }
+
+
+
+        // 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
     }
 }

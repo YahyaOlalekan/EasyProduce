@@ -37,7 +37,7 @@ namespace Host.Controllers
         public async Task<IActionResult> DeleteAsync([FromQuery] Guid id)
         {
             var role = await _roleService.DeleteAsync(id);
-        // TempData["message"] = role.Message;
+        //  TempData["message"] = role.Message;
             if (role.Status)
             {
                 return Ok(role);

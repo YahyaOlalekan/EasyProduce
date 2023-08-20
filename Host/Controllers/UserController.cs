@@ -15,11 +15,13 @@ namespace Host.Controllers
         private readonly IUserService _userService;
         private readonly IConfiguration _config;
         private readonly IJwtAuthenticationManager _tokenService;
-        public UserController(IUserService userService, IConfiguration config, IJwtAuthenticationManager tokenService)
+        private readonly IMailService _configMailService;
+        public UserController(IUserService userService, IConfiguration config, IJwtAuthenticationManager tokenService, IMailService configMailService)
         {
             _userService = userService;
             _config = config;
             _tokenService = tokenService;
+            _configMailService = configMailService;
         }
         [HttpPost("Login")]
         public async Task<IActionResult> LoginAsync([FromBody]LoginUserRequestModel model)
@@ -46,6 +48,21 @@ namespace Host.Controllers
           [HttpGet("GetAllUsers")]
         public async Task<IActionResult> ListOfUsersAsync()
         {
+            // var mmm = new MailRequest{
+            //   ToEmail = "yahyaolalekan2023@gmail.com",
+            //   ToName = "ade",
+            //   AttachmentName  = "sola",
+            //   HtmlContent = "<!DOCTYPE html><html lang=\"en\"><head><meta charset=\"UTF-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"><title>Document</title></head><body><h4>Hello, welcome on board</h4></body></html>",
+            //   Subject = "status of registration",
+            // };
+            //  var mmm = new EmailSenderDetails{
+            //     ReceiverName ="yahhh",
+            //     ReceiverEmail = "yahyaolalekan2023@gmail.com",
+            //     EmailToken = "yafytfta",
+
+            //  };
+
+            // await _configMailService.EmailVerificationTemplate(mmm,"uygguygyytf");
             var users = await _userService.GetAllAsync();
             if (users == null)
             {

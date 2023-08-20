@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Application.Abstractions.RepositoryInterfaces;
 using Application.Abstractions.ServiceInterfaces;
@@ -23,25 +25,29 @@ namespace Application.Services
 
         public async Task<BaseResponse<ProduceDto>> CreateAsync(CreateProduceRequestModel model)
         {
-            // var loginId = _httpAccessor.HttpContext.User?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            var produceExist = await _produceRepository.GetAsync(a => a.ProduceName == model.ProduceName);
+            var loginId = _httpAccessor.HttpContext.User?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var produceExist = await _produceRepository.GetAsync(a => a.ProduceName.ToLower() == model.ProduceName.ToLower());
             if (produceExist == null)
             {
                 var produce = new Produce();
                 produce.ProduceName = model.ProduceName;
                 produce.DescriptionOfProduce = model.DescriptionOfProduce;
                 produce.CategoryId = model.CategoryId;
-                // produce.CreatedBy = loginId;
+                produce.CreatedBy = loginId;
+
+                string produceFirstLetterToUpperCase = $"{CultureInfo.CurrentCulture.TextInfo.ToTitleCase(produce.ProduceName)}";
+
 
                 await _produceRepository.CreateAsync(produce);
                 await _produceRepository.SaveAsync();
 
                 return new BaseResponse<ProduceDto>
                 {
-                    Message = "Produce Successfully Created",
+                    Message = $"Produce '{produceFirstLetterToUpperCase}' Successfully Created",
+                    // Message = "Produce Successfully Created",
                     Status = true,
                     Data = null,
-                  
+
                     // Data = new ProduceDto
                     // {
                     //     Id = produce.Id,
@@ -50,9 +56,14 @@ namespace Application.Services
                     // }
                 };
             }
+
+            string produceExistFirstLetterToUpperCase = $"{CultureInfo.CurrentCulture.TextInfo.ToTitleCase(produceExist.ProduceName)}";
+
+
             return new BaseResponse<ProduceDto>
             {
-                Message = "Produce Already Exists!",
+                Message = $"Produce '{produceExistFirstLetterToUpperCase}' Already Exists!",
+                // Message = "Produce Already Exists!",
                 Status = false
             };
 
@@ -75,9 +86,14 @@ namespace Application.Services
 
             _produceRepository.Update(produce);
             await _produceRepository.SaveAsync();
+
+            string produceFirstLetterToUpperCase = $"{CultureInfo.CurrentCulture.TextInfo.ToTitleCase(produce.ProduceName)}";
+
+
             return new BaseResponse<ProduceDto>
             {
-                Message = "Produce Deleted Successfully",
+                Message = $"Produce '{produceFirstLetterToUpperCase}' Deleted Successfully",
+                // Message = "Produce Deleted Successfully",
                 Status = true
             };
 
@@ -113,7 +129,7 @@ namespace Application.Services
         public async Task<BaseResponse<IEnumerable<ProduceDto>>> GetAllAsync()
         {
             var produce = await _produceRepository.GetAllAsync();
-            if (produce.Count() == 0)
+            if (!produce.Any())
             {
                 return new BaseResponse<IEnumerable<ProduceDto>>
                 {
@@ -128,7 +144,7 @@ namespace Application.Services
                 Data = produce.Select(c => new ProduceDto
                 {
                     Id = c.Id,
-                   ProduceName = c.ProduceName,
+                    ProduceName = c.ProduceName,
                     DescriptionOfProduce = c.DescriptionOfProduce
                 })
             };
@@ -141,7 +157,6 @@ namespace Application.Services
             var produce = await _produceRepository.GetAsync(a => a.Id == id);
             if (produce is not null)
             {
-
                 produce.ProduceName = model.ProduceName;
                 produce.DescriptionOfProduce = model.DescriptionOfProduce;
 
@@ -167,6 +182,6 @@ namespace Application.Services
             };
         }
 
-       
+
     }
 }

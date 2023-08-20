@@ -15,4 +15,7 @@ public interface IFarmerProduceTypeRepository : IBaseRepository<FarmerProduceTyp
     Task<IEnumerable<FarmerProduceType>> GetSelectedAsync(List<Guid> ids);
     Task<IEnumerable<FarmerProduceType>> GetSelectedAsync(Expression<Func<FarmerProduceType, bool>> expression);
     Task<IEnumerable<FarmerProduceType>> GetAllAsync();
+    // Task<IEnumerable<FarmerProduceType>> GetAllAsync(Expression<Func<FarmerProduceType, bool>> expression);
+     Task<IEnumerable<ProduceType>> GetAllApprovedProduceTypeOfAFarmer(Guid farmerId);
+
 }

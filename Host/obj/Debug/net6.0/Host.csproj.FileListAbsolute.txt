@@ -51,8 +51,8 @@ C:\Users\USER PC\Desktop\EasyProduce\Host\obj\Debug\net6.0\refint\Host.dll
 C:\Users\USER PC\Desktop\EasyProduce\Host\obj\Debug\net6.0\Host.pdb
 C:\Users\USER PC\Desktop\EasyProduce\Host\obj\Debug\net6.0\Host.genruntimeconfig.cache
 C:\Users\USER PC\Desktop\EasyProduce\Host\obj\Debug\net6.0\ref\Host.dll
-C:\Users\USER PC\Desktop\EasyProduce\Host\obj\Debug\net6.0\staticwebassets\msbuild.Host.Microsoft.AspNetCore.StaticWebAssets.props
-C:\Users\USER PC\Desktop\EasyProduce\Host\obj\Debug\net6.0\staticwebassets\msbuild.build.Host.props
-C:\Users\USER PC\Desktop\EasyProduce\Host\obj\Debug\net6.0\staticwebassets\msbuild.buildMultiTargeting.Host.props
-C:\Users\USER PC\Desktop\EasyProduce\Host\obj\Debug\net6.0\staticwebassets\msbuild.buildTransitive.Host.props
-C:\Users\USER PC\Desktop\EasyProduce\Host\obj\Debug\net6.0\staticwebassets.pack.json
+C:\Users\USER PC\Desktop\EasyProduce\host\bin\Debug\net6.0\FubarCoder.RestSharp.Portable.Core.dll
+C:\Users\USER PC\Desktop\EasyProduce\host\bin\Debug\net6.0\FubarCoder.RestSharp.Portable.HttpClient.dll
+C:\Users\USER PC\Desktop\EasyProduce\host\bin\Debug\net6.0\JsonSubTypes.dll
+C:\Users\USER PC\Desktop\EasyProduce\host\bin\Debug\net6.0\Newtonsoft.Json.dll
+C:\Users\USER PC\Desktop\EasyProduce\host\bin\Debug\net6.0\sib_api_v3_sdk.dll

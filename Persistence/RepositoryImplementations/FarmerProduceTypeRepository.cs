@@ -4,6 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Application.Abstractions.RepositoryInterfaces;
+using Application.Dtos;
 using Domain.Entity;
 using Microsoft.EntityFrameworkCore;
 using Persistence.AppDbContext;
@@ -26,12 +27,29 @@ public class FarmerProduceTypeRepository : BaseRepository<FarmerProduceType>, IF
         {
             return await _context.FarmerProduceTypes
             .Include(a => a.Farmer)
+            .ThenInclude(x => x.User)
             .Include(a => a.ProduceType)
             .ThenInclude(a => a.Produce)
             .ThenInclude(a => a.Category)
             .Where(a => a.FarmerId == id && !a.IsDeleted).ToListAsync();
         }
 
+        // public async Task<IEnumerable<FarmerProduceType>> GetAllAsync(Expression<Func<FarmerProduceType, bool>> expression)
+        // {
+        //     return await _context.FarmerProduceTypes
+        //     .Where(a => !a.IsDeleted)
+        //     .Include(a => a.Farmer)
+        //     .Include(a => a.ProduceType)
+        //     .SingleOrDefaultAsync(expression)
+        //     .ToListAsync();
+        // }
+        public async Task<IEnumerable<ProduceType>> GetAllApprovedProduceTypeOfAFarmer(Guid farmerId)
+        {
+            return await _context.FarmerProduceTypes
+            .Where(a => a.FarmerId == farmerId && a.Status == Domain.Enum.Status.Approved)
+             .Select(a => a.ProduceType)
+             .ToListAsync();
+        }
         public async Task<FarmerProduceType> GetAsync(Expression<Func<FarmerProduceType, bool>> expression)
         {
             return await _context.FarmerProduceTypes

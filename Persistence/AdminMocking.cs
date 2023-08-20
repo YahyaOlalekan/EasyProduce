@@ -10,15 +10,13 @@ namespace Persistence
 {
     public class AdminMocking
     {
-
-
         public static async void Mock(IApplicationBuilder _applicationBuilder)
         {
             using (var service = _applicationBuilder.ApplicationServices.CreateScope())
             {
                 var _context = service.ServiceProvider.GetService<Context>();
                 // _context.Database.EnsureCreated();
-                       await _context.Database.MigrateAsync();
+                await _context.Database.MigrateAsync();
                 if (!_context.Users.Any())
                 {
                     var role = new Role
@@ -28,8 +26,8 @@ namespace Persistence
                         RoleDescription = "AppOwner",
                         CreatedBy = "System",
                         ModifiedBy = "System",
-                        DateCreated = DateTime.UtcNow,
-                        ModifiedOn = DateTime.UtcNow,
+                        DateCreated = DateTime.Now,
+                        ModifiedOn = DateTime.Now,
                     };
 
                     var user = new User
@@ -38,7 +36,7 @@ namespace Persistence
                         FirstName = "Ola",
                         LastName = "Bisi",
                         PhoneNumber = "08132759937",
-                        Email = "ola@gmail.com",
+                        Email = "mybluvedcreator@gmail.com",
                         Password = BCrypt.Net.BCrypt.HashPassword("123"),
                         Address = "Abk",
                         ProfilePicture = "admin.jpg",
@@ -47,8 +45,8 @@ namespace Persistence
                         Role = role,
                         CreatedBy = "System",
                         ModifiedBy = "System",
-                        DateCreated = DateTime.UtcNow,
-                        ModifiedOn = DateTime.UtcNow,
+                        DateCreated = DateTime.Now,
+                        ModifiedOn = DateTime.Now,
                     };
                     role.Users.Add(user);
                     var admin = new Admin
@@ -58,15 +56,15 @@ namespace Persistence
                         CreatedBy = "System",
                         ModifiedBy = "System",
                         User = user,
-                        DateCreated = DateTime.UtcNow,
-                        ModifiedOn = DateTime.UtcNow,
+                        DateCreated = DateTime.Now,
+                        ModifiedOn = DateTime.Now,
                     };
 
                     // _context.Roles.Add(role);
                     // _context.Users.Add(user);
                     // _context.SaveChanges();
-                   await _context.Admin.AddAsync(admin);
-                   await _context.SaveChangesAsync();
+                    await _context.Admin.AddAsync(admin);
+                    await _context.SaveChangesAsync();
                 }
             }
         }

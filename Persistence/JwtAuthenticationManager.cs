@@ -6,6 +6,7 @@ using Application.Abstractions;
 using Application.Dtos;
 using System.IdentityModel.Tokens.Jwt;
 using System;
+using System.Linq;
 
 namespace Persistence
 {
@@ -29,51 +30,51 @@ namespace Persistence
 
         }
 
-    //     public bool IsTokenValid(string key, string issuer, string token)
-    //     {
-    //         var mySecret = Encoding.UTF8.GetBytes(key);
-    //         var mySecurityKey = new SymmetricSecurityKey(mySecret);
+        // public bool IsTokenValid(string key, string issuer, string token)
+        // {
+        //     var mySecret = Encoding.UTF8.GetBytes(key);
+        //     var mySecurityKey = new SymmetricSecurityKey(mySecret);
 
-    //         var tokenHandler = new JwtSecurityTokenHandler();
+        //     var tokenHandler = new JwtSecurityTokenHandler();
 
-    //         try
-    //         {
-    //             tokenHandler.ValidateToken(token, new TokenValidationParameters
-    //             {
-    //                 ValidateIssuerSigningKey = true,
-    //                 ValidateIssuer = true,
-    //                 ValidateAudience = true,
-    //                 ValidateLifetime = true,
-    //                 ValidIssuer = issuer,
-    //                 ValidAudience = issuer,
-    //                 IssuerSigningKey = mySecurityKey,
-    //             }, out SecurityToken validatedToken);
-    //         }
-    //         catch
-    //         {
-    //             return false;
-    //         }
-    //         return true;
-    //     }
-    //     public static int GetLoginId(string token)
-    //     {
-    //         var tokenHandler = new JwtSecurityTokenHandler();
-    //         var jwtToken = tokenHandler.ReadJwtToken(token);
+        //     try
+        //     {
+        //         tokenHandler.ValidateToken(token, new TokenValidationParameters
+        //         {
+        //             ValidateIssuerSigningKey = true,
+        //             ValidateIssuer = true,
+        //             ValidateAudience = true,
+        //             ValidateLifetime = true,
+        //             ValidIssuer = issuer,
+        //             ValidAudience = issuer,
+        //             IssuerSigningKey = mySecurityKey,
+        //         }, out SecurityToken validatedToken);
+        //     }
+        //     catch
+        //     {
+        //         return false;
+        //     }
+        //     return true;
+        // }
+        // public static int GetLoginId(string token)
+        // {
+        //     var tokenHandler = new JwtSecurityTokenHandler();
+        //     var jwtToken = tokenHandler.ReadJwtToken(token);
 
-    //         // Retrieve the ID from the claims
-    //         var idClaim = jwtToken.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
-    //         if (idClaim != null)
-    //         {
-    //             string userId = idClaim.Value;
+        //     // Retrieve the ID from the claims
+        //     var idClaim = jwtToken.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
+        //     if (idClaim != null)
+        //     {
+        //         string userId = idClaim.Value;
 
-    //             // Use the userId as needed
-    //             return int.Parse(userId);
-    //         }
-    //         else
-    //         {
-    //             // Handle the case when the ID claim is not present in the token
-    //             return 0;
-    //         }
+        //         // Use the userId as needed
+        //         return int.Parse(userId);
+        //     }
+        //     else
+        //     {
+        //         // Handle the case when the ID claim is not present in the token
+        //         return 0;
+        //     }
         // }
     }
 }

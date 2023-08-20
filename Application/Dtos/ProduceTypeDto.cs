@@ -9,7 +9,7 @@ namespace Application.Dtos
     {
         public Guid Id { get; set; }
         public string TypeName { get; set; }
-       // public string TypePicture { get; set; }
+        // public string TypePicture { get; set; }
         public Guid ProduceId { get; set; }
         public string ProduceName { get; set; }
         public string NameOfCategory { get; set; }
@@ -74,6 +74,26 @@ namespace Application.Dtos
         // public Guid UnitOfMeasurement { get; set; }
     }
 
+    public class ProduceTypeToBeApprovedRequestModel
+    {
+        [Display(Name = "Produce Type Name")]
+        public Guid ProduceTypeId { get; set; }
+        public Guid FarmerId { get; set; }
+        public Status Status {get; set; }   
+    }
+   
+
+    public class AddToApprovedProduceTypeRequestModel
+    {
+        [Display(Name = "Produce Type Name")]
+        public string TypeName { get; set; }
+    }
+
+    public class RemoveFromApprovedProduceTypeRequestModel
+    {
+        [Display(Name = "Produce Type Name")]
+        public string TypeName { get; set; }
+    }
 
     public class UpdateProduceTypeRequestModel
     {
@@ -96,6 +116,6 @@ namespace Application.Dtos
         [Required]
         [Display(Name = "Unit Of Measurement")]
         public string UnitOfMeasurement { get; set; }
-        
+
     }
 }

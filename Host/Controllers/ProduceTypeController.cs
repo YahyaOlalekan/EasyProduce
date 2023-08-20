@@ -36,7 +36,7 @@ namespace Host.Controllers
         public async Task<IActionResult> DeleteAsync([FromQuery] Guid id)
         {
             var produceType = await _produceTypeService.DeleteAsync(id);
-        // TempData["message"] = produce.Message;
+            // TempData["message"] = produce.Message;
             if (produceType.Status)
             {
                 return Ok(produceType);
@@ -69,7 +69,34 @@ namespace Host.Controllers
         }
 
 
-       
+
+
+        [HttpPost("VerifyProduceType")]
+        public async Task<IActionResult> VerifyAsync(ProduceTypeToBeApprovedRequestModel model)
+        {
+            var result = await _produceTypeService.VerifyProduceTypeAsync(model);
+
+            if (!result.Status)
+            {
+                return BadRequest(result);
+            }
+            return Ok(result);
+        }
+
+
+         [HttpGet("GetApprovedProduceTypesForAFarmer/{farmerId}")]
+        public async Task<IActionResult> ApprovedProduceTypesForAFarmerAsync([FromRoute]Guid farmerId)
+        {
+            var produceTypes = await _produceTypeService.GetApprovedProduceTypesForAFarmerAsync(farmerId);
+            if (produceTypes == null)
+            {
+                return NotFound(produceTypes);
+            }
+            return Ok(produceTypes);
+        }
+
+
+
         [HttpPut("UpdateProduceType/{id}")]
         public async Task<IActionResult> UpdateAsync([FromRoute] Guid id, [FromBody] UpdateProduceTypeRequestModel model)
         {

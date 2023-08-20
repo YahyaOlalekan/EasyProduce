@@ -89,7 +89,7 @@ namespace Application.Services
 
             return new BaseResponse<ManagerDto>
             {
-                Message = $"{fullName} is successfully registered as Manager",
+                Message = $"{fullName} is successfully registered as a Manager",
                 Status = true,
                 Data = null,
 

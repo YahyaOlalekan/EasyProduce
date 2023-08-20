@@ -94,7 +94,6 @@ builder.Services.AddScoped<IOrderProductTypeRepository, OrderProductTypeReposito
 builder.Services.AddScoped<IProduceTypeRepository, ProduceTypeRepository>();
 builder.Services.AddScoped<IProduceTypeService, ProduceTypeService>();
 
-
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 
@@ -116,6 +115,10 @@ builder.Services.AddScoped<IJwtAuthenticationManager, JwtAuthenticationManager>(
 
 builder.Services.AddScoped<IFileUploadServiceForWWWRoot, FileUploadServiceForWWWRoot>();
 
+builder.Services.AddScoped<IMailService, MailService>();
+
+builder.Services.AddScoped<IChatRepository, ChatRepository>();
+builder.Services.AddScoped<IChatService, ChatService>();
 
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 #endregion

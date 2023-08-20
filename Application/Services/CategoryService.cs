@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Application.Abstractions.RepositoryInterfaces;
 using Application.Abstractions.ServiceInterfaces;
@@ -24,15 +25,15 @@ namespace Application.Services
 
         public async Task<BaseResponse<CategoryDto>> CreateAsync(CreateCategoryRequestModel model)
         {
-            // var loginId = _httpAccessor.HttpContext.User?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            var categoryExist = await _categoryRepository.GetAsync(a => a.NameOfCategory == model.NameOfCategory);
+            var loginId = _httpAccessor.HttpContext.User?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var categoryExist = await _categoryRepository.GetAsync(a => a.NameOfCategory.ToLower() == model.NameOfCategory.ToLower());
 
             if (categoryExist == null)
             {
                 var category = new Category();
                 category.NameOfCategory = model.NameOfCategory;
                 category.DescriptionOfCategory = model.DescriptionOfCategory;
-                // category.CreatedBy = loginId;
+                category.CreatedBy = loginId;
 
                 string categoryFirstLetterToUpperCase = $"{CultureInfo.CurrentCulture.TextInfo.ToTitleCase(category.NameOfCategory)}";
 
@@ -45,7 +46,7 @@ namespace Application.Services
                     Message = $"Category '{categoryFirstLetterToUpperCase}' Successfully Created",
                     Status = true,
                     Data = null,
-                   
+
                     // Data = new CategoryDto
                     // {
                     //     Id = category.Id,
@@ -83,11 +84,11 @@ namespace Application.Services
             _categoryRepository.Update(category);
             await _categoryRepository.SaveAsync();
 
-         string categoryFirstLetterToUpperCase = $"{CultureInfo.CurrentCulture.TextInfo.ToTitleCase(category.NameOfCategory)}";
+            string categoryFirstLetterToUpperCase = $"{CultureInfo.CurrentCulture.TextInfo.ToTitleCase(category.NameOfCategory)}";
 
             return new BaseResponse<CategoryDto>
             {
-             Message = $"Category '{categoryFirstLetterToUpperCase}' Deleted Successfully",
+                Message = $"Category '{categoryFirstLetterToUpperCase}' Deleted Successfully",
                 Status = true
             };
 
@@ -123,7 +124,7 @@ namespace Application.Services
         public async Task<BaseResponse<IEnumerable<CategoryDto>>> GetAllAsync()
         {
             var category = await _categoryRepository.GetAllAsync();
-            if (category.Count() == 0)
+            if (!category.Any())
             {
                 return new BaseResponse<IEnumerable<CategoryDto>>
                 {

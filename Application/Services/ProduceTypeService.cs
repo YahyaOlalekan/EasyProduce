@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Application.Abstractions.RepositoryInterfaces;
 using Application.Abstractions.ServiceInterfaces;
@@ -14,17 +16,21 @@ namespace Application.Services
     {
         private readonly IProduceTypeRepository _produceTypeRepository;
         private readonly IHttpContextAccessor _httpAccessor;
+        private readonly IFarmerRepository _farmerRepository;
+        private readonly IFarmerProduceTypeRepository _farmerProduceTypeRepository;
 
-        public ProduceTypeService(IProduceTypeRepository produceTypeRepository, IHttpContextAccessor httpAccessor)
+        public ProduceTypeService(IProduceTypeRepository produceTypeRepository, IHttpContextAccessor httpAccessor, IFarmerRepository farmerRepository, IFarmerProduceTypeRepository farmerProduceTypeRepository)
         {
             _produceTypeRepository = produceTypeRepository;
             _httpAccessor = httpAccessor;
+            _farmerRepository = farmerRepository;
+            _farmerProduceTypeRepository = farmerProduceTypeRepository;
         }
 
         public async Task<BaseResponse<ProduceTypeDto>> CreateAsync(CreateProduceTypeRequestModel model)
         {
-            // var loginId = _httpAccessor.HttpContext.User?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            var produceTypeExist = await _produceTypeRepository.GetAsync(a => a.TypeName == model.TypeName);
+            var loginId = _httpAccessor.HttpContext.User?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var produceTypeExist = await _produceTypeRepository.GetAsync(a => a.TypeName.ToLower() == model.TypeName.ToLower());
             if (produceTypeExist == null)
             {
                 var produceType = new ProduceType();
@@ -33,32 +39,28 @@ namespace Application.Services
                 produceType.CostPrice = model.CostPrice;
                 produceType.SellingPrice = model.SellingPrice;
                 produceType.ProduceId = model.ProduceId;
-               // produceType.TypePicture = model.TypePicture;
-                // produceType.CreatedBy = loginId;
+                produceType.CreatedBy = loginId;
+                // produceType.TypePicture = model.TypePicture;
+
+                string produceTypeFirstLetterToUpperCase = $"{CultureInfo.CurrentCulture.TextInfo.ToTitleCase(produceType.TypeName)}";
+
 
                 await _produceTypeRepository.CreateAsync(produceType);
                 await _produceTypeRepository.SaveAsync();
 
                 return new BaseResponse<ProduceTypeDto>
                 {
-                    Message = "Produce Type Successfully Created",
+                    Message = $"Produce Type '{produceTypeFirstLetterToUpperCase}' Successfully Created",
                     Status = true,
                     Data = null,
-                  
-                    // Data = new ProduceTypeDto
-                    // {
-                    //     Id = produceType.Id,
-                    //     TypeName = produceType.TypeName,
-                    //     UnitOfMeasurement = produceType.UnitOfMeasurement,
-                    //     CostPrice = produceType.CostPrice,
-                    //     SellingPrice = produceType.SellingPrice,
-
-                    // }
                 };
             }
+
+            string produceTypeExistFirstLetterToUpperCase = $"{CultureInfo.CurrentCulture.TextInfo.ToTitleCase(produceTypeExist.TypeName)}";
+
             return new BaseResponse<ProduceTypeDto>
             {
-                Message = "Produce Type Already Exists!",
+                Message = $"Produce Type '{produceTypeExistFirstLetterToUpperCase}' Already Exists!",
                 Status = false
             };
 
@@ -81,9 +83,13 @@ namespace Application.Services
 
             _produceTypeRepository.Update(produceType);
             await _produceTypeRepository.SaveAsync();
+
+            string produceTypeFirstLetterToUpperCase = $"{CultureInfo.CurrentCulture.TextInfo.ToTitleCase(produceType.TypeName)}";
+
+
             return new BaseResponse<ProduceTypeDto>
             {
-                Message = "Produce Type Deleted Successfully",
+                Message = $"ProduceType '{produceTypeFirstLetterToUpperCase}' Deleted Successfully",
                 Status = true
             };
 
@@ -122,7 +128,7 @@ namespace Application.Services
         public async Task<BaseResponse<IEnumerable<ProduceTypeDto>>> GetAllAsync()
         {
             var produceType = await _produceTypeRepository.GetAllAsync();
-            if (produceType.Count() == 0)
+            if (!produceType.Any())
             {
                 return new BaseResponse<IEnumerable<ProduceTypeDto>>
                 {
@@ -170,10 +176,10 @@ namespace Application.Services
                     Data = new ProduceTypeDto
                     {
                         Id = produceType.Id,
-                    TypeName = produceType.TypeName,
-                    UnitOfMeasurement = produceType.UnitOfMeasurement,
-                    CostPrice = produceType.CostPrice,
-                    SellingPrice = produceType.SellingPrice,
+                        TypeName = produceType.TypeName,
+                        UnitOfMeasurement = produceType.UnitOfMeasurement,
+                        CostPrice = produceType.CostPrice,
+                        SellingPrice = produceType.SellingPrice,
 
                     }
                 };
@@ -184,6 +190,57 @@ namespace Application.Services
                 Status = false,
             };
         }
+
+
+        public async Task<BaseResponse<ProduceTypeDto>> VerifyProduceTypeAsync(ProduceTypeToBeApprovedRequestModel model)
+        {
+            var produceType = await _farmerProduceTypeRepository.GetAsync(x => x.FarmerId == model.FarmerId && x.Id == model.ProduceTypeId);
+
+            if (produceType == null)
+            {
+                return new BaseResponse<ProduceTypeDto>
+                {
+                    Message = "Not Successful",
+                    Status = false,
+                };
+            }
+
+            produceType.Status = model.Status;
+            _farmerProduceTypeRepository.Update(produceType);
+            await _farmerProduceTypeRepository.SaveAsync();
+            return new BaseResponse<ProduceTypeDto>
+            {
+                Message = "Successful",
+                Status = true,
+            };
+
+        }
+        public async Task<BaseResponse<IEnumerable<ProduceTypeDto>>> GetApprovedProduceTypesForAFarmerAsync(Guid farmerId)
+        {
+            var approvedProduceType = await _farmerProduceTypeRepository.GetAllApprovedProduceTypeOfAFarmer(farmerId);
+
+            if (!approvedProduceType.Any())
+            {
+
+                return new BaseResponse<IEnumerable<ProduceTypeDto>>
+                {
+                    Message = "Nothing Yet Approved",
+                    Status = false,
+                };
+            }
+
+            return new BaseResponse<IEnumerable<ProduceTypeDto>>
+            {
+                Message = "Successful",
+                Status = true,
+                Data = approvedProduceType.Select(x => new ProduceTypeDto{
+                   TypeName = x.TypeName,
+                })
+            };
+
+        }
+
+
 
         public Task<BaseResponse<ProduceTypeDto>> PurchaseAsync(Guid id, PurchaseProduceTypeRequestModel model)
         {
@@ -199,5 +256,70 @@ namespace Application.Services
         {
             throw new NotImplementedException();
         }
+
+        public Task<BaseResponse<List<ProduceTypeDto>>> GetAllAsync(Func<ProduceTypeDto, bool> expression)
+        {
+            throw new NotImplementedException();
+        }
+
+
+
+
+
+
+
+
+
+        //  public async Task<BaseResponse<ProduceTypeDto>> VerifyProduceTypeAsync(ApprovedProduceTypeRequestModel model)
+        // {
+        //     var farmer = await _farmerRepository.GetAsync(model.FarmerId);
+        //     var produceTypes = model.ApprovedProduceTypeModels
+        //         .Select(x => new ApprovedProduceTypeModel
+        //         {
+        //             ProduceTypeId = x.ProduceTypeId,
+        //             Status = x.Status
+        //         }).ToList();
+
+        //     if (produceTypes != null)
+        //     {
+        //         foreach (var produceType in produceTypes)
+        //         {
+        //             var availableProduceType = await _produceTypeRepository.GetAsync(a => a.Id == produceType.ProduceTypeId);
+
+        //             if (availableProduceType == null || farmer == null)
+        //             {
+        //                 return new BaseResponse<ProduceTypeDto>
+        //                 {
+        //                     Message = "Farmer not found or Produce Type does not exist",
+        //                     Status = false,
+        //                 };
+        //             }
+        //             availableProduceType.Status = produceType.Status;
+        //             _produceTypeRepository.Update(availableProduceType);
+        //             await _produceTypeRepository.SaveAsync();
+
+        //             return new BaseResponse<ProduceTypeDto>
+        //             {
+        //                 Message = "Successful",
+        //                 Status = true,
+        //                 Data = new ProduceTypeDto
+        //                 {
+        //                     Id = produceType.ProduceTypeId,
+        //                     Status = produceType.Status
+        //                 }
+        //             };
+        //         }
+        //     }
+        //     return new BaseResponse<ProduceTypeDto>
+        //     {
+        //         Message = " Not Successful",
+        //         Status = false,
+        //     };
+        // }
+
+
+
+
+
     }
 }

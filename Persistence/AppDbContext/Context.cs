@@ -29,6 +29,7 @@ namespace Persistence.AppDbContext
         public DbSet<CartItemForOrder> CartItemForOrders { get; set; }
         public DbSet<CartItem> CartItems { get; set; }
         public DbSet<FarmerProduceType> FarmerProduceTypes { get; set; }
+        public DbSet<Chat> Chats { get; set; }
 
 
         // protected override void OnModelCreating(ModelBuilder modelBuilder)

@@ -190,6 +190,51 @@ namespace Persistence.Migrations
                     b.ToTable("Categories");
                 });
 
+            modelBuilder.Entity("Domain.Entity.Chat", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<Guid>("FarmerId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<Guid>("ManagerId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("Message")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime>("ModifiedOn")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("PostedTime")
+                        .HasColumnType("longtext");
+
+                    b.Property<bool>("Seen")
+                        .HasColumnType("tinyint(1)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FarmerId");
+
+                    b.HasIndex("ManagerId");
+
+                    b.ToTable("Chats");
+                });
+
             modelBuilder.Entity("Domain.Entity.Customer", b =>
                 {
                     b.Property<Guid>("Id")
@@ -290,6 +335,9 @@ namespace Persistence.Migrations
 
                     b.Property<Guid>("ProduceTypeId")
                         .HasColumnType("char(36)");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -817,6 +865,25 @@ namespace Persistence.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("Domain.Entity.Chat", b =>
+                {
+                    b.HasOne("Domain.Entity.Farmer", "Farmer")
+                        .WithMany("Chats")
+                        .HasForeignKey("FarmerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Entity.Manager", "Manager")
+                        .WithMany("Chats")
+                        .HasForeignKey("ManagerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Farmer");
+
+                    b.Navigation("Manager");
+                });
+
             modelBuilder.Entity("Domain.Entity.Customer", b =>
                 {
                     b.HasOne("Domain.Entity.User", "User")
@@ -1000,9 +1067,16 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.Entity.Farmer", b =>
                 {
+                    b.Navigation("Chats");
+
                     b.Navigation("FarmerProduceTypes");
 
                     b.Navigation("Transactions");
+                });
+
+            modelBuilder.Entity("Domain.Entity.Manager", b =>
+                {
+                    b.Navigation("Chats");
                 });
 
             modelBuilder.Entity("Domain.Entity.Order", b =>

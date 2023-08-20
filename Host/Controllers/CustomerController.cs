@@ -54,7 +54,7 @@ namespace Host.Controllers
             return Ok(customer);
         }
 
-        // [Authorize(Roles = "admin manager")]
+        // [Authorize(Roles = "admin")]
         [HttpDelete("DeleteCustomer/{id}")]
         public async Task<IActionResult> DeleteAsync([FromRoute] Guid id)
         {
