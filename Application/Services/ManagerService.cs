@@ -181,7 +181,7 @@ namespace Application.Services
                 Status = true,
                 Data = managers.Select(m => new ManagerDto
                 {
-                    Id = m.Id,
+                    // Id = m.Id,
                     RegistrationNumber = m.RegistrationNumber,
                     FirstName = m.User.FirstName,
                     LastName = m.User.LastName,

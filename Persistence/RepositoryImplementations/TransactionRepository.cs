@@ -18,9 +18,14 @@ namespace Persistence.RepositoryImplementations
             _context = context;
         }
 
+        public async Task<bool> CreateTransactionAsync(Transaction transaction)
+        {
+           await _context.AddAsync(transaction);
+            return true;
+        }
         public async Task<bool> CreateTransactionsAsync(List<Transaction> transactions)
         {
-            _context.AddRangeAsync(transactions);
+           await _context.AddRangeAsync(transactions);
             return true;
         }
 
@@ -28,8 +33,8 @@ namespace Persistence.RepositoryImplementations
         {
             return await _context.Transactions
             .Include(a => a.Farmer)
-            .Include(a => a.TransactionProduceTypes)
-            .ThenInclude(a => a.ProduceType)
+            // .Include(a => a.TransactionProduceTypes)
+            // .ThenInclude(a => a.ProduceType)
             .SingleOrDefaultAsync(a => a.Id == id && !a.IsDeleted);
         }
 
@@ -38,8 +43,8 @@ namespace Persistence.RepositoryImplementations
             return await _context.Transactions
             .Where(a => !a.IsDeleted)
             .Include(a => a.Farmer)
-            .Include(a => a.TransactionProduceTypes)
-            .ThenInclude(a => a.ProduceType)
+            // .Include(a => a.TransactionProduceTypes)
+            // .ThenInclude(a => a.ProduceType)
             .SingleOrDefaultAsync(expression);
         }
 
@@ -48,8 +53,8 @@ namespace Persistence.RepositoryImplementations
             return await _context.Transactions.AsNoTracking()
            .Where(a => !a.IsDeleted)
             .Include(a => a.Farmer)
-            .Include(a => a.TransactionProduceTypes)
-            .ThenInclude(a => a.ProduceType)
+            // .Include(a => a.TransactionProduceTypes)
+            // .ThenInclude(a => a.ProduceType)
            .ToListAsync();
         }
 
@@ -58,8 +63,8 @@ namespace Persistence.RepositoryImplementations
             return await _context.Transactions
             .Where(a => ids.Contains(a.Id) && !a.IsDeleted)
             .Include(a => a.Farmer)
-            .Include(a => a.TransactionProduceTypes)
-            .ThenInclude(a => a.ProduceType)
+            // .Include(a => a.TransactionProduceTypes)
+            // .ThenInclude(a => a.ProduceType)
             .ToListAsync();
         }
 
@@ -68,15 +73,15 @@ namespace Persistence.RepositoryImplementations
             return await _context.Transactions
             .Where(expression)
             .Include(a => a.Farmer)
-            .Include(a => a.TransactionProduceTypes)
-            .ThenInclude(a => a.ProduceType)
+            // .Include(a => a.TransactionProduceTypes)
+            // .ThenInclude(a => a.ProduceType)
             .ToListAsync();
         }
 
         public async Task<string> GenerateTransactionRegNumAsync()
         {
             var count = await GetAllAsync();
-            return "EP/TRA/00" + $"{count.Count() + 1}";
+            return "EP/TRA/" + $"{count.Count() + 1}";
         }
 
     }

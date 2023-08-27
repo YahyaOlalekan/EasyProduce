@@ -22,7 +22,7 @@ namespace Persistence.RepositoryImplementations
         {
             return await _context.ProduceTypes
             .Where(a => !a.IsDeleted)
-            .Include(a => a.TransactionProduceTypes)
+            // .Include(a => a.TransactionProduceTypes)
             // .Include(a => a.Produce)
             // .ThenInclude(a => a.Category)
             .SingleOrDefaultAsync(x => x.Id == id);
@@ -33,7 +33,7 @@ namespace Persistence.RepositoryImplementations
         {
             return await _context.ProduceTypes
             .Where(a => !a.IsDeleted)
-            .Include(a => a.TransactionProduceTypes)
+            // .Include(a => a.TransactionProduceTypes)
             .SingleOrDefaultAsync(expression);
         }
         // public async Task<ProduceType> GetMatchigAsync(Expression<Func<ProduceType, bool>> expression)
@@ -58,7 +58,7 @@ namespace Persistence.RepositoryImplementations
         public async Task<IEnumerable<ProduceType>> GetSelectedAsync(Expression<Func<ProduceType, bool>> expression)
         {
             return await _context.ProduceTypes
-            .Include(a => a.TransactionProduceTypes)
+            // .Include(a => a.TransactionProduceTypes)
             .Where(expression)
             .ToListAsync();
         }
@@ -66,7 +66,7 @@ namespace Persistence.RepositoryImplementations
         public async Task<IEnumerable<ProduceType>> GetSelectedAsync(List<Guid> ids)
         {
             return await _context.ProduceTypes
-            .Include(a => a.TransactionProduceTypes)
+            // .Include(a => a.TransactionProduceTypes)
             .Where(a => ids.Contains(a.Id) && !a.IsDeleted)
             .ToListAsync();
         }

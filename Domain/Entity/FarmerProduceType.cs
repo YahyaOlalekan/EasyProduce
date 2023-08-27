@@ -10,5 +10,7 @@ public class FarmerProduceType : BaseEntity
     public Guid ProduceTypeId {get;set;}
     public ProduceType ProduceType {get;set;}
     public Status Status { get; set; }
+    //  public TransactionStatus TransactionStatus { get; set; }
+
 
 }

@@ -71,9 +71,9 @@ builder.Services.AddScoped<IManagerRepository, ManagerRepository>();
 builder.Services.AddScoped<IManagerService, ManagerService>();
 
 builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
-//builder.Services.AddScoped<ITransactionService, TransactionService>();
+builder.Services.AddScoped<ITransactionService, TransactionService>();
 
-builder.Services.AddScoped<ITransactionProduceTypeRepository, TransactionProduceTypeRepository>();
+// builder.Services.AddScoped<ITransactionProduceTypeRepository, TransactionProduceTypeRepository>();
 // builder.Services.AddScoped<ITransactionProduceService, TransactionProduceService>();
 
 builder.Services.AddScoped<IProduceRepository, ProduceRepository>();
@@ -119,6 +119,9 @@ builder.Services.AddScoped<IMailService, MailService>();
 
 builder.Services.AddScoped<IChatRepository, ChatRepository>();
 builder.Services.AddScoped<IChatService, ChatService>();
+
+builder.Services.AddScoped<IRequestRepository, RequestRepository>();
+builder.Services.AddScoped<IRequestService, RequestService>();
 
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 #endregion

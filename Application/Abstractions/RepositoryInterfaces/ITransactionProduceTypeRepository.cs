@@ -6,13 +6,13 @@ using Domain.Entity;
 
 namespace Application.Abstractions.RepositoryInterfaces
 {
-    public interface ITransactionProduceTypeRepository : IBaseRepository<TransactionProduceType>
-    {
-        Task<bool> CreateTransactionProduceTypeAsync(List<TransactionProduceType> transactions);
-        Task<TransactionProduceType> GetAsync(Guid id);
-        Task<TransactionProduceType> GetAsync(Expression<Func<TransactionProduceType, bool>> expression);
-        Task<IEnumerable<TransactionProduceType>> GetSelectedAsync(List<Guid> ids);
-        Task<IEnumerable<TransactionProduceType>> GetSelectedAsync(Expression<Func<TransactionProduceType, bool>> expression);
-        Task<IEnumerable<TransactionProduceType>> GetAllAsync();
-    }
+    // public interface ITransactionProduceTypeRepository : IBaseRepository<TransactionProduceType>
+    // {
+    //     Task<bool> CreateTransactionProduceTypeAsync(List<TransactionProduceType> transactions);
+    //     Task<TransactionProduceType> GetAsync(Guid id);
+    //     Task<TransactionProduceType> GetAsync(Expression<Func<TransactionProduceType, bool>> expression);
+    //     Task<IEnumerable<TransactionProduceType>> GetSelectedAsync(List<Guid> ids);
+    //     Task<IEnumerable<TransactionProduceType>> GetSelectedAsync(Expression<Func<TransactionProduceType, bool>> expression);
+    //     Task<IEnumerable<TransactionProduceType>> GetAllAsync();
+    // }
 }

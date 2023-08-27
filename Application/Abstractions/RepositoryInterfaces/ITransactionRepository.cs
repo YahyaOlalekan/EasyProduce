@@ -8,6 +8,7 @@ namespace Application.Abstractions.RepositoryInterfaces
 {
     public interface ITransactionRepository : IBaseRepository<Transaction>
     {
+        Task<bool> CreateTransactionAsync(Transaction transaction);
         Task<bool> CreateTransactionsAsync(List<Transaction> transactions);
         Task<Transaction> GetAsync(Guid id);
         Task<Transaction> GetAsync(Expression<Func<Transaction, bool>> expression);

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using Domain.Entity;
 using Domain.Enum;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Internal;
@@ -23,6 +24,8 @@ namespace Application.Dtos
         public List<TransactionDto> Transactions { get; set; }
         public string Token { get; set; }
         public Gender Gender { get; set; }
+         public List<Chat> Chats {get;set;} 
+          
     }
     public class CreateManagerRequestModel
     {

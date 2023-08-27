@@ -151,7 +151,7 @@ namespace Application.Services
                     Status = true,
                     Data = getUsers.Select(g => new UserDto
                     {
-                        Id = g.Id,
+                        // Id = g.Id,
                         FirstName = g.FirstName,
                         LastName = g.LastName,
                         Email = g.Email,

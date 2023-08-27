@@ -75,17 +75,6 @@ namespace Host.Controllers
             return Ok(farmers);
         }
 
-        [HttpGet("GetPendingFarmers")]
-        public async Task<IActionResult> PendingFarmersAsync()
-        {
-            var result = await _farmerService.GetPendingFarmersAsync();
-            if (result == null)
-            {
-                return NotFound(result);
-            }
-            return Ok(result);
-
-        }
 
 
         [HttpPost("VerifyFarmer")]
@@ -102,32 +91,30 @@ namespace Host.Controllers
 
         }
 
-        [HttpGet("ApprovedFarmers")]
-        public async Task<IActionResult> ApprovedAsync()
+
+        [HttpPost("GetFarmersByStatus")]
+        public async Task<IActionResult> GetFarmersByStatusAsync(FarmerStatusRequestModel model)
         {
-            var result = await _farmerService.GetApprovedFarmersAsync();
+            var result = await _farmerService.GetFarmersByStatusAsync(model);
             if (result == null)
             {
-                return BadRequest(result);
+                return NotFound(result);
             }
-            return Ok(result);
-
-        }
-
-        [HttpGet("DeclinedFarmers")]
-        public async Task<IActionResult> DeclinedAsync()
-        {
-            var result = await _farmerService.GetDeclinedFarmersAsync();
-            if (result == null)
-            {
-                NotFound(result);
-            }
-
             return Ok(result);
         }
 
 
+        // [Authorize(Roles = "admin manager")]
+        [HttpGet("GetFarmerAccountDetails{id}")]
+        public async Task<IActionResult> GetFarmerAccountDetailsByIdAsync([FromRoute] Guid id)
+        {
+            var farmer = await _farmerService.GetFarmerAcountDetailsByIdAsync(id);
+            if (!farmer.Status)
+            {
+                return BadRequest(farmer);
+            }
+            return Ok(farmer);
+        }
 
-        
     }
 }

@@ -48,9 +48,9 @@ namespace Application.Services
         }
 
 
-public async Task<ChatsResponseModel> GetChatFromASenderAsync(Guid managerId, Guid farmerId)
+        public async Task<ChatsResponseModel> GetChatFromASenderAsync(Guid managerId, Guid farmerId)
         {
-            var manager = await _managerRepository.GetAsync(managerId);
+            var manager = await _managerRepository.GetManagerByManagerIdAsync(managerId);
             var farmer = await _farmerRepository.GetAsync(farmerId);
             if (manager == null || farmer == null)
             {
@@ -99,61 +99,65 @@ public async Task<ChatsResponseModel> GetChatFromASenderAsync(Guid managerId, Gu
                 }).ToList()
             };
         }
-       
-       
-        public async Task<ChatsResponseModel> GetAllUnSeenChatAsync(Guid farmerId)
-        {
-            var farmer = await _farmerRepository.GetAsync(farmerId);
-            if (farmer == null)
-            {
-                return new ChatsResponseModel
-                {
-                    Message = "Opps Something Bad went wrong",
-                    Status = false
-                };
-            }
-            var unseen = await _chatRepository.GetAllUnSeenChatAsync(farmer.Id);
-           
-            return new ChatsResponseModel
-            {
-                Message = "Successful",
-                Status = true,
-                Data = unseen.Select(x => new ChatDto
-                {
-                    ManagerId = x.Manager.UserId,
-                    
-                }).ToList()
-            };
-        }
 
 
 
 
-        public async Task<BaseResponse<ChatDto>> MarkAllChatsAsReadAsync(Guid managerId, Guid farmerId)
-        {
-            var manager = await _managerRepository.GetAsync(managerId);
-            var farmer = await _farmerRepository.GetAsync(farmerId);
-            if (manager == null || farmer == null)
-            {
-                return new BaseResponse<ChatDto>
-                {
-                    Message = "Opps Something Bad went wrong",
-                    Status = false
-                };
-            }
 
-            var chats = await _chatRepository.GetAllUnSeenChatAsync(manager.Id, farmer.Id);
-            foreach (var chat in chats)
-            {
-                chat.Seen = true;
-                _chatRepository.Update(chat);
-            }
-            return new BaseResponse<ChatDto>
-            {
-                Message = "Messages marked as seen",
-                Status = true
-            };
-        }
+
+        // public async Task<ChatsResponseModel> GetAllUnSeenChatAsync(Guid farmerId)
+        // {
+        //     var farmer = await _farmerRepository.GetAsync(farmerId);
+        //     if (farmer == null)
+        //     {
+        //         return new ChatsResponseModel
+        //         {
+        //             Message = "Opps Something Bad went wrong",
+        //             Status = false
+        //         };
+        //     }
+        //     var unseen = await _chatRepository.GetAllUnSeenChatAsync(farmer.Id);
+
+        //     return new ChatsResponseModel
+        //     {
+        //         Message = "Successful",
+        //         Status = true,
+        //         Data = unseen.Select(x => new ChatDto
+        //         {
+        //             ManagerId = x.Manager.UserId,
+
+        //         }).ToList()
+        //     };
+        // }
+
+
+
+
+        // public async Task<BaseResponse<ChatDto>> MarkAllChatsAsReadAsync(Guid managerId, Guid farmerId)
+        // {
+        //     var manager = await _managerRepository.GetAsync(managerId);
+        //     var farmer = await _farmerRepository.GetAsync(farmerId);
+        //     if (manager == null || farmer == null)
+        //     {
+        //         return new BaseResponse<ChatDto>
+        //         {
+        //             Message = "Opps Something Bad went wrong",
+        //             Status = false
+        //         };
+        //     }
+
+        //     var chats = await _chatRepository.GetAllUnSeenChatAsync(manager.Id, farmer.Id);
+        //     foreach (var chat in chats)
+        //     {
+        //         chat.Seen = true;
+        //         _chatRepository.Update(chat);
+        //     }
+        //     return new BaseResponse<ChatDto>
+        //     {
+        //         Message = "Messages marked as seen",
+        //         Status = true
+        //     };
+        // }
 
 
     }

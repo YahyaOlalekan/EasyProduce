@@ -8,7 +8,7 @@ namespace Application.Abstractions.ServiceInterfaces
     {
         Task<BaseResponse<ChatDto>> CreateChat(CreateChatRequestModel model, Guid id, Guid farmerId);
         Task<ChatsResponseModel> GetChatFromASenderAsync(Guid managerId, Guid farmerId);
-        Task<BaseResponse<ChatDto>> MarkAllChatsAsReadAsync(Guid managerId, Guid farmerId);
-        Task<ChatsResponseModel> GetAllUnSeenChatAsync(Guid farmerId);
+        // Task<BaseResponse<ChatDto>> MarkAllChatsAsReadAsync(Guid managerId, Guid farmerId);
+        // Task<ChatsResponseModel> GetAllUnSeenChatAsync(Guid farmerId);
     }
 }

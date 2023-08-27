@@ -90,16 +90,6 @@ namespace Application.Services
                 Status = true,
                 Data = null,
 
-                // Data = new CustomerDto
-                // {
-                //     Id = customer.Id,
-                //     RegistrationNumber = customer.RegistrationNumber,
-                //     FirstName = customer.User.FirstName,
-                //     LastName = customer.User.LastName,
-                //     Email = customer.User.Email,
-                //     PhoneNumber = customer.User.PhoneNumber,
-                //     ProfilePicture = customer.User.ProfilePicture,
-                // }
             };
         }
 
@@ -178,7 +168,7 @@ namespace Application.Services
                 Status = true,
                 Data = customers.Select(m => new CustomerDto
                 {
-                    Id = m.Id,
+                    // Id = m.Id,
                     RegistrationNumber = m.RegistrationNumber,
                     FirstName = m.User.FirstName,
                     LastName = m.User.LastName,

@@ -4,9 +4,8 @@ namespace Domain.Enum
 {
     public enum TransactionStatus
     {
-        [Display(Name = "Awaiting Approval")]
-        Pending,
+        Initialized = 1,
         Approved,
-        Rejected,
+        Paid,
     }
 }

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using Domain.Entity;
 using Domain.Enum;
 
 namespace Application.Dtos
@@ -13,14 +14,16 @@ namespace Application.Dtos
         public Guid ProduceId { get; set; }
         public string ProduceName { get; set; }
         public string NameOfCategory { get; set; }
-        public double QuantityToBuy { get; set; }
+        public double Quantity { get; set; }
         public decimal CostPrice { get; set; }
         public decimal SellingPrice { get; set; }
         public string UnitOfMeasurement { get; set; }
         public Status Status { get; set; }
-        public List<TransactionProduceTypeDto> TransactionProduceTypes { get; set; }
+         public TransactionStatus TransactionStatus { get; set; }
         public Guid CategoryId { get; set; }
         public string DescriptionOfProduce { get; set; }
+        public List<TransactionProduceTypeDto> TransactionProduceTypes { get; set; }
+        public List<FarmerProduceType> FarmerProduceTypes {get;set;} 
 
     }
     public class CreateProduceTypeRequestModel
@@ -79,9 +82,30 @@ namespace Application.Dtos
         [Display(Name = "Produce Type Name")]
         public Guid ProduceTypeId { get; set; }
         public Guid FarmerId { get; set; }
-        public Status Status {get; set; }   
+        public Status Status { get; set; }
     }
-   
+
+
+    // public class ProduceTypeDetailsToBeSoldByTheFarmerRequestModel
+    // {
+    //     [Display(Name = "Produce Type Name")]
+    //     public Guid Id { get; set; }
+        
+    //     // [Display(Name = "Produce Name")]
+    //     // public Guid ProduceId { get; set; }
+
+    //     [Required]
+    //     [Display(Name = "Selling Price")]
+    //     public decimal Price { get; set; }
+
+    //     [Required]
+    //     [Display(Name = "Available Quantity")]
+    //     public double Quantity { get; set; }
+
+    //     [Required]
+    //     [Display(Name = "Unit Of Measurement")]
+    //     public string UnitOfMeasurement { get; set; }
+    // }
 
     public class AddToApprovedProduceTypeRequestModel
     {

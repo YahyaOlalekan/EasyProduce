@@ -9,6 +9,7 @@ namespace Domain.Entity
         public Guid UserId { get; set; }
         public User User { get; set; }
         public ICollection<Chat> Chats {get;set;} = new HashSet<Chat>();
-  
+        public ICollection<Transaction> Transactions {get;set;} = new HashSet<Transaction>();
+          
     }
 }

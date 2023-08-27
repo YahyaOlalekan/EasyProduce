@@ -23,7 +23,7 @@ namespace Persistence.RepositoryImplementations
             .Include(x => x.Farmer)
             .ThenInclude(x => x.User)
             .Where(x => x.ManagerId == managerId && x.FarmerId == farmerId || x.ManagerId == farmerId && x.FarmerId == managerId)
-            .OrderBy(x => x.DateCreated)
+            // .OrderBy(x => x.DateCreated)
             .ToListAsync();
         }
         public async Task<List<Chat>> GetAllUnSeenChatAsync(Guid farmerId)

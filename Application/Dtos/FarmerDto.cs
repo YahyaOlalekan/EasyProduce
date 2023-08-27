@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using Domain.Entity;
 using Domain.Enum;
 using Microsoft.AspNetCore.Http;
 
@@ -23,15 +24,21 @@ namespace Application.Dtos
         public Guid UserId { get; set; }
         public string Role { get; set; }
         public Guid TransactionId { get; set; }
-
         public List<TransactionDto> Transactions { get; set; }
+
+        public string BankName { get; set; }
+        public string AccountName { get; set; }
+        public int AccountNumber { get; set; }
+
+        public ICollection<Chat> Chats { get; set; } = new HashSet<Chat>();
+        // public ICollection<FarmerProduceType> FarmerProduceTypes { get; set; } = new HashSet<FarmerProduceType>();
 
     }
 
 
     public class CreateFarmerRequestModel
     {
-       public List<string> produceTypes {get;set;}
+        public List<string> ProduceTypes { get; set; }
 
         [Required, MaxLength(20), MinLength(3)]
         [Display(Name = "First Name")]
@@ -67,7 +74,9 @@ namespace Application.Dtos
 
         public string? FarmName { get; set; }
 
-
+        public string BankName { get; set; }
+        public string AccountName { get; set; }
+        public int AccountNumber { get; set; }
 
         [Display(Name = "Profile Picture"), Required(ErrorMessage = "Please select file.")]
         // [RegularExpression(@"([a-zA-Z0-9\s_\\.\-:])+(.png|.jpg|.gif|.jpeg)$", ErrorMessage = "Only Image file allowed.")]
@@ -75,8 +84,8 @@ namespace Application.Dtos
 
 
     }
-    
-   
+
+
     public class UpdateFarmerRequestModel
     {
         // [MaxLength(14), MinLength(11)]
@@ -97,6 +106,10 @@ namespace Application.Dtos
     public class ApproveFarmerDto
     {
         public Guid Id { get; set; }
+        public FarmerRegStatus Status { get; set; }
+    }
+    public class FarmerStatusRequestModel
+    {
         public FarmerRegStatus Status { get; set; }
     }
 }

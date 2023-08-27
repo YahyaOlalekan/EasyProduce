@@ -96,6 +96,10 @@ namespace Application.Services
         }
 
 
+       
+
+
+
         public async Task<BaseResponse<ProduceTypeDto>> GetAsync(Guid id)
         {
             var produceType = await _produceTypeRepository.GetAsync(id);
@@ -142,7 +146,7 @@ namespace Application.Services
                 Status = true,
                 Data = produceType.Select(c => new ProduceTypeDto
                 {
-                    Id = c.Id,
+                    // Id = c.Id,
                     TypeName = c.TypeName,
                     UnitOfMeasurement = c.UnitOfMeasurement,
                     CostPrice = c.CostPrice,
@@ -233,8 +237,9 @@ namespace Application.Services
             {
                 Message = "Successful",
                 Status = true,
-                Data = approvedProduceType.Select(x => new ProduceTypeDto{
-                   TypeName = x.TypeName,
+                Data = approvedProduceType.Select(x => new ProduceTypeDto
+                {
+                    TypeName = x.TypeName,
                 })
             };
 

@@ -46,13 +46,6 @@ namespace Application.Services
                     Message = $"Category '{categoryFirstLetterToUpperCase}' Successfully Created",
                     Status = true,
                     Data = null,
-
-                    // Data = new CategoryDto
-                    // {
-                    //     Id = category.Id,
-                    //     NameOfCategory = category.NameOfCategory,
-                    //     DescriptionOfCategory = category.DescriptionOfCategory
-                    // }
                 };
             }
 
@@ -138,7 +131,7 @@ namespace Application.Services
                 Status = true,
                 Data = category.Select(c => new CategoryDto
                 {
-                    Id = c.Id,
+                    // Id = c.Id,
                     NameOfCategory = c.NameOfCategory,
                     DescriptionOfCategory = c.DescriptionOfCategory
                 })

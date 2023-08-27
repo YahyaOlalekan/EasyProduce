@@ -22,7 +22,7 @@ namespace Host.Controllers
             _config = config;
         }
         [HttpPost("CreateChat/{id}/{farmerId}")]
-        public async Task<IActionResult> CreateChat([FromBody]CreateChatRequestModel model, [FromRoute]Guid id, [FromRoute]Guid farmerId)
+        public async Task<IActionResult> CreateChat([FromBody] CreateChatRequestModel model, [FromRoute] Guid id, [FromRoute] Guid farmerId)
         {
             // string token = Request.Headers["Authorization"];
             // string extractedToken = token.Substring(7);
@@ -38,35 +38,38 @@ namespace Host.Controllers
             }
             return Ok(chat);
         }
+
+
         [HttpGet("Get/{managerId}/{farmerId}")]
-        public async Task<IActionResult> GetChatFromASenderAsync([FromRoute]Guid managerId,[FromRoute] Guid farmerId)
+        public async Task<IActionResult> GetChatFromASenderAsync([FromRoute] Guid managerId, [FromRoute] Guid farmerId)
         {
-             var chat = await _chatService.GetChatFromASenderAsync(managerId, farmerId);
+            var chat = await _chatService.GetChatFromASenderAsync(managerId, farmerId);
             if (!chat.Status)
             {
                 return BadRequest(chat);
             }
             return Ok(chat);
         }
-        [HttpPut("MarkAllAsRead/{managerId}/{farmerId}")]
-        public async Task<IActionResult> MarkAllAsRead([FromRoute]Guid managerId,[FromRoute] Guid farmerId)
-        {
-            var response = await _chatService.MarkAllChatsAsReadAsync(managerId,farmerId);
-            if (!response.Status)
-            {
-                return BadRequest(response);
-            }
-            return Ok(response);
-        }
-        [HttpGet("GetAllUnSeenChatAsync/{farmerId}")]
-        public async Task<IActionResult> GetAllUnseenChats([FromRoute] Guid farmerId)
-        {
-            var response = await _chatService.GetAllUnSeenChatAsync(farmerId);
-             if (!response.Status)
-            {
-                return BadRequest(response);
-            }
-            return Ok(response);
-        }
+
+        // [HttpPut("MarkAllAsRead/{managerId}/{farmerId}")]
+        // public async Task<IActionResult> MarkAllAsRead([FromRoute]Guid managerId,[FromRoute] Guid farmerId)
+        // {
+        //     var response = await _chatService.MarkAllChatsAsReadAsync(managerId,farmerId);
+        //     if (!response.Status)
+        //     {
+        //         return BadRequest(response);
+        //     }
+        //     return Ok(response);
+        // }
+        // [HttpGet("GetAllUnSeenChatAsync/{farmerId}")]
+        // public async Task<IActionResult> GetAllUnseenChats([FromRoute] Guid farmerId)
+        // {
+        //     var response = await _chatService.GetAllUnSeenChatAsync(farmerId);
+        //      if (!response.Status)
+        //     {
+        //         return BadRequest(response);
+        //     }
+        //     return Ok(response);
+        // }
     }
 }

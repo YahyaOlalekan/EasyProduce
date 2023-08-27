@@ -143,7 +143,7 @@ namespace Application.Services
                 Status = true,
                 Data = produce.Select(c => new ProduceDto
                 {
-                    Id = c.Id,
+                    // Id = c.Id,
                     ProduceName = c.ProduceName,
                     DescriptionOfProduce = c.DescriptionOfProduce
                 })
