@@ -80,7 +80,7 @@ namespace Application.Services
             var farmerProduceType = await _farmerProduceTypeRepository.GetAsync(x => x.FarmerId == farmerId && x.ProduceTypeId == model.ProduceTypeId && x.Status != Domain.Enum.Status.Approved);
             if (farmerProduceType == null)
             {
-                return $"Sorry, '{farmerProduceType.ProduceType.TypeName}' produce Type has never been approved for you before!";
+                return "Sorry, this produce Type has never been approved for you before!";
             }
 
             var request = new Request

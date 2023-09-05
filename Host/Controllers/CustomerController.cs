@@ -43,7 +43,7 @@ namespace Host.Controllers
         }
 
         // [Authorize(Roles = "admin manager")]
-        [HttpGet("GetCustomerById{id}")]
+        [HttpGet("GetCustomerById/{id}")]
         public async Task<IActionResult> GetAsync([FromRoute] Guid id)
         {
             var customer = await _customerService.GetAsync(id);

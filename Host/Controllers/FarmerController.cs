@@ -20,6 +20,24 @@ namespace Host.Controllers
         [HttpPost("RegisterFarmer")]
         public async Task<IActionResult> RegisterAsync([FromForm] CreateFarmerRequestModel model)
         {
+           Console.WriteLine(model.AccountName);
+           Console.WriteLine(model.AccountNumber);
+           Console.WriteLine(model.LastName);
+           Console.WriteLine(model.FirstName);
+           Console.WriteLine(model.FarmName);
+           Console.WriteLine(model.Gender);
+           Console.WriteLine(model.Address);
+           Console.WriteLine(model.BankName);
+           Console.WriteLine(model.Email);
+           Console.WriteLine(model.Password);
+           Console.WriteLine(model.PhoneNumber);
+           Console.WriteLine(model.ProfilePicture);
+           Console.WriteLine(model.ConfirmPassword);
+           foreach (var item in model.ProduceTypes)
+           {
+             Console.WriteLine(item);
+           }
+          
             var farmer = await _farmerService.RegisterFarmerAsync(model);
             if (!farmer.Status)
             {

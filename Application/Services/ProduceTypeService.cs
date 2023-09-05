@@ -146,7 +146,7 @@ namespace Application.Services
                 Status = true,
                 Data = produceType.Select(c => new ProduceTypeDto
                 {
-                    // Id = c.Id,
+                     Id = c.Id,
                     TypeName = c.TypeName,
                     UnitOfMeasurement = c.UnitOfMeasurement,
                     CostPrice = c.CostPrice,

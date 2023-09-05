@@ -79,6 +79,15 @@ namespace Application.Dtos
 
         // public string TransactionNum { get; set; }
     }
+    public class PriceConfirmRequestModel
+    {
+        [Display(Name = "Produce Type Name")]
+        public Guid ProduceTypeId { get; set; }
+
+        [Required]
+        [Display(Name = "Selling Price")]
+        public decimal Price { get; set; }
+    }
 
 
     public class UpdateTransactionRequestModel

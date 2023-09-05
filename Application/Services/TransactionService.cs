@@ -34,11 +34,11 @@ namespace Application.Services
                 return "Sorry, You are yet to be approved as a produce type Seller";
             }
 
-         var farmerProduceType = await _farmerProduceTypeRepository.GetAsync(x => x.FarmerId == farmerId && x.ProduceTypeId == model.ProduceTypeId && x.Status == Domain.Enum.Status.Approved); 
-         if(farmerProduceType == null)
-         {
-            return "Sorry, this produce Type is not approved for you";
-         }
+            var farmerProduceType = await _farmerProduceTypeRepository.GetAsync(x => x.FarmerId == farmerId && x.ProduceTypeId == model.ProduceTypeId && x.Status == Domain.Enum.Status.Approved);
+            if (farmerProduceType == null)
+            {
+                return "Sorry, this produce Type is not approved for you";
+            }
 
             var transaction = new Transaction
             {
@@ -55,14 +55,125 @@ namespace Application.Services
             await _transactionRepository.CreateTransactionAsync(transaction);
             await _transactionRepository.SaveAsync();
 
-
             return "Successful";
-
         }
 
 
+        // public async Task<string> PriceConfirmAsync(Guid farmerId, PriceConfirmRequestModel model)
+        // {
+        //     var farmer = await _farmerRepository.GetAsync(f => f.Id == farmerId);
+        //     if (farmer == null)
+        //     {
+        //         return "Farmer Not Found!";
+        //     }
+
+        //     if (farmer.FarmerRegStatus != Domain.Enum.FarmerRegStatus.Approved)
+        //     {
+        //         return "Sorry, You are yet to be approved as a produce type Seller";
+        //     }
+
+        //     var farmerProduceType = await _farmerProduceTypeRepository.GetAsync(x => x.FarmerId == farmerId && x.ProduceTypeId == model.ProduceTypeId && x.Status == Domain.Enum.Status.Approved);
+        //     if (farmerProduceType == null)
+        //     {
+        //         return "Sorry, this produce Type is not approved for you";
+        //     }
 
 
+
+        // }
+
+
+
+
+        //  public async Task<BaseResponse<string>> VerifySellingOfProduceAsync(ApproveFarmerDto model)
+        // {
+        //     var farmer = await _farmerRepository.GetAsync(model.Id);
+
+        //     if (farmer == null)
+        //     {
+        //         return new BaseResponse<string>
+        //         {
+        //             Message = "Farmer not found",
+        //             Status = false,
+        //         };
+        //     }
+
+        //     farmer.FarmerRegStatus = model.Status;
+        //     _farmerRepository.Update(farmer);
+        //     await _farmerRepository.SaveAsync();
+
+        //     return new BaseResponse<string>
+        //     {
+        //         Message = "Successful",
+        //         Status = true
+        //     };
+        // }
+
+
+        // public async Task<BaseResponse<IEnumerable<FarmerDto>>> GetFarmersByStatusAsync(FarmerStatusRequestModel model)
+        // {
+        //     var farmers = await _farmerRepository.GetSelectedAsync(f => f.FarmerRegStatus == model.Status && !f.IsDeleted);
+
+        //     if (!farmers.Any())
+        //     {
+        //         return new BaseResponse<IEnumerable<FarmerDto>>
+        //         {
+        //             Message = "Farmer not found",
+        //             Status = false,
+        //         };
+        //     }
+
+        //     return new BaseResponse<IEnumerable<FarmerDto>>
+        //     {
+        //         Message = "Successful",
+        //         Status = true,
+        //         Data = farmers.Select(f => new FarmerDto
+        //         {
+        //             Id = f.Id,
+        //             RegistrationNumber = f.RegistrationNumber,
+        //             FirstName = f.User.FirstName,
+        //             LastName = f.User.LastName,
+        //             Email = f.User.Email,
+        //             PhoneNumber = f.User.PhoneNumber,
+        //             Address = f.User.Address,
+        //             ProfilePicture = f.User.ProfilePicture,
+        //         })
+        //     };
+        // }
+
+
+
+        //  public async Task<BaseResponse<IEnumerable<FarmerDto>>> GetAllFarmersAsync()
+        // {
+        //     var farmers = await _farmerRepository.GetAllAsync();
+        //     if (!farmers.Any())
+        //     {
+        //         return new BaseResponse<IEnumerable<FarmerDto>>
+        //         {
+        //             Message = "No farmer found",
+        //             Status = false
+        //         };
+        //     }
+
+        //     return new BaseResponse<IEnumerable<FarmerDto>>
+        //     {
+        //         Message = "Successful",
+        //         Status = true,
+        //         Data = farmers.Select(m => new FarmerDto
+        //         {
+        //             // Id = m.Id,
+        //             RegistrationNumber = m.RegistrationNumber,
+        //             FirstName = m.User.FirstName,
+        //             LastName = m.User.LastName,
+        //             Email = m.User.Email,
+        //             PhoneNumber = m.User.PhoneNumber,
+        //             Address = m.User.Address,
+        //             FarmName = m.FarmName,
+
+        //             // ProfilePicture = m.User.ProfilePicture,
+        //         })
+        //     };
+        // }
 
 
         //  public async Task<BaseResponse<FarmerProduceTypeDto>> ProduceTypeDetailsToBeSoldByTheFarmer(Guid farmerId, ProduceTypeDetailsToBeSoldByTheFarmerRequestModel model)
@@ -116,23 +227,23 @@ namespace Application.Services
 
 
 
-                // var farmerProduceType = await _farmerProduceTypeRepository.GetAsync(x => x.FarmerId == farmerId && x.ProduceTypeId == model.ProduceTypeId && x.Status == Domain.Enum.Status.Approved);
+        // var farmerProduceType = await _farmerProduceTypeRepository.GetAsync(x => x.FarmerId == farmerId && x.ProduceTypeId == model.ProduceTypeId && x.Status == Domain.Enum.Status.Approved);
 
-            // if (farmerProduceType == null)
-            // {
-            //     return "Sorry, the produce type is yet to be approved";
-            // }
+        // if (farmerProduceType == null)
+        // {
+        //     return "Sorry, the produce type is yet to be approved";
+        // }
 
-            // farmerProduceType.ProduceType.ProduceId = model.ProduceTypeId;
-            // farmerProduceType.ProduceType.CostPrice = model.Price;
-            // farmerProduceType.ProduceType.Quantity = model.Quantity;
-            // farmerProduceType.ProduceType.UnitOfMeasurement = model.UnitOfMeasurement;
-            // // farmerProduceType.ProduceType.TransactionStatus = model.TransactionStatus.;
-            // // farmerProduceType.ProduceType.CreatedBy = farmer.User.FirstName;
-            // // farmerProduceType.ProduceType.DateCreated = DateTime.Now;
+        // farmerProduceType.ProduceType.ProduceId = model.ProduceTypeId;
+        // farmerProduceType.ProduceType.CostPrice = model.Price;
+        // farmerProduceType.ProduceType.Quantity = model.Quantity;
+        // farmerProduceType.ProduceType.UnitOfMeasurement = model.UnitOfMeasurement;
+        // // farmerProduceType.ProduceType.TransactionStatus = model.TransactionStatus.;
+        // // farmerProduceType.ProduceType.CreatedBy = farmer.User.FirstName;
+        // // farmerProduceType.ProduceType.DateCreated = DateTime.Now;
 
-            // _farmerProduceTypeRepository.Update(farmerProduceType);
-            // await _farmerProduceTypeRepository.SaveAsync();
+        // _farmerProduceTypeRepository.Update(farmerProduceType);
+        // await _farmerProduceTypeRepository.SaveAsync();
 
 
     }

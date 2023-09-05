@@ -24,7 +24,7 @@ namespace Host.Controllers
             _configMailService = configMailService;
         }
         [HttpPost("Login")]
-        public async Task<IActionResult> LoginAsync([FromBody]LoginUserRequestModel model)
+        public async Task<IActionResult> LoginAsync([FromForm]LoginUserRequestModel model)
         {
             var logging = await _userService.LoginAsync(model);
             if(!logging.Status)

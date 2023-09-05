@@ -208,7 +208,7 @@ namespace Application.Services
 
                 manager.User.Address = model.Address;
                 manager.User.PhoneNumber = model.PhoneNumber;
-                manager.User.Password = model.Password;
+                manager.User.Password = BCrypt.Net.BCrypt.HashPassword(model.Password);
 
 
                 // manager.User.FirstName = model.FirstName ?? manager.User.FirstName;

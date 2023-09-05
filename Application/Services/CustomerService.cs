@@ -168,7 +168,7 @@ namespace Application.Services
                 Status = true,
                 Data = customers.Select(m => new CustomerDto
                 {
-                    // Id = m.Id,
+                     Id = m.Id,
                     RegistrationNumber = m.RegistrationNumber,
                     FirstName = m.User.FirstName,
                     LastName = m.User.LastName,
@@ -195,7 +195,8 @@ namespace Application.Services
 
                 customer.User.Address = model.Address;
                 customer.User.PhoneNumber = model.PhoneNumber;
-                customer.User.Password = model.Password;
+                // customer.User.Password = model.Password;
+                customer.User.Password = BCrypt.Net.BCrypt.HashPassword(model.Password);
 
 
                 _customerRepository.Update(customer);

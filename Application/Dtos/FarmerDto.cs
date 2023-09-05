@@ -38,36 +38,36 @@ namespace Application.Dtos
 
     public class CreateFarmerRequestModel
     {
-        public List<string> ProduceTypes { get; set; }
+        public List<Guid> ProduceTypes { get; set; }
 
-        [Required, MaxLength(20), MinLength(3)]
-        [Display(Name = "First Name")]
+        // [Required, MaxLength(20), MinLength(3)]
+        // [Display(Name = "First Name")]
         public string FirstName { get; set; }
 
-        [Required, MaxLength(20), MinLength(3)]
-        [Display(Name = "Last Name")]
+        // [Required, MaxLength(20), MinLength(3)]
+        // [Display(Name = "Last Name")]
         public string LastName { get; set; }
 
-        [Required, MaxLength(14), MinLength(11)]
-        [Display(Name = "Phone Number")]
+        // [Required, MaxLength(14), MinLength(11)]
+        // [Display(Name = "Phone Number")]
         // [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$", ErrorMessage = "Not a valid phone number")]
         public string PhoneNumber { get; set; }
 
-        [RegularExpression(@"^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$",
-        ErrorMessage = "Enter a valid email address!")]
+        // [RegularExpression(@"^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$",
+        // ErrorMessage = "Enter a valid email address!")]
         //[EmailAddress]
         public string Email { get; set; }
 
-        [Required, MaxLength(12), MinLength(3)]
+        // [Required, MaxLength(12), MinLength(3)]
         // [DataType(DataType.Password)]
         public string Password { get; set; }
 
         // [DataType(DataType.Password)]
-        [Required, MaxLength(12), MinLength(3), Display(Name = "Confirm Password")]
-        [Compare("Password", ErrorMessage = "Password and Confirmation Password do not match.")]
+        // [Required, MaxLength(12), MinLength(3), Display(Name = "Confirm Password")]
+        // [Compare("Password", ErrorMessage = "Password and Confirmation Password do not match.")]
         public string ConfirmPassword { get; set; }
 
-        [Required, MaxLength(20), MinLength(3)]
+        // [Required, MaxLength(20), MinLength(3)]
         public string Address { get; set; }
 
         public Gender Gender { get; set; }
@@ -78,7 +78,7 @@ namespace Application.Dtos
         public string AccountName { get; set; }
         public int AccountNumber { get; set; }
 
-        [Display(Name = "Profile Picture"), Required(ErrorMessage = "Please select file.")]
+        // [Display(Name = "Profile Picture"), Required(ErrorMessage = "Please select file.")]
         // [RegularExpression(@"([a-zA-Z0-9\s_\\.\-:])+(.png|.jpg|.gif|.jpeg)$", ErrorMessage = "Only Image file allowed.")]
         public IFormFile ProfilePicture { get; set; }
 

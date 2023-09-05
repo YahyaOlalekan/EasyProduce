@@ -8,7 +8,6 @@ using Application.Abstractions.RepositoryInterfaces;
 using Application.Abstractions.ServiceInterfaces;
 using Application.Dtos;
 using Domain.Entity;
-using Domain.Enum;
 
 namespace Application.Services
 {
@@ -93,7 +92,7 @@ namespace Application.Services
 
             foreach (var item in model.ProduceTypes)
             {
-                var produceType = await _produceTypeRepository.GetAsync(pt => pt.TypeName == item);
+                var produceType = await _produceTypeRepository.GetAsync(pt => pt.Id == item);
                 var farmerProduceType = new FarmerProduceType
                 {
                     FarmerId = farmer.Id,
@@ -145,7 +144,7 @@ namespace Application.Services
                     Status = true
                 };
             }
-            
+
             return new BaseResponse<FarmerDto>
             {
                 Message = "farmer does not exist",
@@ -168,7 +167,7 @@ namespace Application.Services
             var farmerFirstLetterOfFirstNameToUpperCase = $"{CultureInfo.CurrentCulture.TextInfo.ToTitleCase(farmer.User.FirstName)}";
             var farmerFirstLetterOfLastNameToUpperCase = $"{CultureInfo.CurrentCulture.TextInfo.ToTitleCase(farmer.User.LastName)}";
             var fullName = farmerFirstLetterOfFirstNameToUpperCase + " " + farmerFirstLetterOfLastNameToUpperCase;
-           
+
             return new BaseResponse<FarmerDto>
             {
                 Message = $"Account details of {fullName} found",
@@ -196,7 +195,7 @@ namespace Application.Services
                     Status = true,
                     Data = new FarmerProduceTypeDto
                     {
-                         FarmerDto = new FarmerDto
+                        FarmerDto = new FarmerDto
                         {
                             Id = farmer[0].Farmer.Id,
                             RegistrationNumber = farmer[0].Farmer.RegistrationNumber,
@@ -275,7 +274,7 @@ namespace Application.Services
 
                 farmer.User.Address = model.Address;
                 farmer.User.PhoneNumber = model.PhoneNumber;
-                farmer.User.Password = model.Password;
+                farmer.User.Password = BCrypt.Net.BCrypt.HashPassword(model.Password);
 
 
                 _farmerRepository.Update(farmer);
@@ -360,7 +359,7 @@ namespace Application.Services
             };
         }
 
-       
+
         private async Task<string> GeneratefarmerRegNumAsync()
         {
             var count = (await _farmerRepository.GetAllAsync()).Count();
