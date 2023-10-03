@@ -35,9 +35,9 @@ namespace Application.Services
             {
                 var produceType = new ProduceType();
                 produceType.TypeName = model.TypeName;
-                produceType.UnitOfMeasurement = model.UnitOfMeasurement;
-                produceType.CostPrice = model.CostPrice;
-                produceType.SellingPrice = model.SellingPrice;
+                // produceType.UnitOfMeasurement = model.UnitOfMeasurement;
+                // produceType.CostPrice = model.CostPrice;
+                // produceType.SellingPrice = model.SellingPrice;
                 produceType.ProduceId = model.ProduceId;
                 produceType.CreatedBy = loginId;
                 // produceType.TypePicture = model.TypePicture;
@@ -165,9 +165,9 @@ namespace Application.Services
             {
 
                 produceType.TypeName = model.TypeName;
-                produceType.UnitOfMeasurement = model.UnitOfMeasurement;
-                produceType.CostPrice = model.CostPrice;
-                produceType.SellingPrice = model.SellingPrice;
+                // produceType.UnitOfMeasurement = model.UnitOfMeasurement;
+                // produceType.CostPrice = model.CostPrice;
+                // produceType.SellingPrice = model.SellingPrice;
                 // produceType.TypePicture = model.TypePicture;
 
                 _produceTypeRepository.Update(produceType);

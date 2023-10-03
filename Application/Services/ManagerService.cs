@@ -181,7 +181,7 @@ namespace Application.Services
                 Status = true,
                 Data = managers.Select(m => new ManagerDto
                 {
-                    // Id = m.Id,
+                    Id = m.Id,
                     RegistrationNumber = m.RegistrationNumber,
                     FirstName = m.User.FirstName,
                     LastName = m.User.LastName,
@@ -197,7 +197,7 @@ namespace Application.Services
 
         public async Task<BaseResponse<ManagerDto>> UpdateAsync(Guid id, UpdateManagerRequestModel model)
         {
-            var manager = await _managerRepository.GetAsync(a => a.Id == id ) ;
+            var manager = await _managerRepository.GetAsync(a => a.Id == id || a.UserId == id);
             if (manager is not null)
             {
                 if (model.ProfilePicture != null)
@@ -242,12 +242,53 @@ namespace Application.Services
             };
         }
 
-
-        private async Task<string> GenerateManagerRegNumAsync()
+       
+     private async Task<string> GenerateManagerRegNumAsync()
         {
             var count = (await _managerRepository.GetAllAsync()).Count();
             return "EP/MAG/" + $"{count + 1}";
         }
+
+
+ // public async Task<BaseResponse<ManagerDto>> UpdateAsync(Guid id, UpdateManagerRequestModel model)
+        // {
+        //     var user = await _userRepository.GetAsync(a => a.Id == id ) ;
+        //     if (user is not null)
+        //     {
+        //         if (model.ProfilePicture != null)
+        //         {
+        //             var profilePicture = await _fileUploadServiceForWWWRoot.UploadFileAsync(model.ProfilePicture);
+        //            user.ProfilePicture = profilePicture;
+        //         }
+
+        //        user.Address = model.Address;
+        //        user.PhoneNumber = model.PhoneNumber;
+        //        user.Password = BCrypt.Net.BCrypt.HashPassword(model.Password);
+
+        //         _userRepository.Update(user);
+        //         await _userRepository.SaveAsync();
+
+        //         return new BaseResponse<ManagerDto>
+        //         {
+        //             Message = "Profile Updated Successfully",
+        //             Status = true,
+        //             Data = new ManagerDto
+        //             {
+        //                 ProfilePicture = user.ProfilePicture,
+        //                 PhoneNumber = user.PhoneNumber,
+        //                 Address = user.Address,
+        //                 Password = user.Password,
+        //             }
+        //         };
+        //     }
+        //     return new BaseResponse<ManagerDto>
+        //     {
+        //         Message = "Unable to Update",
+        //         Status = false,
+        //     };
+        // }
+
+       
 
     }
 }

@@ -32,8 +32,8 @@ namespace Host.Controllers
         }
 
 
-        [HttpDelete("DeleteCategory")]
-        public async Task<IActionResult> DeleteAsync([FromQuery] Guid id)
+        [HttpDelete("DeleteCategory/{id}")]
+        public async Task<IActionResult> DeleteAsync([FromRoute] Guid id)
         {
             var category = await _categoryService.DeleteAsync(id);
         // TempData["message"] = category.Message;
@@ -71,7 +71,7 @@ namespace Host.Controllers
 
        
         [HttpPut("UpdateCategory/{id}")]
-        public async Task<IActionResult> UpdateAsync([FromRoute] Guid id, [FromBody] UpdateCategoryRequestModel model)
+        public async Task<IActionResult> UpdateAsync([FromRoute] Guid id, [FromForm] UpdateCategoryRequestModel model)
         {
             if (ModelState.IsValid)
             {

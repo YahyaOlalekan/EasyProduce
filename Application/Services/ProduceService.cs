@@ -143,7 +143,30 @@ namespace Application.Services
                 Status = true,
                 Data = produce.Select(c => new ProduceDto
                 {
-                    // Id = c.Id,
+                    Id = c.Id,
+                    ProduceName = c.ProduceName,
+                    DescriptionOfProduce = c.DescriptionOfProduce
+                })
+            };
+        }
+        public async Task<BaseResponse<IEnumerable<ProduceDto>>> GetAllProducesByCategoryIdAsync(Guid categoryId)
+        {
+            var produce = await _produceRepository.GetSelectedAsync(p => p.CategoryId == categoryId);
+            if (!produce.Any())
+            {
+                return new BaseResponse<IEnumerable<ProduceDto>>
+                {
+                    Message = "Not found",
+                    Status = false,
+                };
+            }
+            return new BaseResponse<IEnumerable<ProduceDto>>
+            {
+                Message = "Found",
+                Status = true,
+                Data = produce.Select(c => new ProduceDto
+                {
+                    Id = c.Id,
                     ProduceName = c.ProduceName,
                     DescriptionOfProduce = c.DescriptionOfProduce
                 })

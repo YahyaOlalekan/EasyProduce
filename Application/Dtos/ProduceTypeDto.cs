@@ -32,25 +32,25 @@ namespace Application.Dtos
         [Display(Name = "Produce Type Name")]
         public string TypeName { get; set; }
 
-        [Required]
-        [Display(Name = "Cost Price")]
-        public decimal CostPrice { get; set; }
+        // [Required]
+        // [Display(Name = "Cost Price")]
+        // public decimal CostPrice { get; set; }
 
-        [Required]
-        [Display(Name = "Selling Price")]
-        public decimal SellingPrice { get; set; }
+        // [Required]
+        // [Display(Name = "Selling Price")]
+        // public decimal SellingPrice { get; set; }
 
-        [Required]
-        [Display(Name = "Unit Of Measurement")]
-        public string UnitOfMeasurement { get; set; }
+        // [Required]
+        // [Display(Name = "Unit Of Measurement")]
+        // public string UnitOfMeasurement { get; set; }
 
         [Required]
         [Display(Name = "Produce")]
         public Guid ProduceId { get; set; }
 
-        [Required]
-        [Display(Name = "Category")]
-        public Guid CategoryId { get; set; }
+        // [Required]
+        // [Display(Name = "Category")]
+        // public Guid CategoryId { get; set; }
 
     }
 
@@ -125,21 +125,21 @@ namespace Application.Dtos
         [Display(Name = "Produce Type Name")]
         public string TypeName { get; set; }
 
-        [Required]
-        [Display(Name = "Quantity")]
-        public double QuantityToBuy { get; set; }
+        // [Required]
+        // [Display(Name = "Quantity")]
+        // public double QuantityToBuy { get; set; }
 
-        [Required]
-        [Display(Name = "Cost Price")]
-        public decimal CostPrice { get; set; }
+        // [Required]
+        // [Display(Name = "Cost Price")]
+        // public decimal CostPrice { get; set; }
 
-        [Required]
-        [Display(Name = "Selling Price")]
-        public decimal SellingPrice { get; set; }
+        // [Required]
+        // [Display(Name = "Selling Price")]
+        // public decimal SellingPrice { get; set; }
 
-        [Required]
-        [Display(Name = "Unit Of Measurement")]
-        public string UnitOfMeasurement { get; set; }
+        // [Required]
+        // [Display(Name = "Unit Of Measurement")]
+        // public string UnitOfMeasurement { get; set; }
 
     }
 }

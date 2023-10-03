@@ -245,7 +245,7 @@ namespace Application.Services
                 Status = true,
                 Data = farmers.Select(m => new FarmerDto
                 {
-                    // Id = m.Id,
+                     Id = m.Id,
                     RegistrationNumber = m.RegistrationNumber,
                     FirstName = m.User.FirstName,
                     LastName = m.User.LastName,
@@ -263,19 +263,18 @@ namespace Application.Services
 
         public async Task<BaseResponse<FarmerDto>> UpdateFarmerAsync(Guid id, UpdateFarmerRequestModel model)
         {
-            var farmer = await _farmerRepository.GetAsync(a => a.Id == id);
+            var farmer = await _farmerRepository.GetAsync(a => a.Id == id || a.UserId == id);
             if (farmer is not null)
             {
                 if (model.ProfilePicture != null)
                 {
                     var profilePicture = await _fileUploadServiceForWWWRoot.UploadFileAsync(model.ProfilePicture);
-                    farmer.User.ProfilePicture = profilePicture;
+                   farmer.User.ProfilePicture = profilePicture;
                 }
 
                 farmer.User.Address = model.Address;
                 farmer.User.PhoneNumber = model.PhoneNumber;
                 farmer.User.Password = BCrypt.Net.BCrypt.HashPassword(model.Password);
-
 
                 _farmerRepository.Update(farmer);
                 await _farmerRepository.SaveAsync();

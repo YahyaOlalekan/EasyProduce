@@ -32,8 +32,8 @@ namespace Host.Controllers
         }
 
 
-        [HttpDelete("DeleteProduce")]
-        public async Task<IActionResult> DeleteAsync([FromQuery] Guid id)
+        [HttpDelete("DeleteProduce/{id}")]
+        public async Task<IActionResult> DeleteAsync([FromRoute] Guid id)
         {
             var produce = await _produceService.DeleteAsync(id);
         // TempData["message"] = produce.Message;
@@ -67,11 +67,22 @@ namespace Host.Controllers
             }
             return Ok(produce);
         }
+        
+        [HttpGet("GetAllProduceByCategoryId/{id}")]
+        public async Task<IActionResult> GetAllProduceByCategoryIdAsync([FromRoute] Guid id)
+        {
+            var produce = await _produceService.GetAllProducesByCategoryIdAsync(id);
+            if (produce == null)
+            {
+                return BadRequest(produce);
+            }
+            return Ok(produce);
+        }
 
 
        
         [HttpPut("UpdateProduce/{id}")]
-        public async Task<IActionResult> UpdateAsync([FromRoute] Guid id, [FromBody] UpdateProduceRequestModel model)
+        public async Task<IActionResult> UpdateAsync([FromRoute] Guid id, [FromForm] UpdateProduceRequestModel model)
         {
             if (ModelState.IsValid)
             {

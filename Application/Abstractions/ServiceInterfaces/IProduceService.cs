@@ -12,6 +12,7 @@ namespace Application.Abstractions.ServiceInterfaces
         Task<BaseResponse<ProduceDto>> GetAsync(Guid id);
         Task<BaseResponse<IEnumerable<ProduceDto>>> GetAllAsync();
         Task<BaseResponse<ProduceDto>> DeleteAsync(Guid id);
+        Task<BaseResponse<IEnumerable<ProduceDto>>> GetAllProducesByCategoryIdAsync(Guid categoryId);
     }
 }
 

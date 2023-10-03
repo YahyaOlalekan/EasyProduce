@@ -33,8 +33,8 @@ namespace Host.Controllers
         }
 
 
-        [HttpDelete("DeleteRole")]
-        public async Task<IActionResult> DeleteAsync([FromQuery] Guid id)
+        [HttpDelete("DeleteRole/{id}")]
+        public async Task<IActionResult> DeleteAsync([FromRoute] Guid id)
         {
             var role = await _roleService.DeleteAsync(id);
         //  TempData["message"] = role.Message;
@@ -72,7 +72,7 @@ namespace Host.Controllers
 
        
         [HttpPut("UpdateRole/{id}")]
-        public async Task<IActionResult> UpdateAsync([FromRoute] Guid id, [FromBody] UpdateRoleRequestModel model)
+        public async Task<IActionResult> UpdateAsync([FromRoute] Guid id, [FromForm] UpdateRoleRequestModel model)
         {
             if (ModelState.IsValid)
             {

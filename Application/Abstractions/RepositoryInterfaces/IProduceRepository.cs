@@ -13,5 +13,6 @@ namespace Application.Abstractions.RepositoryInterfaces
         Task<IEnumerable<Produce>> GetSelectedAsync(List<Guid> ids);
         Task<IEnumerable<Produce>> GetSelectedAsync(Expression<Func<Produce, bool>> expression);
         Task<IEnumerable<Produce>> GetAllAsync();
+        
     }
 }

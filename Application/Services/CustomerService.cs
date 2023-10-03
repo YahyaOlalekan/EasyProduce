@@ -113,7 +113,7 @@ namespace Application.Services
             }
             return new BaseResponse<CustomerDto>
             {
-                Message = "customer does not exist",
+                Message = "Customer does not exist",
                 Status = false
             };
         }
@@ -128,7 +128,7 @@ namespace Application.Services
 
                 return new BaseResponse<CustomerDto>
                 {
-                    Message = "successful",
+                    Message = "Successful",
                     Status = true,
                     Data = new CustomerDto
                     {
@@ -145,7 +145,7 @@ namespace Application.Services
             }
             return new BaseResponse<CustomerDto>
             {
-                Message = "customer is not found",
+                Message = "Customer is not found",
                 Status = false
             };
         }
@@ -184,19 +184,19 @@ namespace Application.Services
 
         public async Task<BaseResponse<CustomerDto>> UpdateAsync(Guid id, UpdateCustomerRequestModel model)
         {
-            var customer = await _customerRepository.GetAsync(a => a.Id == id);
+            var customer = await _customerRepository.GetAsync(a => a.Id == id || a.UserId ==id);
             if (customer is not null)
             {
                 if (model.ProfilePicture != null)
                 {
                     var profilePicture = await _fileUploadServiceForWWWRoot.UploadFileAsync(model.ProfilePicture);
-                    customer.User.ProfilePicture = profilePicture;
+                   customer.User.ProfilePicture = profilePicture;
                 }
 
-                customer.User.Address = model.Address;
-                customer.User.PhoneNumber = model.PhoneNumber;
+               customer.User.Address = model.Address;
+               customer.User.PhoneNumber = model.PhoneNumber;
                 // customer.User.Password = model.Password;
-                customer.User.Password = BCrypt.Net.BCrypt.HashPassword(model.Password);
+               customer.User.Password = BCrypt.Net.BCrypt.HashPassword(model.Password);
 
 
                 _customerRepository.Update(customer);

@@ -32,8 +32,8 @@ namespace Host.Controllers
         }
 
 
-        [HttpDelete("DeleteProduceType")]
-        public async Task<IActionResult> DeleteAsync([FromQuery] Guid id)
+        [HttpDelete("DeleteProduceType/{id}")]
+        public async Task<IActionResult> DeleteAsync([FromRoute] Guid id)
         {
             var produceType = await _produceTypeService.DeleteAsync(id);
             // TempData["message"] = produce.Message;
@@ -98,7 +98,7 @@ namespace Host.Controllers
 
 
         [HttpPut("UpdateProduceType/{id}")]
-        public async Task<IActionResult> UpdateAsync([FromRoute] Guid id, [FromBody] UpdateProduceTypeRequestModel model)
+        public async Task<IActionResult> UpdateAsync([FromRoute] Guid id, [FromForm] UpdateProduceTypeRequestModel model)
         {
             if (ModelState.IsValid)
             {
