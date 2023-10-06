@@ -23,12 +23,31 @@ namespace Host.Controllers
         [HttpPost("CustomerRegistration")]
         public async Task<IActionResult> RegisterAsync([FromForm] CreateCustomerRequestModel model)
         {
+            // var customer = await _customerService.CreateAsync(model);
+            // if (!customer.Status)
+            // {
+            //     return BadRequest(customer);
+            // }
+            // return Ok(customer);
+
+            // if (!ModelState.IsValid)
+            // {
+            //     // Model validation failed; collect errors
+            //    var errors = ModelState.Values.SelectMany(v => v.Errors)
+            //                                    .Select(e => e.ErrorMessage)
+            //                                    .ToList();
+
+            //     // Return validation errors with a 400 Bad Request status code
+            //     return BadRequest(errors);
+            // }
+           
             var customer = await _customerService.CreateAsync(model);
             if (!customer.Status)
             {
                 return BadRequest(customer);
             }
             return Ok(customer);
+
         }
 
         [HttpPut("UpdateCustomer/{id}")]
