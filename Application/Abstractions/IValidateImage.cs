@@ -6,8 +6,9 @@ using Microsoft.AspNetCore.Http;
 
 namespace Application.Abstractions
 {
-    public interface IFileUploadServiceForWWWRoot
+    public interface IValidateImage
     {
-         Task<string> UploadFileAsync(IFormFile file);
+       string Validate(IFormFile file);
+
     }
 }

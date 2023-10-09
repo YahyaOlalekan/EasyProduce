@@ -19,18 +19,23 @@ namespace Application.Dtos
         public decimal SellingPrice { get; set; }
         public string UnitOfMeasurement { get; set; }
         public Status Status { get; set; }
-         public TransactionStatus TransactionStatus { get; set; }
+        public TransactionStatus TransactionStatus { get; set; }
         public Guid CategoryId { get; set; }
         public string DescriptionOfProduce { get; set; }
         public List<TransactionProduceTypeDto> TransactionProduceTypes { get; set; }
-        public List<FarmerProduceType> FarmerProduceTypes {get;set;} 
+        public List<FarmerProduceType> FarmerProduceTypes { get; set; }
 
     }
     public class CreateProduceTypeRequestModel
     {
-        [Required, MinLength(3), MaxLength(50)]
-        [Display(Name = "Produce Type Name")]
+        [Display(Name = "Produce Type Name"), Required]
+        [RegularExpression(@"^[A-Za-z\s'-]*$", ErrorMessage = "Name must not contain numbers")]
+        [MaxLength(25, ErrorMessage = "Name should not contain morethan 25 letters"), MinLength(3, ErrorMessage = "Name should not contain lessthan 3 letters")]
         public string TypeName { get; set; }
+
+
+        [Display(Name = "Produce"), Required]
+        public Guid ProduceId { get; set; }
 
         // [Required]
         // [Display(Name = "Cost Price")]
@@ -43,10 +48,6 @@ namespace Application.Dtos
         // [Required]
         // [Display(Name = "Unit Of Measurement")]
         // public string UnitOfMeasurement { get; set; }
-
-        [Required]
-        [Display(Name = "Produce")]
-        public Guid ProduceId { get; set; }
 
         // [Required]
         // [Display(Name = "Category")]
@@ -90,7 +91,7 @@ namespace Application.Dtos
     // {
     //     [Display(Name = "Produce Type Name")]
     //     public Guid Id { get; set; }
-        
+
     //     // [Display(Name = "Produce Name")]
     //     // public Guid ProduceId { get; set; }
 
@@ -121,8 +122,9 @@ namespace Application.Dtos
 
     public class UpdateProduceTypeRequestModel
     {
-        [Required, MinLength(3), MaxLength(50)]
-        [Display(Name = "Produce Type Name")]
+        [Display(Name = "Produce Type Name"), Required]
+        [RegularExpression(@"^[A-Za-z\s'-]*$", ErrorMessage = "Name must not contain numbers")]
+        [MaxLength(25, ErrorMessage = "Name should not contain morethan 25 letters"), MinLength(3, ErrorMessage = "Name should not contain lessthan 3 letters")]
         public string TypeName { get; set; }
 
         // [Required]

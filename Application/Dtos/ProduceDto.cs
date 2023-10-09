@@ -6,35 +6,39 @@ namespace Application.Dtos
 {
     public class ProduceDto
     {
-         public Guid Id { get; set; }
-         public string ProduceName { get; set; }
-         public string DescriptionOfProduce { get; set; }
+        public Guid Id { get; set; }
+        public string ProduceName { get; set; }
+        public string DescriptionOfProduce { get; set; }
         public Guid CategoryId { get; set; }
         public List<ProduceTypeDto> ProduceTypes { get; set; }
     }
 
-        public class CreateProduceRequestModel
+    public class CreateProduceRequestModel
     {
-        [Required, MaxLength(30), MinLength(3)]
-        [Display(Name = "Name of Produce")]
+        [Display(Name = "Name of Produce"), Required]
+        [RegularExpression(@"^[A-Za-z\s'-]*$", ErrorMessage = "Name must not contain numbers")]
+        [MaxLength(25, ErrorMessage = "Name should not contain morethan 25 letters"), MinLength(3, ErrorMessage = "Name should not contain lessthan 3 letters")]
         public string ProduceName { get; set; }
 
-        [Required, MaxLength(60), MinLength(3)]
-        [Display(Name = "Description of Produce")]
+        [Display(Name = "Produce Description"), Required]
+        [RegularExpression(@"^[A-Za-z\s'-]*$", ErrorMessage = "Description must not contain numbers")]
+        [MaxLength(25, ErrorMessage = "Name should not contain morethan 25 letters"), MinLength(3, ErrorMessage = "Name should not contain lessthan 3 letters")]
         public string DescriptionOfProduce { get; set; }
 
-        //[Required, MaxLength(60), MinLength(3)]
-        [Display(Name = "Name of Category")]
+        [Display(Name = "Name of Category"), Required]
         public Guid CategoryId { get; set; }
     }
+
     public class UpdateProduceRequestModel
     {
-        [Required, MaxLength(30), MinLength(3)]
-        [Display(Name = "Name of Produce")]
+        [Display(Name = "Name of Produce"), Required]
+        [RegularExpression(@"^[A-Za-z\s'-]*$", ErrorMessage = "Name must not contain numbers")]
+        [MaxLength(25, ErrorMessage = "Name should not contain morethan 25 letters"), MinLength(3, ErrorMessage = "Name should not contain lessthan 3 letters")]
         public string ProduceName { get; set; }
 
-        [Required, MaxLength(60), MinLength(3)]
-        [Display(Name = "Description of Produce")]
+        [Display(Name = "Produce Description"), Required]
+        [RegularExpression(@"^[A-Za-z\s'-]*$", ErrorMessage = "Description must not contain numbers")]
+        [MaxLength(25, ErrorMessage = "Name should not contain morethan 25 letters"), MinLength(3, ErrorMessage = "Name should not contain lessthan 3 letters")]
         public string DescriptionOfProduce { get; set; }
     }
 

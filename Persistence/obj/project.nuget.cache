@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "WSo7Skm5dWwdSPxvcY4krymUDWRWgsRGxiirR9DEArUk17PLaJkfCnDFo2amkt7XO1QaWE5jrYMSsBgoQiVBsQ==",
+  "dgSpecHash": "hEGjraVUo+YJ6Nb7XtgSKcB+HxxbqymLeq+27AK7SGmqDqVbwx3DD/FyErAd3MDyCUqYtLkKlJM+mlaXoYe33g==",
   "success": true,
   "projectFilePath": "C:\\Users\\USER PC\\Desktop\\EasyProduce\\Persistence\\Persistence.csproj",
   "expectedPackageFiles": [
@@ -49,6 +49,7 @@
     "C:\\Users\\USER PC\\.nuget\\packages\\runtime.native.system.net.http\\4.0.1\\runtime.native.system.net.http.4.0.1.nupkg.sha512",
     "C:\\Users\\USER PC\\.nuget\\packages\\runtime.native.system.security.cryptography\\4.0.0\\runtime.native.system.security.cryptography.4.0.0.nupkg.sha512",
     "C:\\Users\\USER PC\\.nuget\\packages\\sib_api_v3_sdk\\4.0.2\\sib_api_v3_sdk.4.0.2.nupkg.sha512",
+    "C:\\Users\\USER PC\\.nuget\\packages\\sixlabors.imagesharp\\3.0.2\\sixlabors.imagesharp.3.0.2.nupkg.sha512",
     "C:\\Users\\USER PC\\.nuget\\packages\\system.appcontext\\4.1.0\\system.appcontext.4.1.0.nupkg.sha512",
     "C:\\Users\\USER PC\\.nuget\\packages\\system.buffers\\4.5.0\\system.buffers.4.5.0.nupkg.sha512",
     "C:\\Users\\USER PC\\.nuget\\packages\\system.collections\\4.0.11\\system.collections.4.0.11.nupkg.sha512",

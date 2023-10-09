@@ -13,22 +13,27 @@ namespace Application.Dtos
     }
     public class CreateRoleRequestModel
     {
-        [Required, MaxLength(30), MinLength(3)]
-        [Display(Name = "Name Of Role")]
+        [Display(Name = "Name of Role"), Required]
+        [RegularExpression(@"^[A-Za-z\s'-]*$", ErrorMessage = "Name must not contain numbers")]
+        [MaxLength(25, ErrorMessage = "Name should not contain morethan 25 letters"), MinLength(3, ErrorMessage = "Name should not contain lessthan 3 letters")]
         public string RoleName { get; set; }
 
-        [Required, MaxLength(60), MinLength(3)]
-        [Display(Name = "Description Of Role")]
+        [Display(Name = "Role Description"), Required]
+        [RegularExpression(@"^[A-Za-z\s'-]*$", ErrorMessage = "Description must not contain numbers")]
+        [MaxLength(25, ErrorMessage = "Name should not contain morethan 25 letters"), MinLength(3, ErrorMessage = "Name should not contain lessthan 3 letters")]
         public string RoleDescription { get; set; }
     }
+    
     public class UpdateRoleRequestModel
     {
-        [Required, MaxLength(30), MinLength(3)]
-         [Display(Name = "Name Of Role")]
+        [Display(Name = "Name of Role"), Required]
+        [RegularExpression(@"^[A-Za-z\s'-]*$", ErrorMessage = "Name must not contain numbers")]
+        [MaxLength(25, ErrorMessage = "Name should not contain morethan 25 letters"), MinLength(3, ErrorMessage = "Name should not contain lessthan 3 letters")]
         public string RoleName { get; set; }
-        
-        [Required, MaxLength(60), MinLength(3)]
-        [Display(Name = "Description Of Role")]
+
+        [Display(Name = "Role Description"), Required]
+        [RegularExpression(@"^[A-Za-z\s'-]*$", ErrorMessage = "Description must not contain numbers")]
+        [MaxLength(25, ErrorMessage = "Name should not contain morethan 25 letters"), MinLength(3, ErrorMessage = "Name should not contain lessthan 3 letters")]
         public string RoleDescription { get; set; }
     }
 }

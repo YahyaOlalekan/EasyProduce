@@ -16,22 +16,27 @@ namespace Application.Dtos
 
     public class CreateCategoryRequestModel
     {
-        [Required, MaxLength(30), MinLength(3)]
-        [Display(Name = "Name of category")]
+        [Display(Name = "Name of category"), Required]
+        [RegularExpression(@"^[A-Za-z\s'-]*$", ErrorMessage = "Name must not contain numbers")]
+        [MaxLength(25, ErrorMessage = "Name should not contain morethan 25 letters"), MinLength(3, ErrorMessage = "Name should not contain lessthan 3 letters")]
         public string NameOfCategory { get; set; }
 
-        [Required, MaxLength(60), MinLength(3)]
-        [Display(Name = "Description of Category")]
+        [Display(Name = "Category Description"), Required]
+        [RegularExpression(@"^[A-Za-z\s'-]*$", ErrorMessage = "Description must not contain numbers")]
+        [MaxLength(25, ErrorMessage = "Name should not contain morethan 25 letters"), MinLength(3, ErrorMessage = "Name should not contain lessthan 3 letters")]
         public string DescriptionOfCategory { get; set; }
     }
+    
     public class UpdateCategoryRequestModel
     {
-        [Required, MaxLength(30), MinLength(3)]
-        [Display(Name = "Name of category")]
+        [Display(Name = "Name of category"), Required]
+        [RegularExpression(@"^[A-Za-z\s'-]*$", ErrorMessage = "Name must not contain numbers")]
+        [MaxLength(25, ErrorMessage = "Name should not contain morethan 25 letters"), MinLength(3, ErrorMessage = "Name should not contain lessthan 3 letters")]
         public string NameOfCategory { get; set; }
 
-        [Required, MaxLength(60), MinLength(3)]
-        [Display(Name = "Description of Category")]
+        [Display(Name = "Category Description"), Required]
+        [RegularExpression(@"^[A-Za-z\s'-]*$", ErrorMessage = "Description must not contain numbers")]
+        [MaxLength(25, ErrorMessage = "Name should not contain morethan 25 letters"), MinLength(3, ErrorMessage = "Name should not contain lessthan 3 letters")]
         public string DescriptionOfCategory { get; set; }
     }
 

@@ -85,7 +85,7 @@ builder.Services.AddScoped<IProductTypeRepository, ProductTypeRepository>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 //builder.Services.AddScoped<IProductService, ProductService>();
 
- builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 //builder.Services.AddScoped<IOrderService, OrderService>();
 
 builder.Services.AddScoped<IOrderProductTypeRepository, OrderProductTypeRepository>();
@@ -114,6 +114,7 @@ builder.Services.AddScoped<IFarmerProduceTypeRepository, FarmerProduceTypeReposi
 builder.Services.AddScoped<IJwtAuthenticationManager, JwtAuthenticationManager>();
 
 builder.Services.AddScoped<IFileUploadServiceForWWWRoot, FileUploadServiceForWWWRoot>();
+builder.Services.AddScoped<IValidateImage, ValidateImage>();
 
 builder.Services.AddScoped<IMailService, MailService>();
 
@@ -147,7 +148,7 @@ app.UseAuthorization();
 app.MapControllers();
 
 
- AdminMocking.Mock(app);    
+AdminMocking.Mock(app);
 
 app.Run();
 #endregion

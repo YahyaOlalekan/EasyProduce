@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Application.Abstractions.ServiceInterfaces;
 using Application.Dtos;
@@ -20,14 +21,20 @@ namespace Host.Controllers
         [HttpPost("AddRole")]
         public async Task<IActionResult> AddAsync([FromForm] CreateRoleRequestModel model)
         {
+            if (!ModelState.IsValid)
+            {
+                var errors = ModelState.Values.SelectMany(v => v.Errors)
+                                                .Select(e => e.ErrorMessage)
+                                                .ToList();
+                return BadRequest(errors);
+            }
+
             var role = await _roleService.CreateAsync(model);
             //BaseResponse<RoleDto> role = await _roleService.CreateAsync(model);
-            if (ModelState.IsValid)
+
+            if (role.Status)
             {
-                if (role.Status)
-                {
-                    return StatusCode(200, role);
-                }
+                return StatusCode(200, role);
             }
             return StatusCode(400, role);
         }
@@ -37,7 +44,7 @@ namespace Host.Controllers
         public async Task<IActionResult> DeleteAsync([FromRoute] Guid id)
         {
             var role = await _roleService.DeleteAsync(id);
-        //  TempData["message"] = role.Message;
+            //  TempData["message"] = role.Message;
             if (role.Status)
             {
                 return Ok(role);
@@ -70,18 +77,23 @@ namespace Host.Controllers
         }
 
 
-       
+
         [HttpPut("UpdateRole/{id}")]
         public async Task<IActionResult> UpdateAsync([FromRoute] Guid id, [FromForm] UpdateRoleRequestModel model)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                var result = await _roleService.UpdateAsync(id, model);
-                // TempData["message"] = result.Message;
-                if (result.Status)
-                {
-                    return Ok(result);
-                }
+                var errors = ModelState.Values.SelectMany(v => v.Errors)
+                                                .Select(e => e.ErrorMessage)
+                                                .ToList();
+                return BadRequest(errors);
+            }
+
+            var result = await _roleService.UpdateAsync(id, model);
+            // TempData["message"] = result.Message;
+            if (result.Status)
+            {
+                return Ok(result);
             }
             return BadRequest();
         }

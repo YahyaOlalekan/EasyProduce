@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Application.Abstractions.ServiceInterfaces;
 using Application.Dtos;
@@ -20,13 +21,18 @@ namespace Host.Controllers
         [HttpPost("CreateProduceType")]
         public async Task<IActionResult> CreateAsync([FromForm] CreateProduceTypeRequestModel model)
         {
-            var produceType = await _produceTypeService.CreateAsync(model);
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                if (produceType.Status)
-                {
-                    return Ok(produceType);
-                }
+                var errors = ModelState.Values.SelectMany(v => v.Errors)
+                                                .Select(e => e.ErrorMessage)
+                                                .ToList();
+                return BadRequest(errors);
+            }
+
+            var produceType = await _produceTypeService.CreateAsync(model);
+            if (produceType.Status)
+            {
+                return Ok(produceType);
             }
             return BadRequest(produceType);
         }
@@ -84,8 +90,8 @@ namespace Host.Controllers
         }
 
 
-         [HttpGet("GetApprovedProduceTypesForAFarmer/{farmerId}")]
-        public async Task<IActionResult> ApprovedProduceTypesForAFarmerAsync([FromRoute]Guid farmerId)
+        [HttpGet("GetApprovedProduceTypesForAFarmer/{farmerId}")]
+        public async Task<IActionResult> ApprovedProduceTypesForAFarmerAsync([FromRoute] Guid farmerId)
         {
             var produceTypes = await _produceTypeService.GetApprovedProduceTypesForAFarmerAsync(farmerId);
             if (produceTypes == null)
@@ -100,14 +106,19 @@ namespace Host.Controllers
         [HttpPut("UpdateProduceType/{id}")]
         public async Task<IActionResult> UpdateAsync([FromRoute] Guid id, [FromForm] UpdateProduceTypeRequestModel model)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                var result = await _produceTypeService.UpdateAsync(id, model);
-                // TempData["message"] = result.Message;
-                if (result.Status)
-                {
-                    return Ok(result);
-                }
+                var errors = ModelState.Values.SelectMany(v => v.Errors)
+                                                .Select(e => e.ErrorMessage)
+                                                .ToList();
+                return BadRequest(errors);
+            }
+
+            var result = await _produceTypeService.UpdateAsync(id, model);
+            // TempData["message"] = result.Message;
+            if (result.Status)
+            {
+                return Ok(result);
             }
             return BadRequest();
         }

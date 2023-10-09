@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "ojTlZchfQFv13oBVS8UTOVn/JWryqjzRKQQROg10wtU5TS/aAkAiH82Hl+nQApH3UqvWWkfYwrPf7cmhW2rLqQ==",
+  "dgSpecHash": "9ukYwEg9ZPd6zyC3sxwW7IVtKm6MD+ynkTt8ADhBS2vZYXMytqWCi3QYSW+hyjCLiDWxkbPNInO/P/0TUk8TEQ==",
   "success": true,
   "projectFilePath": "C:\\Users\\USER PC\\Desktop\\EasyProduce\\host\\Host.csproj",
   "expectedPackageFiles": [
@@ -52,6 +52,7 @@
     "C:\\Users\\USER PC\\.nuget\\packages\\runtime.native.system.net.http\\4.0.1\\runtime.native.system.net.http.4.0.1.nupkg.sha512",
     "C:\\Users\\USER PC\\.nuget\\packages\\runtime.native.system.security.cryptography\\4.0.0\\runtime.native.system.security.cryptography.4.0.0.nupkg.sha512",
     "C:\\Users\\USER PC\\.nuget\\packages\\sib_api_v3_sdk\\4.0.2\\sib_api_v3_sdk.4.0.2.nupkg.sha512",
+    "C:\\Users\\USER PC\\.nuget\\packages\\sixlabors.imagesharp\\3.0.2\\sixlabors.imagesharp.3.0.2.nupkg.sha512",
     "C:\\Users\\USER PC\\.nuget\\packages\\swashbuckle.aspnetcore\\6.5.0\\swashbuckle.aspnetcore.6.5.0.nupkg.sha512",
     "C:\\Users\\USER PC\\.nuget\\packages\\swashbuckle.aspnetcore.swagger\\6.5.0\\swashbuckle.aspnetcore.swagger.6.5.0.nupkg.sha512",
     "C:\\Users\\USER PC\\.nuget\\packages\\swashbuckle.aspnetcore.swaggergen\\6.5.0\\swashbuckle.aspnetcore.swaggergen.6.5.0.nupkg.sha512",

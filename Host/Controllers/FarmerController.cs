@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Application.Abstractions.ServiceInterfaces;
 using Application.Dtos;
@@ -20,24 +21,32 @@ namespace Host.Controllers
         [HttpPost("RegisterFarmer")]
         public async Task<IActionResult> RegisterAsync([FromForm] CreateFarmerRequestModel model)
         {
-           Console.WriteLine(model.AccountName);
-           Console.WriteLine(model.AccountNumber);
-           Console.WriteLine(model.LastName);
-           Console.WriteLine(model.FirstName);
-           Console.WriteLine(model.FarmName);
-           Console.WriteLine(model.Gender);
-           Console.WriteLine(model.Address);
-           Console.WriteLine(model.BankName);
-           Console.WriteLine(model.Email);
-           Console.WriteLine(model.Password);
-           Console.WriteLine(model.PhoneNumber);
-           Console.WriteLine(model.ProfilePicture);
-           Console.WriteLine(model.ConfirmPassword);
-           foreach (var item in model.ProduceTypes)
-           {
-             Console.WriteLine(item);
-           }
-          
+            //    Console.WriteLine(model.AccountName);
+            //    Console.WriteLine(model.AccountNumber);
+            //    Console.WriteLine(model.LastName);
+            //    Console.WriteLine(model.FirstName);
+            //    Console.WriteLine(model.FarmName);
+            //    Console.WriteLine(model.Gender);
+            //    Console.WriteLine(model.Address);
+            //    Console.WriteLine(model.BankName);
+            //    Console.WriteLine(model.Email);
+            //    Console.WriteLine(model.Password);
+            //    Console.WriteLine(model.PhoneNumber);
+            //    Console.WriteLine(model.ProfilePicture);
+            //    Console.WriteLine(model.ConfirmPassword);
+            //    foreach (var item in model.ProduceTypes)
+            //    {
+            //      Console.WriteLine(item);
+            //    }
+
+            if (!ModelState.IsValid)
+            {
+                var errors = ModelState.Values.SelectMany(v => v.Errors)
+                                                .Select(e => e.ErrorMessage)
+                                                .ToList();
+                return BadRequest(errors);
+            }
+
             var farmer = await _farmerService.RegisterFarmerAsync(model);
             if (!farmer.Status)
             {
@@ -49,6 +58,14 @@ namespace Host.Controllers
         [HttpPut("UpdateFarmer/{id}")]
         public async Task<IActionResult> UpdateAsync([FromRoute] Guid id, [FromForm] UpdateFarmerRequestModel model)
         {
+            if (!ModelState.IsValid)
+            {
+                var errors = ModelState.Values.SelectMany(v => v.Errors)
+                                                .Select(e => e.ErrorMessage)
+                                                .ToList();
+                return BadRequest(errors);
+            }
+
             var farmer = await _farmerService.UpdateFarmerAsync(id, model);
             if (!farmer.Status)
             {

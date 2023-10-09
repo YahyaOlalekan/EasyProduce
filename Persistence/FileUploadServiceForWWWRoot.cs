@@ -5,20 +5,32 @@ using System.Threading.Tasks;
 using Application.Abstractions;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using SixLabors.ImageSharp;
+
 
 namespace Persistence
 {
     public class FileUploadServiceForWWWRoot : IFileUploadServiceForWWWRoot
     {
+
         private readonly IWebHostEnvironment _webHostEnvironment;
-       
-        public FileUploadServiceForWWWRoot(IWebHostEnvironment webHostEnvironment)
+        private readonly IValidateImage _validateImage;
+
+        public FileUploadServiceForWWWRoot(IWebHostEnvironment webHostEnvironment, IValidateImage validateImage)
         {
             _webHostEnvironment = webHostEnvironment;
+            _validateImage = validateImage;
         }
-       
+
         public async Task<string> UploadFileAsync(IFormFile file)
         {
+            // Validate the image
+            var validationMessage = _validateImage.Validate(file);
+            if (!string.IsNullOrEmpty(validationMessage))
+            {
+                return validationMessage; // Image validation failed
+            }
+
             var appUploadPath = Path.Combine(_webHostEnvironment.WebRootPath, "Upload/images");
             if (!Directory.Exists(appUploadPath))
             {
@@ -27,8 +39,32 @@ namespace Persistence
             var fileName = Guid.NewGuid().ToString() + "_" + file.FileName;
             var fullPath = Path.Combine(appUploadPath, fileName);
             file.CopyTo(new FileStream(fullPath, FileMode.Create));
-            return fileName;
-         }
+            return fileName; // Image uploaded successfully
+        }
+
+
+
+
+
+        // private readonly IWebHostEnvironment _webHostEnvironment;
+
+        // public FileUploadServiceForWWWRoot(IWebHostEnvironment webHostEnvironment)
+        // {
+        //     _webHostEnvironment = webHostEnvironment;
+        // }
+
+        // public async Task<string> UploadFileAsync(IFormFile file)
+        // {
+        //     var appUploadPath = Path.Combine(_webHostEnvironment.WebRootPath, "Upload/images");
+        //     if (!Directory.Exists(appUploadPath))
+        //     {
+        //         Directory.CreateDirectory(appUploadPath);
+        //     }
+        //     var fileName = Guid.NewGuid().ToString() + "_" + file.FileName;
+        //     var fullPath = Path.Combine(appUploadPath, fileName);
+        //     file.CopyTo(new FileStream(fullPath, FileMode.Create));
+        //     return fileName;
+        // }
 
 
         // public Task<string> FileUploadingAsync(IFormFile model)
@@ -46,7 +82,7 @@ namespace Persistence
         //         {
         //             model.ImageUrl.CopyTo(fileStream);
         //         }
-                
+
         //     }
         // }
 

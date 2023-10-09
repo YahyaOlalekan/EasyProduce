@@ -24,89 +24,69 @@ namespace Application.Dtos
         public List<TransactionDto> Transactions { get; set; }
         public string Token { get; set; }
         public Gender Gender { get; set; }
-         public List<Chat> Chats {get;set;} 
-          
+        public List<Chat> Chats { get; set; }
+
     }
     public class CreateManagerRequestModel
     {
-        [Required, MaxLength(20), MinLength(3)]
-        [Display(Name = "First Name")]
+        [Display(Name = "First Name"), Required]
+        [RegularExpression(@"^[A-Za-z\s'-]*$", ErrorMessage = "Name must not contain numbers")]
+        [MaxLength(25, ErrorMessage = "Name should not contain morethan 25 letters"), MinLength(3, ErrorMessage = "Name should not contain lessthan 3 letters")]
         public string FirstName { get; set; }
-        [Required, MaxLength(20), MinLength(3)]
-        [Display(Name = "Last Name")]
+
+
+        [Display(Name = "Last Name"), Required]
+        [RegularExpression(@"^[A-Za-z\s'-]*$", ErrorMessage = "Name must not contain numbers")]
+        [MaxLength(25, ErrorMessage = "Name should not contain morethan 25 letters"), MinLength(3, ErrorMessage = "Name should not contain lessthan 3 letters")]
         public string LastName { get; set; }
 
-        [Required, MaxLength(14), MinLength(11)]
-        [Display(Name = "Phone Number")]
-        // [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$", ErrorMessage = "Not a valid phone number")]
+
+        [Display(Name = "Phone Number"), Required]
+        [RegularExpression(@"^\d{11}$", ErrorMessage = "Phone number must be 11 digits")]
         public string PhoneNumber { get; set; }
-        [RegularExpression(@"^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$",
-       ErrorMessage = "Enter a valid email address!")]
+
+
+        [Required, RegularExpression(@"^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$", ErrorMessage = "Enter a valid email address!")]
         public string Email { get; set; }
 
-        [Required, MaxLength(12), MinLength(3)]
+
+        [Required, MinLength(3, ErrorMessage = "Password should not contain lessthan 3 characters")]
         public string Password { get; set; }
 
-        // [Required, MaxLength(12), MinLength(3), Display(Name = "Confirm Password")]
-        [Compare("Password", ErrorMessage = "Password and Confirmation Password do not match!")]
+
+        [Display(Name = "Confirm Password"), Required]
+        [Compare("Password", ErrorMessage = "Password and Confirmation Password do not match.")]
         public string ConfirmPassword { get; set; }
 
-        [Required, MaxLength(20), MinLength(3)]
+
+        [Required, MinLength(3, ErrorMessage = "Address should not contain lessthan 3 characters")]
         public string Address { get; set; }
 
 
-
-        [Display(Name = "Profile Picture"), Required(ErrorMessage = "Please select file.")]
-        // [RegularExpression(@"([a-zA-Z0-9\s_\\.\-:])+(.png|.jpg|.gif|.jpeg)$", ErrorMessage = "Only Image file allowed.")]
-        public IFormFile ProfilePicture { get; set; }
-
-        // public string Token { get; set; }
+        [Required]
         public Gender Gender { get; set; }
 
+
+        [Display(Name = "Profile Picture"), Required(ErrorMessage = "Please select a profile picture.")]
+        public IFormFile ProfilePicture { get; set; }
+
     }
+   
     public class UpdateManagerRequestModel
     {
-        // [MaxLength(14), MinLength(11)]
-        [Display(Name = "Phone Number")]
+        [Display(Name = "Phone Number"), Required]
+        [RegularExpression(@"^\d{11}$", ErrorMessage = "Phone number must be 11 digits")]
         public string PhoneNumber { get; set; }
 
-        [Required, MaxLength(12), MinLength(3)]
+        [Required, MinLength(3, ErrorMessage = "Password should not contain lessthan 3 characters")]
         public string Password { get; set; }
 
-        [MaxLength(20), MinLength(3)]
+        [Required, MinLength(3, ErrorMessage = "Address should not contain lessthan 3 characters")]
         public string Address { get; set; }
 
-        [Display(Name = "Profile Picture")]
-        // [RegularExpression(@"([a-zA-Z0-9\s_\\.\-:])+(.png|.jpg|.gif|.jpeg)$", ErrorMessage = "Only Image file allowed.")]
+        [Display(Name = "Profile Picture"), Required(ErrorMessage = "Please select a profile picture.")]
         public IFormFile ProfilePicture { get; set; }
     }
 
-
-    // public class UpdateManagerRequestModel
-    // {
-    //   //  [MaxLength(20), MinLength(3)]
-    //     [Display(Name = "First Name")]
-    //     public string FirstName { get; set; }
-
-    //    // [MaxLength(20), MinLength(3)]
-    //     [Display(Name = "Last Name")]
-    //     public string LastName { get; set; }
-
-    //    // [MaxLength(14), MinLength(11)]
-    //     [Display(Name = "Phone Number")]
-    //     public string PhoneNumber { get; set; }
-
-    //    // [RegularExpression(@"^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$",
-    //   //  ErrorMessage = "Enter a valid email address!")]
-    //     public string Email { get; set; }
-    //     // [Required, MaxLength(12), MinLength(3)]
-    //     // public string Password { get; set; }
-    //    // [MaxLength(20), MinLength(3)]
-    //     public string Address { get; set; }
-
-    //      [Display(Name = "Profile Picture")]
-    //     // [RegularExpression(@"([a-zA-Z0-9\s_\\.\-:])+(.png|.jpg|.gif|.jpeg)$", ErrorMessage = "Only Image file allowed.")]
-    //     public IFormFile ProfilePicture { get; set; }
-    // }
 
 }

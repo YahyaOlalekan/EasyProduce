@@ -56,3 +56,4 @@ C:\Users\USER PC\Desktop\EasyProduce\host\bin\Debug\net6.0\FubarCoder.RestSharp.
 C:\Users\USER PC\Desktop\EasyProduce\host\bin\Debug\net6.0\JsonSubTypes.dll
 C:\Users\USER PC\Desktop\EasyProduce\host\bin\Debug\net6.0\Newtonsoft.Json.dll
 C:\Users\USER PC\Desktop\EasyProduce\host\bin\Debug\net6.0\sib_api_v3_sdk.dll
+C:\Users\USER PC\Desktop\EasyProduce\host\bin\Debug\net6.0\SixLabors.ImageSharp.dll

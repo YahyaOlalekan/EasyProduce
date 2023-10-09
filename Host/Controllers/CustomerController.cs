@@ -23,24 +23,14 @@ namespace Host.Controllers
         [HttpPost("CustomerRegistration")]
         public async Task<IActionResult> RegisterAsync([FromForm] CreateCustomerRequestModel model)
         {
-            // var customer = await _customerService.CreateAsync(model);
-            // if (!customer.Status)
-            // {
-            //     return BadRequest(customer);
-            // }
-            // return Ok(customer);
+            if (!ModelState.IsValid)
+            {
+                var errors = ModelState.Values.SelectMany(v => v.Errors)
+                                                .Select(e => e.ErrorMessage)
+                                                .ToList();
+                return BadRequest(errors);
+            }
 
-            // if (!ModelState.IsValid)
-            // {
-            //     // Model validation failed; collect errors
-            //    var errors = ModelState.Values.SelectMany(v => v.Errors)
-            //                                    .Select(e => e.ErrorMessage)
-            //                                    .ToList();
-
-            //     // Return validation errors with a 400 Bad Request status code
-            //     return BadRequest(errors);
-            // }
-           
             var customer = await _customerService.CreateAsync(model);
             if (!customer.Status)
             {
@@ -53,6 +43,17 @@ namespace Host.Controllers
         [HttpPut("UpdateCustomer/{id}")]
         public async Task<IActionResult> UpdateAsync([FromRoute] Guid id, [FromForm] UpdateCustomerRequestModel model)
         {
+            if (!ModelState.IsValid)
+            {
+                // Model validation failed; collect errors
+                var errors = ModelState.Values.SelectMany(v => v.Errors)
+                                                .Select(e => e.ErrorMessage)
+                                                .ToList();
+
+                // Return validation errors with a 400 Bad Request status code
+                return BadRequest(errors);
+            }
+           
             var customer = await _customerService.UpdateAsync(id, model);
             if (!customer.Status)
             {

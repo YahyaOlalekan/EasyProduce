@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Application.Abstractions.ServiceInterfaces;
 using Application.Dtos;
@@ -20,13 +21,19 @@ namespace Host.Controllers
         [HttpPost("CreateCategory")]
         public async Task<IActionResult> CreateAsync([FromForm] CreateCategoryRequestModel model)
         {
-            var category = await _categoryService.CreateAsync(model);
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                if (category.Status)
-                {
-                    return Ok(category);
-                }
+                var errors = ModelState.Values.SelectMany(v => v.Errors)
+                                                .Select(e => e.ErrorMessage)
+                                                .ToList();
+                return BadRequest(errors);
+            }
+
+            var category = await _categoryService.CreateAsync(model);
+
+            if (category.Status)
+            {
+                return Ok(category);
             }
             return BadRequest(category);
         }
@@ -36,7 +43,7 @@ namespace Host.Controllers
         public async Task<IActionResult> DeleteAsync([FromRoute] Guid id)
         {
             var category = await _categoryService.DeleteAsync(id);
-        // TempData["message"] = category.Message;
+            // TempData["message"] = category.Message;
             if (category.Status)
             {
                 return Ok(category);
@@ -51,7 +58,6 @@ namespace Host.Controllers
             if (category is not null)
             {
                 return Ok(category);
-
             }
             return NotFound(category);
         }
@@ -69,18 +75,23 @@ namespace Host.Controllers
         }
 
 
-       
+
         [HttpPut("UpdateCategory/{id}")]
         public async Task<IActionResult> UpdateAsync([FromRoute] Guid id, [FromForm] UpdateCategoryRequestModel model)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                var result = await _categoryService.UpdateAsync(id, model);
-                // TempData["message"] = result.Message;
-                if (result.Status)
-                {
-                    return Ok(result);
-                }
+                var errors = ModelState.Values.SelectMany(v => v.Errors)
+                                                .Select(e => e.ErrorMessage)
+                                                .ToList();
+                return BadRequest(errors);
+            }
+
+            var result = await _categoryService.UpdateAsync(id, model);
+            // TempData["message"] = result.Message;
+            if (result.Status)
+            {
+                return Ok(result);
             }
             return BadRequest();
         }

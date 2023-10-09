@@ -24,6 +24,14 @@ namespace Host.Controllers
         [HttpPost("RegisterManager")]
         public async Task<IActionResult> RegisterAsync([FromForm] CreateManagerRequestModel model)
         {
+            if (!ModelState.IsValid)
+            {
+                var errors = ModelState.Values.SelectMany(v => v.Errors)
+                                                .Select(e => e.ErrorMessage)
+                                                .ToList();
+                return BadRequest(errors);
+            }
+
             var manager = await _managerService.CreateAsync(model);
             if (!manager.Status)
             {
@@ -35,6 +43,14 @@ namespace Host.Controllers
         [HttpPut("UpdateManager/{id}")]
         public async Task<IActionResult> UpdateAsync([FromRoute] Guid id, [FromForm] UpdateManagerRequestModel model)
         {
+            if (!ModelState.IsValid)
+            {
+                var errors = ModelState.Values.SelectMany(v => v.Errors)
+                                                .Select(e => e.ErrorMessage)
+                                                .ToList();
+                return BadRequest(errors);
+            }
+
             var manager = await _managerService.UpdateAsync(id, model);
             if (!manager.Status)
             {

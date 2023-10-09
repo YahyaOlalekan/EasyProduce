@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "zwpsZyPX/rz14ublJi/NF1dkeVolSipiLl3WSo53Fxg=",
+  "Hash": "UnLLPcfMrGm2fHF3Rywk2zYPmrJeDVV08GtL3ro+dZQ=",
   "Source": "Host",
   "BasePath": "_content/Host",
   "Mode": "Default",
@@ -933,6 +933,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\Upload\\images\\210c4466-659c-458d-a9c0-f1ea254efb8a_Screenshot (38).png"
+    },
+    {
+      "Identity": "C:\\Users\\USER PC\\Desktop\\EasyProduce\\host\\wwwroot\\Upload\\images\\2200c4fd-1c5a-46fb-8202-312e7ecf40bf_user.PNG",
+      "SourceId": "Host",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\USER PC\\Desktop\\EasyProduce\\host\\wwwroot\\",
+      "BasePath": "_content/Host",
+      "RelativePath": "Upload/images/2200c4fd-1c5a-46fb-8202-312e7ecf40bf_user.PNG",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\Upload\\images\\2200c4fd-1c5a-46fb-8202-312e7ecf40bf_user.PNG"
     },
     {
       "Identity": "C:\\Users\\USER PC\\Desktop\\EasyProduce\\host\\wwwroot\\Upload\\images\\231d2e8e-4d65-4374-97bb-3530da6beb91_Screenshot (41).png",
@@ -1885,6 +1902,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\Upload\\images\\5117f2e9-0d59-49b4-a604-d8e72451abb2_R2.jpg"
+    },
+    {
+      "Identity": "C:\\Users\\USER PC\\Desktop\\EasyProduce\\host\\wwwroot\\Upload\\images\\5188dfcb-2e34-4a91-aaa0-43158004347c_user.PNG",
+      "SourceId": "Host",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\USER PC\\Desktop\\EasyProduce\\host\\wwwroot\\",
+      "BasePath": "_content/Host",
+      "RelativePath": "Upload/images/5188dfcb-2e34-4a91-aaa0-43158004347c_user.PNG",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\Upload\\images\\5188dfcb-2e34-4a91-aaa0-43158004347c_user.PNG"
     },
     {
       "Identity": "C:\\Users\\USER PC\\Desktop\\EasyProduce\\host\\wwwroot\\Upload\\images\\51eb2350-4fed-42b2-9706-ebaad741f6c9_R.jpg",
