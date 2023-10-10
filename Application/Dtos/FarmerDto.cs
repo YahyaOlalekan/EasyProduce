@@ -38,6 +38,7 @@ namespace Application.Dtos
 
     public class CreateFarmerRequestModel
     {
+        [Display(Name = "Select Produce Types"), Required (ErrorMessage = "You must select atleast one produce type")]
         public List<Guid> ProduceTypes { get; set; }
 
         [Display(Name = "First Name"), Required]
@@ -96,7 +97,7 @@ namespace Application.Dtos
         [RegularExpression(@"^[A-Za-z\s'-]*$", ErrorMessage = "Name must not contain numbers")]
         [MaxLength(25, ErrorMessage = "Name should not contain morethan 50 letters"), MinLength(3, ErrorMessage = "Name should not contain lessthan 3 letters")]
         public string AccountName { get; set; }
-        
+
 
         [Display(Name = "Account Number"), Required]
         [RegularExpression(@"^\d{10}$", ErrorMessage = "Account Number must be 10 digits")]

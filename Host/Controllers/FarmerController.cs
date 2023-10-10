@@ -140,7 +140,7 @@ namespace Host.Controllers
 
 
         // [Authorize(Roles = "admin manager")]
-        [HttpGet("GetFarmerAccountDetails{id}")]
+        [HttpGet("GetFarmerAccountDetails/{id}")]
         public async Task<IActionResult> GetFarmerAccountDetailsByIdAsync([FromRoute] Guid id)
         {
             var farmer = await _farmerService.GetFarmerAcountDetailsByIdAsync(id);
