@@ -78,7 +78,7 @@ namespace Host.Controllers
 
 
         [HttpPost("VerifyProduceType")]
-        public async Task<IActionResult> VerifyAsync(ProduceTypeToBeApprovedRequestModel model)
+        public async Task<IActionResult> VerifyProduceTypeAsync(ProduceTypeToBeApprovedRequestModel model)
         {
             var result = await _produceTypeService.VerifyProduceTypeAsync(model);
 
@@ -87,8 +87,32 @@ namespace Host.Controllers
                 return BadRequest(result);
             }
             return Ok(result);
+            // return Ok();
         }
 
+       
+        [HttpGet("GetProduceTypesToBeApprovedAsync/{farmerId}")]
+        public async Task<IActionResult> GetProduceTypesToBeApprovedAsync(Guid farmerId)
+        {
+            var produceTypes = await _produceTypeService.GetProduceTypesToBeApprovedAsync(farmerId);
+            if (produceTypes == null)
+            {
+                return NotFound(produceTypes);
+            }
+            return Ok(produceTypes);
+        }
+
+
+        // [HttpGet("GetProduceTypesToBeApprovedAsync")]
+        // public async Task<IActionResult> GetProduceTypesToBeApprovedAsync(ProduceTypeToBeApprovedRequestModel model)
+        // {
+        //     var produceTypes = await _produceTypeService.GetProduceTypesToBeApprovedAsync(model);
+        //     if (produceTypes == null)
+        //     {
+        //         return NotFound(produceTypes);
+        //     }
+        //     return Ok(produceTypes);
+        // }
 
         [HttpGet("GetApprovedProduceTypesForAFarmer/{farmerId}")]
         public async Task<IActionResult> ApprovedProduceTypesForAFarmerAsync([FromRoute] Guid farmerId)

@@ -51,6 +51,7 @@ namespace Persistence.RepositoryImplementations
             .Where(a => !a.IsDeleted)
             .Include(a => a.Produce)
             .ThenInclude(a => a.Category)
+            .Include(a => a.FarmerProduceTypes)
             .ToListAsync();
         }
 

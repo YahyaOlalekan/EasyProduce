@@ -253,13 +253,15 @@ namespace Application.Services
                     PhoneNumber = m.User.PhoneNumber,
                     Address = m.User.Address,
                     FarmName = m.FarmName,
+                    // Gender = m.User.Gender,
+                    // ProduceTypeIds = m.FarmerProduceTypes.Select(farmerProduceType => farmerProduceType.ProduceTypeId).ToList()
 
-                    // ProfilePicture = m.User.ProfilePicture,
+
                 })
             };
         }
 
-
+ 
 
         public async Task<BaseResponse<FarmerDto>> UpdateFarmerAsync(Guid id, UpdateFarmerRequestModel model)
         {
@@ -327,36 +329,36 @@ namespace Application.Services
         }
 
 
-        public async Task<BaseResponse<IEnumerable<FarmerDto>>> GetFarmersByStatusAsync(FarmerStatusRequestModel model)
-        {
-            var farmers = await _farmerRepository.GetSelectedAsync(f => f.FarmerRegStatus == model.Status && !f.IsDeleted);
+        // public async Task<BaseResponse<IEnumerable<FarmerDto>>> GetFarmersByStatusAsync(FarmerStatusRequestModel model)
+        // {
+        //     var farmers = await _farmerRepository.GetSelectedAsync(f => f.FarmerRegStatus == model.Status && !f.IsDeleted);
 
-            if (!farmers.Any())
-            {
-                return new BaseResponse<IEnumerable<FarmerDto>>
-                {
-                    Message = "Farmer not found",
-                    Status = false,
-                };
-            }
+        //     if (!farmers.Any())
+        //     {
+        //         return new BaseResponse<IEnumerable<FarmerDto>>
+        //         {
+        //             Message = "Farmer not found",
+        //             Status = false,
+        //         };
+        //     }
 
-            return new BaseResponse<IEnumerable<FarmerDto>>
-            {
-                Message = "Successful",
-                Status = true,
-                Data = farmers.Select(f => new FarmerDto
-                {
-                    Id = f.Id,
-                    RegistrationNumber = f.RegistrationNumber,
-                    FirstName = f.User.FirstName,
-                    LastName = f.User.LastName,
-                    Email = f.User.Email,
-                    PhoneNumber = f.User.PhoneNumber,
-                    Address = f.User.Address,
-                    ProfilePicture = f.User.ProfilePicture,
-                })
-            };
-        }
+        //     return new BaseResponse<IEnumerable<FarmerDto>>
+        //     {
+        //         Message = "Successful",
+        //         Status = true,
+        //         Data = farmers.Select(f => new FarmerDto
+        //         {
+        //             Id = f.Id,
+        //             RegistrationNumber = f.RegistrationNumber,
+        //             FirstName = f.User.FirstName,
+        //             LastName = f.User.LastName,
+        //             Email = f.User.Email,
+        //             PhoneNumber = f.User.PhoneNumber,
+        //             Address = f.User.Address,
+        //             ProfilePicture = f.User.ProfilePicture,
+        //         })
+        //     };
+        // }
 
 
         private async Task<string> GeneratefarmerRegNumAsync()

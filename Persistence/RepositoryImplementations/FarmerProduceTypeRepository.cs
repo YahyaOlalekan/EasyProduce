@@ -34,15 +34,15 @@ public class FarmerProduceTypeRepository : BaseRepository<FarmerProduceType>, IF
             .Where(a => a.FarmerId == id && !a.IsDeleted).ToListAsync();
         }
 
-        // public async Task<IEnumerable<FarmerProduceType>> GetAllAsync(Expression<Func<FarmerProduceType, bool>> expression)
-        // {
-        //     return await _context.FarmerProduceTypes
-        //     .Where(a => !a.IsDeleted)
-        //     .Include(a => a.Farmer)
-        //     .Include(a => a.ProduceType)
-        //     .SingleOrDefaultAsync(expression)
-        //     .ToListAsync();
-        // }
+        public async Task<IEnumerable<FarmerProduceType>> GetAllAsync(Expression<Func<FarmerProduceType, bool>> expression)
+        {
+            return await _context.FarmerProduceTypes
+            .Where(expression)
+            .Include(a => a.Farmer)
+            .Include(a => a.ProduceType)
+            // .SingleOrDefaultAsync(expression)
+            .ToListAsync();
+        }
         public async Task<IEnumerable<ProduceType>> GetAllApprovedProduceTypeOfAFarmer(Guid farmerId)
         {
             return await _context.FarmerProduceTypes
@@ -53,10 +53,18 @@ public class FarmerProduceTypeRepository : BaseRepository<FarmerProduceType>, IF
         public async Task<FarmerProduceType> GetAsync(Expression<Func<FarmerProduceType, bool>> expression)
         {
             return await _context.FarmerProduceTypes
-            .Where(a => !a.IsDeleted)
             .Include(a => a.Farmer)
             .Include(a => a.ProduceType)
-            .SingleOrDefaultAsync(expression);
+            .Where(expression)
+            .FirstOrDefaultAsync();
+        }
+        public async Task<FarmerProduceType> GetAsync(Guid farmerId, Guid produceTypeId)
+        {
+            return await _context.FarmerProduceTypes
+            .Include(a => a.Farmer)
+            .Include(a => a.ProduceType)
+            .Where(x => x.FarmerId == farmerId && x.ProduceTypeId == produceTypeId && !x.IsDeleted)
+            .FirstOrDefaultAsync();
         }
 
         public async Task<IEnumerable<FarmerProduceType>> GetAllAsync()

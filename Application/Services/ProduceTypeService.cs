@@ -1,13 +1,16 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Security.Claims;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using Application.Abstractions.RepositoryInterfaces;
 using Application.Abstractions.ServiceInterfaces;
 using Application.Dtos;
 using Domain.Entity;
+using Domain.Enum;
 using Microsoft.AspNetCore.Http;
 
 namespace Application.Services
@@ -96,7 +99,7 @@ namespace Application.Services
         }
 
 
-       
+
 
 
 
@@ -146,7 +149,7 @@ namespace Application.Services
                 Status = true,
                 Data = produceType.Select(c => new ProduceTypeDto
                 {
-                     Id = c.Id,
+                    Id = c.Id,
                     TypeName = c.TypeName,
                     UnitOfMeasurement = c.UnitOfMeasurement,
                     CostPrice = c.CostPrice,
@@ -198,7 +201,8 @@ namespace Application.Services
 
         public async Task<BaseResponse<ProduceTypeDto>> VerifyProduceTypeAsync(ProduceTypeToBeApprovedRequestModel model)
         {
-            var produceType = await _farmerProduceTypeRepository.GetAsync(x => x.FarmerId == model.FarmerId && x.Id == model.ProduceTypeId);
+            var produceType = await _farmerProduceTypeRepository.GetAsync(model.FarmerId, model.ProduceTypeId);
+            // var produceType = await _farmerProduceTypeRepository.GetAsync(x => x.FarmerId == model.FarmerId && x.Farmer.FarmerRegStatus == Domain.Enum.FarmerRegStatus.Pending && x.Id == model.ProduceTypeId);
 
             if (produceType == null)
             {
@@ -209,7 +213,7 @@ namespace Application.Services
                 };
             }
 
-            produceType.Status = model.Status;
+            produceType.Status = (Status)model.Status;
             _farmerProduceTypeRepository.Update(produceType);
             await _farmerProduceTypeRepository.SaveAsync();
             return new BaseResponse<ProduceTypeDto>
@@ -219,6 +223,72 @@ namespace Application.Services
             };
 
         }
+
+
+        public async Task<BaseResponse<IEnumerable<ProduceTypeDto>>>GetProduceTypesToBeApprovedAsync(Guid farmerId)
+        {
+            var produceTypes = await _farmerProduceTypeRepository.GetAllAsync(f => f.FarmerId == farmerId && f.IsDeleted == false);
+
+            if (produceTypes == null)
+            {
+                return new BaseResponse<IEnumerable<ProduceTypeDto>>
+                {
+                    Message = "Not Found",
+                    Status = false,
+                };
+            }
+
+            return new BaseResponse<IEnumerable<ProduceTypeDto>>
+            {
+                Message = "Successful",
+                Status = true,
+                Data = produceTypes.Select(x => new ProduceTypeDto
+                {
+                    Id = x.ProduceType.Id,
+                    TypeName = x.ProduceType.TypeName,
+                    FarmerId = x.FarmerId
+                    // FarmerIds = x.ProduceType.FarmerProduceTypes
+                    //     .Select(farmerProduceType => farmerProduceType.FarmerId)
+                    //     .ToList()
+                })
+            };
+        }
+      
+
+
+        // public async Task<BaseResponse<IEnumerable<ProduceTypeDto>>> GetProduceTypesToBeApprovedAsync(ProduceTypeToBeApprovedRequestModel model)
+        // {
+        //     var produceTypes = await _farmerProduceTypeRepository.GetAllAsync(x => x.FarmerId == model.FarmerId && x.Id == model.ProduceTypeId && x.ProduceType.Status == Domain.Enum.Status.Pending);
+
+        //     if (produceTypes == null)
+        //     {
+        //         return new BaseResponse<IEnumerable<ProduceTypeDto>>
+        //         {
+        //             Message = "Not Found",
+        //             Status = false,
+        //         };
+        //     }
+
+        //     return new BaseResponse<IEnumerable<ProduceTypeDto>>
+        //     {
+        //         Message = "Successful",
+        //         Status = true,
+        //         Data = produceTypes.Select(x => new ProduceTypeDto
+        //         {
+        //             Id = x.ProduceType.Id,
+        //             TypeName = x.ProduceType.TypeName,
+        //             FarmerIds = x.ProduceType.FarmerProduceTypes
+        //                 .Select(farmerProduceType => farmerProduceType.FarmerId)
+        //                 .ToList()
+        //         })
+        //     };
+
+        // }
+
+
+
+
+
         public async Task<BaseResponse<IEnumerable<ProduceTypeDto>>> GetApprovedProduceTypesForAFarmerAsync(Guid farmerId)
         {
             var approvedProduceType = await _farmerProduceTypeRepository.GetAllApprovedProduceTypeOfAFarmer(farmerId);

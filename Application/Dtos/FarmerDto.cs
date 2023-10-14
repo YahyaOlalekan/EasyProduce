@@ -22,9 +22,11 @@ namespace Application.Dtos
         public string? FarmName { get; set; }
         public FarmerRegStatus FarmerRegStatus { get; set; }
         public Guid UserId { get; set; }
+
         public string Role { get; set; }
         public Guid TransactionId { get; set; }
         public List<TransactionDto> Transactions { get; set; }
+        public List<Guid> ProduceTypeIds { get; set; }
 
         public string BankName { get; set; }
         public string AccountName { get; set; }

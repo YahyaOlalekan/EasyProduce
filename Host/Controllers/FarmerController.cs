@@ -127,16 +127,16 @@ namespace Host.Controllers
         }
 
 
-        [HttpPost("GetFarmersByStatus")]
-        public async Task<IActionResult> GetFarmersByStatusAsync(FarmerStatusRequestModel model)
-        {
-            var result = await _farmerService.GetFarmersByStatusAsync(model);
-            if (result == null)
-            {
-                return NotFound(result);
-            }
-            return Ok(result);
-        }
+        // [HttpPost("GetFarmersByStatus")]
+        // public async Task<IActionResult> GetFarmersByStatusAsync(FarmerStatusRequestModel model)
+        // {
+        //     var result = await _farmerService.GetFarmersByStatusAsync(model);
+        //     if (result == null)
+        //     {
+        //         return NotFound(result);
+        //     }
+        //     return Ok(result);
+        // }
 
 
         // [Authorize(Roles = "admin manager")]

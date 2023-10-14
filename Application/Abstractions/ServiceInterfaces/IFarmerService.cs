@@ -13,7 +13,7 @@ namespace Application.Abstractions.ServiceInterfaces
         Task<BaseResponse<IEnumerable<FarmerDto>>> GetAllAsync(Func<FarmerDto, bool> expression);
         Task<BaseResponse<IEnumerable<FarmerDto>>> GetAllFarmersAsync();
         Task<BaseResponse<FarmerDto>> DeleteFarmerAsync(Guid id);
-        Task<BaseResponse<IEnumerable<FarmerDto>>> GetFarmersByStatusAsync(FarmerStatusRequestModel model);
+        // Task<BaseResponse<IEnumerable<FarmerDto>>> GetFarmersByStatusAsync(FarmerStatusRequestModel model);
         Task<BaseResponse<string>> VerifyFarmerAsync(ApproveFarmerDto model);
         Task<BaseResponse<FarmerDto>> GetFarmerAcountDetailsByIdAsync(Guid id);
 

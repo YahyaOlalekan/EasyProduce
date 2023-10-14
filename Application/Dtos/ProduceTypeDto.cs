@@ -11,6 +11,8 @@ namespace Application.Dtos
         public Guid Id { get; set; }
         public string TypeName { get; set; }
         // public string TypePicture { get; set; }
+        public Guid FarmerId { get; set; }
+        public List<Guid> FarmerIds { get; set; }
         public Guid ProduceId { get; set; }
         public string ProduceName { get; set; }
         public string NameOfCategory { get; set; }
@@ -83,8 +85,28 @@ namespace Application.Dtos
         [Display(Name = "Produce Type Name")]
         public Guid ProduceTypeId { get; set; }
         public Guid FarmerId { get; set; }
-        public Status Status { get; set; }
+        public int Status { get; set; }
     }
+    // public class ProduceTypeToBeApprovedRequestModelTesting
+    // {
+    //     [Display(Name = "Produce Type Name")]
+    //     public Guid ProduceTypeId { get; set; }
+    //     public Guid FarmerId { get; set; }
+    //     public Status Status { get; set; }
+    // }
+
+    // public class ProduceTypeToBeApprovedModel
+    // {
+    //     [Display(Name = "Produce Type Name")]
+    //     public Guid ProduceTypeId { get; set; }
+    //     public Guid FarmerId { get; set; }
+    //     public Status Status { get; set; }
+    // }
+    // public class ProduceTypeToBeApprovedRequestModel
+    // {
+    //    public List<ProduceTypeToBeApprovedModel> Producetypes {get; set;}
+    // }
+   
 
 
     // public class ProduceTypeDetailsToBeSoldByTheFarmerRequestModel
