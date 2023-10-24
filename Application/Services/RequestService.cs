@@ -23,34 +23,47 @@ namespace Application.Services
             _requestRepository = requestRepository;
         }
 
-        public async Task<string> AddNewProduceTypeAsync(Guid farmerId, AddNewProduceTypeRequestModel model)
+        public async Task<BaseResponse<Request>> AddNewProduceTypeAsync(Guid farmerId, Guid produceTypeId)
         {
-            var farmer = await _farmerRepository.GetAsync(f => f.Id == farmerId);
+            var farmer = await _farmerRepository.GetAsync(f => f.User.Id == farmerId);
             if (farmer == null)
             {
-                return "Farmer Not Found!";
+
+                return new BaseResponse<Request>
+                {
+                    Message = "Farmer Not Found",
+                    Status = false
+                };
             }
 
             if (farmer.FarmerRegStatus != Domain.Enum.FarmerRegStatus.Approved)
             {
-                return "Sorry, You are yet to be approved as a produce type Seller";
+                return new BaseResponse<Request>
+                {
+                    Message = "Sorry, You are yet to be approved as a produce type Seller",
+                    Status = false
+                };
             }
 
-            var farmerProduceType = await _farmerProduceTypeRepository.GetAsync(x => x.FarmerId == farmerId && x.ProduceTypeId == model.ProduceTypeId && x.Status == Domain.Enum.Status.Approved);
+            var farmerProduceType = await _farmerProduceTypeRepository.GetAsync(x => x.FarmerId == farmer.Id || x.Farmer.UserId == farmer.Id && x.ProduceTypeId == produceTypeId && x.Status == Domain.Enum.Status.Approved);
             if (farmerProduceType != null)
             {
-                return $"Sorry, '{farmerProduceType.ProduceType.TypeName}' produce Type has been approved for you before!";
+                return new BaseResponse<Request>
+                {
+                    Message = $"Sorry, '{farmerProduceType.ProduceType.TypeName}' produce Type has been approved for you before!",
+                    Status = false
+                };
             }
 
             var request = new Request
             {
-                ProduceTypeId = model.ProduceTypeId,
-                RejectionReason = model.RejectionReason,
+                ProduceTypeId = produceTypeId,
+                // RejectionReason = RejectionReason,
                 RequestType = Domain.Enum.RequestType.AddNewProduceType,
                 RequestStatus = Domain.Enum.RequestStatus.Initialized,
-                FarmerId = farmerId,
+                FarmerId = farmer.Id,
                 RequestNumber = await _requestRepository.GenerateRequestNumAsync()
-                
+
             };
 
             await _requestRepository.CreateRequestAsync(request);
@@ -60,27 +73,84 @@ namespace Application.Services
             var farmerFirstLetterOfLastNameToUpperCase = $"{CultureInfo.CurrentCulture.TextInfo.ToTitleCase(farmerProduceType.Farmer.User.LastName)}";
             var fullName = farmerFirstLetterOfFirstNameToUpperCase + " " + farmerFirstLetterOfLastNameToUpperCase;
 
-            return $"Dear {fullName}, your request to add produce type '{farmerProduceType.ProduceType.TypeName}' is successfully submitted";
+            return new BaseResponse<Request>
+            {
+                Message = $"Dear {fullName}, your request to add produce type '{farmerProduceType.ProduceType.TypeName}' is successfully submitted",
+                Status = true
+            };
         }
 
 
-        public async Task<string> RemoveExistingProduceTypeAsync(Guid farmerId, RemoveExistingProduceTypeRequestModel model)
+        // public async Task<string> AddNewProduceTypeAsync(Guid farmerId, AddNewProduceTypeRequestModel model)
+        // {
+        //     var farmer = await _farmerRepository.GetAsync(f => f.Id == farmerId);
+        //     if (farmer == null)
+        //     {
+        //         return "Farmer Not Found!";
+        //     }
+
+        //     if (farmer.FarmerRegStatus != Domain.Enum.FarmerRegStatus.Approved)
+        //     {
+        //         return "Sorry, You are yet to be approved as a produce type Seller";
+        //     }
+
+        //     var farmerProduceType = await _farmerProduceTypeRepository.GetAsync(x => x.FarmerId == farmerId && x.ProduceTypeId == model.ProduceTypeId && x.Status == Domain.Enum.Status.Approved);
+        //     if (farmerProduceType != null)
+        //     {
+        //         return $"Sorry, '{farmerProduceType.ProduceType.TypeName}' produce Type has been approved for you before!";
+        //     }
+
+        //     var request = new Request
+        //     {
+        //         ProduceTypeId = model.ProduceTypeId,
+        //         RejectionReason = model.RejectionReason,
+        //         RequestType = Domain.Enum.RequestType.AddNewProduceType,
+        //         RequestStatus = Domain.Enum.RequestStatus.Initialized,
+        //         FarmerId = farmerId,
+        //         RequestNumber = await _requestRepository.GenerateRequestNumAsync()
+
+        //     };
+
+        //     await _requestRepository.CreateRequestAsync(request);
+        //     await _requestRepository.SaveAsync();
+
+        //     var farmerFirstLetterOfFirstNameToUpperCase = $"{CultureInfo.CurrentCulture.TextInfo.ToTitleCase(farmerProduceType.Farmer.User.FirstName)}";
+        //     var farmerFirstLetterOfLastNameToUpperCase = $"{CultureInfo.CurrentCulture.TextInfo.ToTitleCase(farmerProduceType.Farmer.User.LastName)}";
+        //     var fullName = farmerFirstLetterOfFirstNameToUpperCase + " " + farmerFirstLetterOfLastNameToUpperCase;
+
+        //     return $"Dear {fullName}, your request to add produce type '{farmerProduceType.ProduceType.TypeName}' is successfully submitted";
+        // }
+
+
+        public async Task<BaseResponse<Request>> RemoveExistingProduceTypeAsync(Guid farmerId, RemoveExistingProduceTypeRequestModel model)
         {
-            var farmer = await _farmerRepository.GetAsync(f => f.Id == farmerId);
+            var farmer = await _farmerRepository.GetAsync(f => f.User.Id == farmerId);
             if (farmer == null)
             {
-                return "Farmer Not Found!";
+                return new BaseResponse<Request>
+                {
+                    Message = "Farmer Not Found",
+                    Status = false
+                };
             }
 
             if (farmer.FarmerRegStatus != Domain.Enum.FarmerRegStatus.Approved)
             {
-                return "Sorry, You are yet to be approved as a produce type Seller";
+                return new BaseResponse<Request>
+                {
+                    Message = "Sorry, You are yet to be approved as a produce type Seller",
+                    Status = false
+                };
             }
 
-            var farmerProduceType = await _farmerProduceTypeRepository.GetAsync(x => x.FarmerId == farmerId && x.ProduceTypeId == model.ProduceTypeId && x.Status != Domain.Enum.Status.Approved);
+            var farmerProduceType = await _farmerProduceTypeRepository.GetAsync(x => x.FarmerId == farmer.Id || x.Farmer.UserId == farmer.Id && x.ProduceTypeId == model.ProduceTypeId && x.Status != Domain.Enum.Status.Approved);
             if (farmerProduceType == null)
             {
-                return "Sorry, this produce Type has never been approved for you before!";
+                return new BaseResponse<Request>
+                {
+                    Message = "Sorry, this produce Type has never been approved for you before!",
+                    Status = false
+                };
             }
 
             var request = new Request
@@ -89,7 +159,7 @@ namespace Application.Services
                 RejectionReason = model.ReasonForStopSelling,
                 RequestType = Domain.Enum.RequestType.RemoveFromExistingProduceType,
                 RequestStatus = Domain.Enum.RequestStatus.Initialized,
-                FarmerId = farmerId,
+                FarmerId = farmer.Id,
                 RequestNumber = await _requestRepository.GenerateRequestNumAsync()
             };
 
@@ -100,19 +170,27 @@ namespace Application.Services
             var farmerFirstLetterOfLastNameToUpperCase = $"{CultureInfo.CurrentCulture.TextInfo.ToTitleCase(farmerProduceType.Farmer.User.LastName)}";
             var fullName = farmerFirstLetterOfFirstNameToUpperCase + " " + farmerFirstLetterOfLastNameToUpperCase;
 
-            return $"Dear {fullName}, your request to remove produce type '{farmerProduceType.ProduceType.TypeName}' is successfully submitted";
+            return new BaseResponse<Request>
+            {
+                Message = $"Dear {fullName}, your request to remove produce type '{farmerProduceType.ProduceType.TypeName}' is successfully submitted",
+                Status = true
+            };
 
         }
 
 
-    
-        public async Task<string> VerifyRequestAsync(RequestApproveRequestModel model)
+
+        public async Task<BaseResponse<Request>> VerifyRequestAsync(RequestApproveRequestModel model)
         {
             var request = await _requestRepository.GetRequestAsync(x => x.FarmerId == model.FarmerId && x.Id == model.RequestId);
 
             if (request == null)
             {
-                return "Request Not found";
+                return new BaseResponse<Request>
+                {
+                    Message = "Request Not found",
+                    Status = false
+                };
             }
 
             request.RejectionReason = model.RejectionReason;
@@ -120,12 +198,16 @@ namespace Application.Services
             _requestRepository.Update(request);
             await _requestRepository.SaveAsync();
 
-            return "Successful";
+            return new BaseResponse<Request>
+            {
+                Message = "Successful",
+                Status = true
+            };
         }
 
 
 
-       
+
         public async Task<BaseResponse<IEnumerable<RequestDto>>> GetAllProduceTypeRequestAsync(GetAllProduceTypeRequestModel model)
         {
             var request = await _requestRepository.GetSelectedAsync(r => r.RequestType == model.RequestType && (model.RequestStatus == null || r.RequestStatus == model.RequestStatus));
@@ -143,20 +225,23 @@ namespace Application.Services
                 Status = true,
                 Data = request.Select(c => new RequestDto
                 {
+                    Id = c.Id,
                     RequestType = c.RequestType,
                     RequestStatus = c.RequestStatus,
                     ReasonForStopSelling = c.ReasonForStopSelling,
-                    RejectionReason = c.RejectionReason,
-                    Email = c.Farmer.User.Email,
+                    RejectionReason = c?.RejectionReason,
+                    FarmerId = c.Farmer.Id,
+                    ProduceTypeId = c.ProduceTypeId,
+                    RegistrationNumber = c.Farmer.RegistrationNumber,
+                    TypeName = c.Farmer.FarmerProduceTypes.Select(p => p.ProduceType.TypeName).FirstOrDefault(),
+                    // Email = c.Farmer?.User?.Email,
+                    //RequestNumber =c.RequestNumber,
 
                 })
             };
         }
-       
-       
-       
-       
-       
+
+
         // public async Task<BaseResponse<IEnumerable<RequestDto>>> GetAllRequestsAsync()
         // {
         //     var request = await _requestRepository.GetAllAsync();
@@ -209,7 +294,7 @@ namespace Application.Services
         //         })
         //     };
         // }
-       
+
         // public async Task<BaseResponse<IEnumerable<RequestDto>>> GetAllRemoveProduceTypeRequestAsync()
         // {
         //     var request = await _requestRepository.GetSelectedAsync(r => r.RequestType == RequestType.RemoveFromExistingProduceType);

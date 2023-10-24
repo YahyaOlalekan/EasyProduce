@@ -17,6 +17,11 @@
 mono_crash.*
 
 # Build results
+
+# MSBuild Binary and Structured Log
+/Persistence/obj/
+/Host/appsettings.Development.json
+/Host/appsettings.json
 /host/wwwroot/Images/
 [Dd]ebug/
 [Dd]ebugPublic/

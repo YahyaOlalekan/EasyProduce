@@ -283,7 +283,7 @@ namespace Persistence.Migrations
                     b.Property<int>("AccountNumber")
                         .HasColumnType("int");
 
-                    b.Property<string>("BankName")
+                    b.Property<string>("BankCode")
                         .HasColumnType("longtext");
 
                     b.Property<string>("CreatedBy")

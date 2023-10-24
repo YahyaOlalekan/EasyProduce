@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Application.Abstractions;
 using Application.Abstractions.ServiceInterfaces;
 using Application.Dtos;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 
@@ -24,28 +25,45 @@ namespace Host.Controllers
             _configMailService = configMailService;
         }
         [HttpPost("Login")]
-        public async Task<IActionResult> LoginAsync([FromForm]LoginUserRequestModel model)
+        public async Task<IActionResult> LoginAsync([FromForm] LoginUserRequestModel model)
         {
+            
             var logging = await _userService.LoginAsync(model);
-            if(!logging.Status)
+            if (!logging.Status)
             {
                 return BadRequest(logging);
             }
             return Ok(logging);
         }
 
+
+        // // In the Logout endpoint
+        // [HttpPost("logout")]
+        // // [Authorize]
+        // public IActionResult Logout()
+        // {
+        //     // Add the token to the revoked tokens list
+        //     string token = HttpContext.GetTokenAsync("access_token").Result;
+        //     // Store the token in your "revoked tokens" list
+
+        //     // Return a success response
+        //     return Ok(new { message = "Logout successful" });
+        // }
+
+
+
         [HttpGet("GetUsersById/{id}")]
-        public async Task<IActionResult> GetUsersByUserIdAsync([FromRoute]Guid id)
+        public async Task<IActionResult> GetUsersByUserIdAsync([FromRoute] Guid id)
         {
             var user = await _userService.GetAsync(id);
-            if(!user.Status)
+            if (!user.Status)
             {
                 return BadRequest(user);
             }
             return Ok(user);
         }
 
-          [HttpGet("GetAllUsers")]
+        [HttpGet("GetAllUsers")]
         public async Task<IActionResult> ListOfUsersAsync()
         {
             // var mmm = new MailRequest{
@@ -72,10 +90,10 @@ namespace Host.Controllers
         }
 
         [HttpGet("GetUsersByRole/{role}")]
-        public async Task<IActionResult> GetUsersByRoleAsync([FromRoute]string role)
+        public async Task<IActionResult> GetUsersByRoleAsync([FromRoute] string role)
         {
             var users = await _userService.GetAllUsersByRoleAsync(role);
-            if(!users.Status)
+            if (!users.Status)
             {
                 return BadRequest(users);
             }

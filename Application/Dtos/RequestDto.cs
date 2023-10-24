@@ -1,15 +1,20 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using Domain.Enum;
 
 namespace Application.Dtos
 {
     public class RequestDto
     {
+        public Guid Id { get; set; }
         public Guid FarmerId { get; set; }
         public Guid ProduceTypeId { get; set; }
+        public string TypeName { get; set; }
+        public string RegistrationNumber { get; set; }
         public RequestType RequestType { get; set; }
         public RequestStatus RequestStatus { get; set; }
-        public string RejectionReason { get; set; }
+        public string? RejectionReason { get; set; }
         public string ReasonForStopSelling { get; set; }
         public string Email { get; set; }
     }

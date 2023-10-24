@@ -28,7 +28,7 @@ namespace Host.Controllers
             //    Console.WriteLine(model.FarmName);
             //    Console.WriteLine(model.Gender);
             //    Console.WriteLine(model.Address);
-            //    Console.WriteLine(model.BankName);
+            //    Console.WriteLine(model.BankCode);
             //    Console.WriteLine(model.Email);
             //    Console.WriteLine(model.Password);
             //    Console.WriteLine(model.PhoneNumber);
@@ -79,6 +79,18 @@ namespace Host.Controllers
         public async Task<IActionResult> GetFarmerAlongWithRegisteredProduceTypeByIdAsync([FromRoute] Guid id)
         {
             var farmer = await _farmerService.GetFarmerAlongWithRegisteredProduceTypeAsync(id);
+            if (!farmer.Status)
+            {
+                return BadRequest(farmer);
+            }
+            return Ok(farmer);
+        }
+        
+        //  [Authorize(Roles = "admin manager")]
+        [HttpGet("FarmerProfile/{id}")]
+        public async Task<IActionResult> GetFarmerAlongWithApprovedProduceTypeByIdAsync([FromRoute] Guid id)
+        {
+            var farmer = await _farmerService.GetFarmerAlongWithApprovedProduceTypeAsync(id);
             if (!farmer.Status)
             {
                 return BadRequest(farmer);

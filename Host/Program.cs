@@ -4,6 +4,7 @@ using System.Text;
 using Application.Abstractions;
 using Application.Abstractions.RepositoryInterfaces;
 using Application.Abstractions.ServiceInterfaces;
+using Application.Authentication;
 using Application.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -16,6 +17,8 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Persistence;
 using Persistence.AppDbContext;
+using Persistence.Authentication;
+using Persistence.Payments;
 using Persistence.RepositoryImplementations;
 #endregion
 
@@ -34,25 +37,57 @@ builder.Services.AddCors(c => c
                 .AllowAnyHeader()
                 .AllowAnyMethod()
                 .AllowAnyOrigin()));
-builder.Services.AddSwaggerGen(c =>
+
+builder.Services.AddSwaggerGen(option =>
 {
-    c.SwaggerDoc("v1", new OpenApiInfo { Title = "EasyProduce", Version = "v1" });
+    option.SwaggerDoc("v1", new OpenApiInfo { Title = "EasyProduce", Version = "v1" });
+
+
+    option.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        In = ParameterLocation.Header,
+        Description = "Please enter a valid token",
+        Name = "Authorization",
+        Type = SecuritySchemeType.Http,
+        BearerFormat = "JWT",
+        Scheme = "Bearer"
+    });
+    option.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type=ReferenceType.SecurityScheme,
+                                Id="Bearer"
+                            }
+                        },
+                        new string[]{}
+                    }
+                });
 });
 
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-.AddJwtBearer(options =>
-{
-    options.TokenValidationParameters = new TokenValidationParameters
-    {
-        ValidateIssuer = true,
-        ValidateAudience = true,
-        ValidateLifetime = true,
-        ValidateIssuerSigningKey = true,
-        ValidIssuer = builder.Configuration["Jwt:Issuer"],
-        ValidAudience = builder.Configuration["Jwt:Audience"],
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
-    };
-});
+
+builder.Services
+         .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+         .AddJwtBearer(options =>
+         {
+             options.TokenValidationParameters = new TokenValidationParameters()
+             {
+                 ClockSkew = TimeSpan.Zero,
+                 ValidateIssuer = true,
+                 ValidateAudience = true,
+                 ValidateLifetime = true,
+                 ValidateIssuerSigningKey = true,
+                 ValidIssuer = builder.Configuration["Jwt:Issuer"],
+                 ValidAudience = builder.Configuration["Jwt:Audience"],
+                 IssuerSigningKey = new SymmetricSecurityKey(
+             Encoding.UTF8.GetBytes("xkeydas-3323bc7evvwq6679fa13b125c9322aa7cd289955bcfeeb8e5fd1a284542f82-b46RYkdlnXuIIUQuu9")
+         ),
+             };
+         });
+
 
 string connectionString = builder.Configuration.GetConnectionString("EasyProduceConnectionString");
 builder.Services.AddDbContextPool<Context>(option => option.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
@@ -63,6 +98,7 @@ builder.Services.AddDbContextPool<Context>(option => option.UseMySql(connectionS
 #region slt
 builder.Services.AddScoped<IRoleRepository, RoleRepository>();
 builder.Services.AddScoped<IRoleService, RoleService>();
+builder.Services.AddScoped<IPayStackService, PayStackService>();
 
 builder.Services.AddScoped<IFarmerRepository, FarmerRepository>();
 builder.Services.AddScoped<IFarmerService, FarmerService>();
@@ -112,6 +148,7 @@ builder.Services.AddScoped<ICartItemForOrderRepository, CartItemForOrderReposito
 builder.Services.AddScoped<IFarmerProduceTypeRepository, FarmerProduceTypeRepository>();
 
 builder.Services.AddScoped<IJwtAuthenticationManager, JwtAuthenticationManager>();
+builder.Services.AddScoped<ITokenService1, TokenService>();
 
 builder.Services.AddScoped<IFileUploadServiceForWWWRoot, FileUploadServiceForWWWRoot>();
 builder.Services.AddScoped<IValidateImage, ValidateImage>();

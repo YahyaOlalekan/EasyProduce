@@ -30,7 +30,7 @@ namespace Persistence.Migrations
                 defaultValue: 0);
 
             migrationBuilder.AddColumn<string>(
-                name: "BankName",
+                name: "BankCode",
                 table: "Farmers",
                 type: "longtext",
                 nullable: true)
@@ -52,7 +52,7 @@ namespace Persistence.Migrations
                 table: "Farmers");
 
             migrationBuilder.DropColumn(
-                name: "BankName",
+                name: "BankCode",
                 table: "Farmers");
         }
     }

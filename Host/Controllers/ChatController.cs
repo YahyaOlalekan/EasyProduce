@@ -21,6 +21,7 @@ namespace Host.Controllers
             _tokenService = tokenService;
             _config = config;
         }
+        
         [HttpPost("CreateChat/{id}/{farmerId}")]
         public async Task<IActionResult> CreateChat([FromBody] CreateChatRequestModel model, [FromRoute] Guid id, [FromRoute] Guid farmerId)
         {

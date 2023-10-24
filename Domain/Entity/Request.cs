@@ -7,6 +7,7 @@ namespace Domain.Entity
     {
         public Guid FarmerId { get; set; }
         public Guid ProduceTypeId { get; set; }
+        public string RegistrationNumber { get; set; }
         public RequestType RequestType { get; set; }
         public RequestStatus RequestStatus { get; set; }
         public string? RejectionReason { get; set; }

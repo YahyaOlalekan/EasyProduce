@@ -10,3 +10,25 @@ C:\Users\USER PC\Desktop\EasyProduce\Domain\obj\Debug\net6.0\Domain.dll
 C:\Users\USER PC\Desktop\EasyProduce\Domain\obj\Debug\net6.0\refint\Domain.dll
 C:\Users\USER PC\Desktop\EasyProduce\Domain\obj\Debug\net6.0\Domain.pdb
 c:\Users\USER PC\Desktop\EasyProduce\Domain\obj\Debug\net6.0\ref\Domain.dll
+C:\Users\Abdul\source\repos\frnd\Host\Domain\bin\Debug\net6.0\Domain.deps.json
+C:\Users\Abdul\source\repos\frnd\Host\Domain\bin\Debug\net6.0\Domain.dll
+C:\Users\Abdul\source\repos\frnd\Host\Domain\bin\Debug\net6.0\Domain.pdb
+C:\Users\Abdul\source\repos\frnd\Host\Domain\obj\Debug\net6.0\Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Abdul\source\repos\frnd\Host\Domain\obj\Debug\net6.0\Domain.AssemblyInfoInputs.cache
+C:\Users\Abdul\source\repos\frnd\Host\Domain\obj\Debug\net6.0\Domain.AssemblyInfo.cs
+C:\Users\Abdul\source\repos\frnd\Host\Domain\obj\Debug\net6.0\Domain.csproj.CoreCompileInputs.cache
+C:\Users\Abdul\source\repos\frnd\Host\Domain\obj\Debug\net6.0\Domain.dll
+C:\Users\Abdul\source\repos\frnd\Host\Domain\obj\Debug\net6.0\refint\Domain.dll
+C:\Users\Abdul\source\repos\frnd\Host\Domain\obj\Debug\net6.0\Domain.pdb
+C:\Users\Abdul\source\repos\frnd\Host\Domain\obj\Debug\net6.0\ref\Domain.dll
+C:\Users\Abdul\OneDrive\Documents\Bluetooth\EasyProduce\Domain\bin\Debug\net6.0\Domain.deps.json
+C:\Users\Abdul\OneDrive\Documents\Bluetooth\EasyProduce\Domain\bin\Debug\net6.0\Domain.dll
+C:\Users\Abdul\OneDrive\Documents\Bluetooth\EasyProduce\Domain\bin\Debug\net6.0\Domain.pdb
+C:\Users\Abdul\OneDrive\Documents\Bluetooth\EasyProduce\Domain\obj\Debug\net6.0\Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Abdul\OneDrive\Documents\Bluetooth\EasyProduce\Domain\obj\Debug\net6.0\Domain.AssemblyInfoInputs.cache
+C:\Users\Abdul\OneDrive\Documents\Bluetooth\EasyProduce\Domain\obj\Debug\net6.0\Domain.AssemblyInfo.cs
+C:\Users\Abdul\OneDrive\Documents\Bluetooth\EasyProduce\Domain\obj\Debug\net6.0\Domain.csproj.CoreCompileInputs.cache
+C:\Users\Abdul\OneDrive\Documents\Bluetooth\EasyProduce\Domain\obj\Debug\net6.0\Domain.dll
+C:\Users\Abdul\OneDrive\Documents\Bluetooth\EasyProduce\Domain\obj\Debug\net6.0\refint\Domain.dll
+C:\Users\Abdul\OneDrive\Documents\Bluetooth\EasyProduce\Domain\obj\Debug\net6.0\Domain.pdb
+C:\Users\Abdul\OneDrive\Documents\Bluetooth\EasyProduce\Domain\obj\Debug\net6.0\ref\Domain.dll

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Application.Abstractions.ServiceInterfaces;
 using Application.Dtos;
@@ -53,7 +54,7 @@ namespace Host.Controllers
                 // Return validation errors with a 400 Bad Request status code
                 return BadRequest(errors);
             }
-           
+
             var customer = await _customerService.UpdateAsync(id, model);
             if (!customer.Status)
             {
@@ -62,11 +63,17 @@ namespace Host.Controllers
             return Ok(customer);
         }
 
-        // [Authorize(Roles = "admin manager")]
-        [HttpGet("GetCustomerById/{id}")]
-        public async Task<IActionResult> GetAsync([FromRoute] Guid id)
+        // [Authorize]
+        [HttpGet("GetCustomerById/{id?}")]
+        public async Task<IActionResult> GetAsync([FromRoute] Guid? id)
         {
-            var customer = await _customerService.GetAsync(id);
+            // var ddd = Request.Headers;
+            if (id is null)
+            {
+                id = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            }
+
+            var customer = await _customerService.GetAsync(id.Value);
             if (!customer.Status)
             {
                 return BadRequest(customer);

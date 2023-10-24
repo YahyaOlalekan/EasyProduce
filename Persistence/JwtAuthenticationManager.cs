@@ -25,7 +25,7 @@ namespace Persistence
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256Signature);
             var tokenDescriptor = new JwtSecurityToken(issuer, issuer, claims,
-                expires: DateTime.Now.AddHours(1), signingCredentials: credentials);
+                expires: DateTime.Now.AddHours(100), signingCredentials: credentials);
             return new JwtSecurityTokenHandler().WriteToken(tokenDescriptor);
 
         }

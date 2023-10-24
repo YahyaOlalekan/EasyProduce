@@ -300,6 +300,10 @@
               "target": "Package",
               "version": "[3.0.2, )"
             },
+            "System.IdentityModel.Tokens.Jwt": {
+              "target": "Package",
+              "version": "[6.25.1, )"
+            },
             "sib_api_v3_sdk": {
               "target": "Package",
               "version": "[4.0.2, )"

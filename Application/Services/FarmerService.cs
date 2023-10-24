@@ -7,6 +7,7 @@ using Application.Abstractions;
 using Application.Abstractions.RepositoryInterfaces;
 using Application.Abstractions.ServiceInterfaces;
 using Application.Dtos;
+using Application.Dtos.PaymentGatewayDTOs;
 using Domain.Entity;
 
 namespace Application.Services
@@ -20,10 +21,12 @@ namespace Application.Services
         private readonly IFileUploadServiceForWWWRoot _fileUploadServiceForWWWRoot;
         private readonly IFarmerProduceTypeRepository _farmerProduceTypeRepository;
         private readonly IMailService _mailService;
+        private readonly IPayStackService _payStackService;
 
 
 
-        public FarmerService(IFarmerRepository farmerRepository, IRoleRepository roleRepository, IUserRepository userRepository, IFileUploadServiceForWWWRoot fileUploadServiceForWWWRoot, IProduceTypeRepository produceTypeRepository, IFarmerProduceTypeRepository farmerProduceTypeRepository, IMailService mailService)
+
+        public FarmerService(IFarmerRepository farmerRepository, IRoleRepository roleRepository, IUserRepository userRepository, IFileUploadServiceForWWWRoot fileUploadServiceForWWWRoot, IProduceTypeRepository produceTypeRepository, IFarmerProduceTypeRepository farmerProduceTypeRepository, IMailService mailService, IPayStackService payStackService)
         {
             _farmerRepository = farmerRepository;
             _roleRepository = roleRepository;
@@ -32,6 +35,7 @@ namespace Application.Services
             _produceTypeRepository = produceTypeRepository;
             _farmerProduceTypeRepository = farmerProduceTypeRepository;
             _mailService = mailService;
+            _payStackService = payStackService;
         }
 
 
@@ -76,7 +80,6 @@ namespace Application.Services
                 //CreatedBy = loginId,
             };
 
-            await _userRepository.CreateAsync(user);
 
             var farmer = new Farmer
             {
@@ -85,10 +88,27 @@ namespace Application.Services
                 FarmName = model.FarmName,
                 UserId = user.Id,
                 // User = user,
-                BankName = model.BankName,
+                BankCode = model.BankCode,
                 AccountName = model.AccountName,
                 AccountNumber = model.AccountNumber,
             };
+
+            var acctmodel = new VerifyAccountNumberRequestModel
+            {
+                AccountNumber = model.AccountNumber,
+                BankCode = model.BankCode,
+            };
+            var response = await _payStackService.VerifyAccountNumber(acctmodel);
+            if (!response.status)
+                return new BaseResponse<FarmerDto>
+                {
+                    Message = $"incorrect bank details",
+                    Status = false,
+                    Data = null,
+
+                };
+
+            await _userRepository.CreateAsync(user);
 
             foreach (var item in model.ProduceTypes)
             {
@@ -174,7 +194,7 @@ namespace Application.Services
                 Status = true,
                 Data = new FarmerDto
                 {
-                    BankName = farmer.BankName,
+                    BankCode = farmer.BankCode,
                     AccountName = farmer.AccountName,
                     AccountNumber = farmer.AccountNumber
                 }
@@ -227,6 +247,103 @@ namespace Application.Services
             };
         }
 
+
+        public async Task<BaseResponse<FarmerProduceTypeDto>> GetFarmerAlongWithApprovedProduceTypeAsync(Guid id)
+        {
+            var farmerProduceType = await _farmerProduceTypeRepository.GetAsync(f => f.Id == id || f.Farmer.UserId == id && f.ProduceType.Status == Domain.Enum.Status.Approved);
+
+            if (farmerProduceType != null)
+            {
+                var approvedProduceTypes = new List<ProduceTypeDto>
+        {
+            new ProduceTypeDto
+            {
+                Id = farmerProduceType.Id,
+                TypeName = farmerProduceType.ProduceType.TypeName,
+                ProduceName = farmerProduceType.ProduceType.Produce.ProduceName,
+                NameOfCategory = farmerProduceType.ProduceType.Produce.Category.NameOfCategory
+            }
+        };
+
+                return new BaseResponse<FarmerProduceTypeDto>
+                {
+                    Message = "successful",
+                    Status = true,
+                    Data = new FarmerProduceTypeDto
+                    {
+                        FarmerDto = new FarmerDto
+                        {
+                            Id = farmerProduceType.Farmer.Id,
+                            RegistrationNumber = farmerProduceType.Farmer.RegistrationNumber,
+                            FirstName = farmerProduceType.Farmer.User.FirstName,
+                            LastName = farmerProduceType.Farmer.User.LastName,
+                            Email = farmerProduceType.Farmer.User.Email,
+                            PhoneNumber = farmerProduceType.Farmer.User.PhoneNumber,
+                            ProfilePicture = farmerProduceType.Farmer.User.ProfilePicture,
+                            Address = farmerProduceType.Farmer.User.Address,
+                            FarmName = farmerProduceType.Farmer.FarmName,
+                            FarmerRegStatus = farmerProduceType.Farmer.FarmerRegStatus,
+                        },
+                        ProduceTypeDto = approvedProduceTypes
+                    },
+                };
+            }
+
+            return new BaseResponse<FarmerProduceTypeDto>
+            {
+                Message = "farmer is not found",
+                Status = false
+            };
+        }
+
+
+
+
+        // public async Task<BaseResponse<FarmerProduceTypeDto>> GetFarmerAlongWithApprovedProduceTypeAsync(Guid id)
+        // {
+        //     var farmer = await _farmerProduceTypeRepository.GetAsync(f => f.Id == id && f.ProduceType.Status == Domain.Enum.Status.Approved);
+
+        //     if (farmer.Any())
+        //     {
+        //         var firstFarmer = farmer.First(); // Access the first element in the collection
+
+        //         return new BaseResponse<FarmerProduceTypeDto>
+        //         {
+        //             Message = "successful",
+        //             Status = true,
+        //             Data = new FarmerProduceTypeDto
+        //             {
+        //                 FarmerDto = new FarmerDto
+        //                 {
+        //                     Id = firstFarmer.Farmer.Id,
+        //                     RegistrationNumber = firstFarmer.Farmer.RegistrationNumber,
+        //                     FirstName = firstFarmer.Farmer.User.FirstName,
+        //                     LastName = firstFarmer.Farmer.User.LastName,
+        //                     Email = firstFarmer.Farmer.User.Email,
+        //                     PhoneNumber = firstFarmer.Farmer.User.PhoneNumber,
+        //                     ProfilePicture = firstFarmer.Farmer.User.ProfilePicture,
+        //                     Address = firstFarmer.Farmer.User.Address,
+        //                     FarmName = firstFarmer.Farmer.FarmName,
+        //                     FarmerRegStatus = firstFarmer.Farmer.FarmerRegStatus,
+        //                 },
+        //                 ProduceTypeDto = farmer.Select(pt => new ProduceTypeDto
+        //                 {
+        //                     Id = pt.Id,
+        //                     TypeName = pt.ProduceType.TypeName,
+        //                     ProduceName = pt.ProduceType.Produce.ProduceName,
+        //                     NameOfCategory = pt.ProduceType.Produce.Category.NameOfCategory,
+        //                 }).ToList()
+        //             },
+        //         };
+        //     }
+
+        //     return new BaseResponse<FarmerProduceTypeDto>
+        //     {
+        //         Message = "farmer is not found",
+        //         Status = false
+        //     };
+        // }
+
         public async Task<BaseResponse<IEnumerable<FarmerDto>>> GetAllFarmersAsync()
         {
             var farmers = await _farmerRepository.GetAllAsync();
@@ -245,7 +362,7 @@ namespace Application.Services
                 Status = true,
                 Data = farmers.Select(m => new FarmerDto
                 {
-                     Id = m.Id,
+                    Id = m.Id,
                     RegistrationNumber = m.RegistrationNumber,
                     FirstName = m.User.FirstName,
                     LastName = m.User.LastName,
@@ -261,7 +378,7 @@ namespace Application.Services
             };
         }
 
- 
+
 
         public async Task<BaseResponse<FarmerDto>> UpdateFarmerAsync(Guid id, UpdateFarmerRequestModel model)
         {
@@ -271,7 +388,7 @@ namespace Application.Services
                 if (model.ProfilePicture != null)
                 {
                     var profilePicture = await _fileUploadServiceForWWWRoot.UploadFileAsync(model.ProfilePicture);
-                   farmer.User.ProfilePicture = profilePicture;
+                    farmer.User.ProfilePicture = profilePicture;
                 }
 
                 farmer.User.Address = model.Address;

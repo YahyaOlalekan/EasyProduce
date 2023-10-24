@@ -22,7 +22,7 @@ namespace Application.Services
         public async Task<BaseResponse<ChatDto>> CreateChat(CreateChatRequestModel model, Guid id, Guid farmerId)
         {
             var manager = await _managerRepository.GetManagerByManagerIdAsync(id);
-            var farmer = await _farmerRepository.GetAsync(farmerId);
+            var farmer = await _farmerRepository.GetAsync( f => f.Id == farmerId ||f.UserId == farmerId);
             if (manager == null || farmer == null)
             {
                 return new BaseResponse<ChatDto>

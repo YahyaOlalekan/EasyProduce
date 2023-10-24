@@ -2,28 +2,29 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Application.Abstractions;
 using Application.Abstractions.RepositoryInterfaces;
 using Application.Abstractions.ServiceInterfaces;
 using Application.Dtos;
 using System.Globalization;
 using Microsoft.Extensions.Configuration;
+using Application.Authentication;
 
 namespace Application.Services
 {
     public class UserService : IUserService
     {
         private readonly IConfiguration _config;
-        private readonly IJwtAuthenticationManager _tokenService;
+        //private readonly IJwtAuthenticationManager _tokenService;
+        private readonly ITokenService1 _tokenService;
         // private string generatedToken = null;
         private readonly IUserRepository _userRepository;
         private readonly IFarmerRepository _farmerRepository;
-        public UserService(IConfiguration config, IJwtAuthenticationManager tokenService, IUserRepository userRepository, IFarmerRepository farmerRepository)
+        public UserService(IConfiguration config, IUserRepository userRepository, IFarmerRepository farmerRepository, ITokenService1 tokenService)
         {
             _config = config;
-            _tokenService = tokenService;
             _userRepository = userRepository;
             _farmerRepository = farmerRepository;
+            _tokenService = tokenService;
         }
         public async Task<BaseResponse<UserDto>> LoginAsync(LoginUserRequestModel model)
         {
@@ -72,6 +73,9 @@ namespace Application.Services
                 var userFirstLetterOfFirstNameToUpperCase = $"{CultureInfo.CurrentCulture.TextInfo.ToTitleCase(user.FirstName)}";
                 var userFirstLetterOfLastNameToUpperCase = $"{CultureInfo.CurrentCulture.TextInfo.ToTitleCase(user.LastName)}";
                 var fullName = userFirstLetterOfFirstNameToUpperCase + " " + userFirstLetterOfLastNameToUpperCase;
+                //jwt
+      
+                var accessToken = _tokenService.CreateToken(userDto);
 
 
                 return new BaseResponse<UserDto>
@@ -91,8 +95,8 @@ namespace Application.Services
                         Address = user.Address,
                         Gender = user.Gender,
                         ProfilePicture = user.ProfilePicture,
-
-                        Token = _tokenService.GenerateToken(_config["Jwt:Key"].ToString(), _config["Jwt:Issuer"].ToString(), userDto)
+                        Token = accessToken,
+                        //Token = _tokenService.GenerateToken(_config["Jwt:Key"].ToString(), _config["Jwt:Issuer"].ToString(), userDto)
 
                     }
                 };

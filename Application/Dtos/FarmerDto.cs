@@ -28,9 +28,10 @@ namespace Application.Dtos
         public List<TransactionDto> Transactions { get; set; }
         public List<Guid> ProduceTypeIds { get; set; }
 
-        public string BankName { get; set; }
+        // public string BankName { get; set; }
+        public string BankCode { get; set; }
         public string AccountName { get; set; }
-        public int AccountNumber { get; set; }
+        public string AccountNumber { get; set; }
 
         public ICollection<Chat> Chats { get; set; } = new HashSet<Chat>();
         // public ICollection<FarmerProduceType> FarmerProduceTypes { get; set; } = new HashSet<FarmerProduceType>();
@@ -40,7 +41,7 @@ namespace Application.Dtos
 
     public class CreateFarmerRequestModel
     {
-        [Display(Name = "Select Produce Types"), Required (ErrorMessage = "You must select atleast one produce type")]
+        [Display(Name = "Select Produce Types"), Required(ErrorMessage = "You must select atleast one produce type")]
         public List<Guid> ProduceTypes { get; set; }
 
         [Display(Name = "First Name"), Required]
@@ -90,9 +91,9 @@ namespace Application.Dtos
 
 
         [Display(Name = "Bank Name"), Required]
-        [RegularExpression(@"^[A-Za-z\s'-]*$", ErrorMessage = "Name must not contain numbers")]
-        [MaxLength(25, ErrorMessage = "Name should not contain morethan 30 letters"), MinLength(3, ErrorMessage = "Name should not contain lessthan 3 letters")]
-        public string BankName { get; set; }
+        //[RegularExpression(@"^[A-Za-z\s'-]*$", ErrorMessage = "Name must not contain numbers")]
+        //[MaxLength(25, ErrorMessage = "Name should not contain morethan 30 letters"), MinLength(3, ErrorMessage = "Name should not contain lessthan 3 letters")]
+        public string BankCode { get; set; }
 
 
         [Display(Name = "AccountName"), Required]
@@ -103,7 +104,7 @@ namespace Application.Dtos
 
         [Display(Name = "Account Number"), Required]
         [RegularExpression(@"^\d{10}$", ErrorMessage = "Account Number must be 10 digits")]
-        public int AccountNumber { get; set; }
+        public string AccountNumber { get; set; }
 
     }
 

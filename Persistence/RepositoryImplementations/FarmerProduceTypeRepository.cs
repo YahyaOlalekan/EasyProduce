@@ -54,6 +54,7 @@ public class FarmerProduceTypeRepository : BaseRepository<FarmerProduceType>, IF
         {
             return await _context.FarmerProduceTypes
             .Include(a => a.Farmer)
+            .ThenInclude(a=> a.User)
             .Include(a => a.ProduceType)
             .Where(expression)
             .FirstOrDefaultAsync();

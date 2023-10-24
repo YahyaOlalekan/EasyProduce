@@ -2159,6 +2159,7 @@
           "Microsoft.EntityFrameworkCore": "6.0.14",
           "Pomelo.EntityFrameworkCore.MySql": "6.0.0",
           "SixLabors.ImageSharp": "3.0.2",
+          "System.IdentityModel.Tokens.Jwt": "6.25.1",
           "sib_api_v3_sdk": "4.0.2"
         },
         "compile": {
@@ -2650,7 +2651,7 @@
         "tools/net461-x86/System.Security.Cryptography.Primitives.dll",
         "tools/net461-x86/System.Security.Cryptography.X509Certificates.dll",
         "tools/net461-x86/System.Security.Principal.dll",
-        "tools/net461-x86/System.Security.SecureGuid.dll",
+        "tools/net461-x86/System.Security.SecureString.dll",
         "tools/net461-x86/System.Text.Encoding.Extensions.dll",
         "tools/net461-x86/System.Text.Encoding.dll",
         "tools/net461-x86/System.Text.RegularExpressions.dll",
@@ -2753,7 +2754,7 @@
         "tools/net461/System.Security.Cryptography.Primitives.dll",
         "tools/net461/System.Security.Cryptography.X509Certificates.dll",
         "tools/net461/System.Security.Principal.dll",
-        "tools/net461/System.Security.SecureGuid.dll",
+        "tools/net461/System.Security.SecureString.dll",
         "tools/net461/System.Text.Encoding.Extensions.dll",
         "tools/net461/System.Text.Encoding.dll",
         "tools/net461/System.Text.RegularExpressions.dll",

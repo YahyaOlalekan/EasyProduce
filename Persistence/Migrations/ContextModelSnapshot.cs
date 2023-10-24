@@ -278,10 +278,10 @@ namespace Persistence.Migrations
                     b.Property<string>("AccountName")
                         .HasColumnType("longtext");
 
-                    b.Property<int>("AccountNumber")
-                        .HasColumnType("int");
+                    b.Property<string>("AccountNumber")
+                        .HasColumnType("longtext");
 
-                    b.Property<string>("BankName")
+                    b.Property<string>("BankCode")
                         .HasColumnType("longtext");
 
                     b.Property<string>("CreatedBy")
@@ -684,6 +684,9 @@ namespace Persistence.Migrations
                         .HasColumnType("char(36)");
 
                     b.Property<string>("ReasonForStopSelling")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("RegistrationNumber")
                         .HasColumnType("longtext");
 
                     b.Property<string>("RejectionReason")

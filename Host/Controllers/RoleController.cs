@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Application.Abstractions.ServiceInterfaces;
 using Application.Dtos;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Host.Controllers
@@ -64,7 +65,7 @@ namespace Host.Controllers
             return NotFound(role);
         }
 
-
+        // [Authorize]
         [HttpGet("GetAllRoles")]
         public async Task<IActionResult> ListAsync()
         {

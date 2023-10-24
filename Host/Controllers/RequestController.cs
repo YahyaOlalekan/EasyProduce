@@ -16,10 +16,10 @@ namespace Host.Controllers
             _requestService = requestService;
         }
 
-        [HttpPost("AddNewProduceType/{farmerId}")]
-        public async Task<IActionResult> AddNewProduceTypeAsync([FromRoute]Guid farmerId, [FromForm] AddNewProduceTypeRequestModel model)
+        [HttpPost("AddNewProduceType/{farmerId}/{produceTypeId}")]
+        public async Task<IActionResult> AddNewProduceTypeAsync([FromRoute]Guid farmerId, [FromRoute]Guid produceTypeId)
         {
-            var request = await _requestService.AddNewProduceTypeAsync(farmerId, model);
+            var request = await _requestService.AddNewProduceTypeAsync(farmerId, produceTypeId);
             if (ModelState.IsValid)
             {
                 if (request != null)
@@ -29,6 +29,20 @@ namespace Host.Controllers
             }
             return BadRequest(request);
         }
+        
+        // [HttpPost("AddNewProduceType/{farmerId}")]
+        // public async Task<IActionResult> AddNewProduceTypeAsync([FromRoute]Guid farmerId, [FromForm] AddNewProduceTypeRequestModel model)
+        // {
+        //     var request = await _requestService.AddNewProduceTypeAsync(farmerId, model);
+        //     if (ModelState.IsValid)
+        //     {
+        //         if (request != null)
+        //         {
+        //             return Ok(request);
+        //         }
+        //     }
+        //     return BadRequest(request);
+        // }
        
        
         [HttpPost("RemoveExistingProduceType/{farmerId}")]

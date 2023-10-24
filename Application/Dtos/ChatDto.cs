@@ -19,10 +19,14 @@ namespace Application.Dtos
     {
         public string Message { get; set; }
     }
+
+
     public class ChatResponseModel : BaseResponse<Chat>
     {
         public ChatDto Data { get; set; }
     }
+
+    
     public class ChatsResponseModel : BaseResponse<Chat>
     {
         public List<ChatDto> Data { get; set; }
