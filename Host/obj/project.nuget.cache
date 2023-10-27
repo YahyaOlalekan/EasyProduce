@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "OsDSy7CjvBvgnq/PXlTTKdErDAK0wjT5hH2c9lOA11qpgdJwJKcMkIuUciCF+L6DXoWQ7LNnV5KHdoqkt+RNYw==",
+  "dgSpecHash": "toKD4j4+6qayZbrh9TLEa/kIM5xVFU6b8UfY9Iq4psvYNVlul+pky/0WYJzSgKIJcyl6YlbNsTdx8cyDjX/amQ==",
   "success": true,
-  "projectFilePath": "C:\\Users\\USER PC\\Desktop\\EasyProduce\\host\\Host.csproj",
+  "projectFilePath": "C:\\Users\\USER PC\\Desktop\\EasyProduce\\Host\\Host.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\USER PC\\.nuget\\packages\\bcrypt.net-next\\4.0.3\\bcrypt.net-next.4.0.3.nupkg.sha512",
     "C:\\Users\\USER PC\\.nuget\\packages\\fubarcoder.restsharp.portable.core\\4.0.8\\fubarcoder.restsharp.portable.core.4.0.8.nupkg.sha512",

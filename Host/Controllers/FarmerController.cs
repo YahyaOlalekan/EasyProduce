@@ -1,8 +1,10 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Application.Abstractions;
 using Application.Abstractions.ServiceInterfaces;
 using Application.Dtos;
+using Application.Dtos.PaymentGatewayDTOs;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Host.Controllers
@@ -12,32 +14,17 @@ namespace Host.Controllers
     public class FarmerController : ControllerBase
     {
         private readonly IFarmerService _farmerService;
-        public FarmerController(IFarmerService farmerService)
+        private readonly IPayStackService _payStackService;
+        public FarmerController(IFarmerService farmerService, IPayStackService payStackService)
         {
             _farmerService = farmerService;
+            _payStackService = payStackService;
         }
 
 
         [HttpPost("RegisterFarmer")]
         public async Task<IActionResult> RegisterAsync([FromForm] CreateFarmerRequestModel model)
         {
-            //    Console.WriteLine(model.AccountName);
-            //    Console.WriteLine(model.AccountNumber);
-            //    Console.WriteLine(model.LastName);
-            //    Console.WriteLine(model.FirstName);
-            //    Console.WriteLine(model.FarmName);
-            //    Console.WriteLine(model.Gender);
-            //    Console.WriteLine(model.Address);
-            //    Console.WriteLine(model.BankCode);
-            //    Console.WriteLine(model.Email);
-            //    Console.WriteLine(model.Password);
-            //    Console.WriteLine(model.PhoneNumber);
-            //    Console.WriteLine(model.ProfilePicture);
-            //    Console.WriteLine(model.ConfirmPassword);
-            //    foreach (var item in model.ProduceTypes)
-            //    {
-            //      Console.WriteLine(item);
-            //    }
 
             if (!ModelState.IsValid)
             {
@@ -85,7 +72,7 @@ namespace Host.Controllers
             }
             return Ok(farmer);
         }
-        
+
         //  [Authorize(Roles = "admin manager")]
         [HttpGet("FarmerProfile/{id}")]
         public async Task<IActionResult> GetFarmerAlongWithApprovedProduceTypeByIdAsync([FromRoute] Guid id)
@@ -123,6 +110,31 @@ namespace Host.Controllers
         }
 
 
+        [HttpGet("GetAllBanks")]
+        public async Task<IActionResult> GetBanksAsync()
+        {
+            var banks = await _payStackService.GetBanksAsync();
+            if (banks == null)
+            {
+                return NotFound(banks);
+            }
+            return Ok(banks);
+        }
+
+
+
+        [HttpGet("VerifyAccountNumber")]
+        public async Task<IActionResult> VerifyAccountNumberAsync([FromQuery] VerifyAccountNumberRequestModel model)
+        {
+            var result = await _payStackService.VerifyAccountNumber(model);
+
+            if (!result.status)
+            {
+                return BadRequest(result);
+            }
+
+            return Ok(result);
+        }
 
         [HttpPost("VerifyFarmer")]
         public async Task<IActionResult> VerifyAsync(ApproveFarmerDto model)
@@ -162,6 +174,24 @@ namespace Host.Controllers
             }
             return Ok(farmer);
         }
+
+        //    Console.WriteLine(model.AccountName);
+        //    Console.WriteLine(model.AccountNumber);
+        //    Console.WriteLine(model.LastName);
+        //    Console.WriteLine(model.FirstName);
+        //    Console.WriteLine(model.FarmName);
+        //    Console.WriteLine(model.Gender);
+        //    Console.WriteLine(model.Address);
+        //    Console.WriteLine(model.BankCode);
+        //    Console.WriteLine(model.Email);
+        //    Console.WriteLine(model.Password);
+        //    Console.WriteLine(model.PhoneNumber);
+        //    Console.WriteLine(model.ProfilePicture);
+        //    Console.WriteLine(model.ConfirmPassword);
+        //    foreach (var item in model.ProduceTypes)
+        //    {
+        //      Console.WriteLine(item);
+        //    }
 
     }
 }

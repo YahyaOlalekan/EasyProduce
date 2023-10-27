@@ -12,6 +12,7 @@ namespace Domain.Entity
         public FarmerRegStatus FarmerRegStatus { get; set; } = FarmerRegStatus.Pending;
         public Guid UserId { get; set; }
         public string BankCode { get; set; }
+        public string BankName { get; set; }
         public string AccountName { get; set; }
         public string AccountNumber { get; set; }
         public User User { get; set; }

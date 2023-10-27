@@ -37,7 +37,7 @@ namespace Host.Controllers
             return BadRequest(produce);
         }
 
-
+        
         [HttpDelete("DeleteProduce/{id}")]
         public async Task<IActionResult> DeleteAsync([FromRoute] Guid id)
         {

@@ -89,6 +89,7 @@ namespace Application.Services
                 UserId = user.Id,
                 // User = user,
                 BankCode = model.BankCode,
+                BankName = model.BankName,
                 AccountName = model.AccountName,
                 AccountNumber = model.AccountNumber,
             };
@@ -194,6 +195,7 @@ namespace Application.Services
                 Status = true,
                 Data = new FarmerDto
                 {
+                    BankName = farmer.BankName,
                     BankCode = farmer.BankCode,
                     AccountName = farmer.AccountName,
                     AccountNumber = farmer.AccountNumber

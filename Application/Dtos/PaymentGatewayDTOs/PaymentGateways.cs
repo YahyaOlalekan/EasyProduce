@@ -1,6 +1,68 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Application.Dtos.PaymentGatewayDTOs;
+
+
+
+public class VerifyAccountNumberRequestModel
+{
+    public string AccountNumber { get; set; }
+    public string BankCode { get; set; }
+
+}
+
+public class VerifyAccountNumberData
+{
+    public string account_name { get; set; }
+    public string account_number { get; set; }
+
+}
+
+public class VerifyAccountNumberResponseModel
+{
+    public bool status { get; set; }
+    public string message { get; set; }
+    public VerifyAccountNumberData data { get; set; }
+}
+
+public class BankResponseModel
+{
+    public bool status { get; set; }
+    public string message { get; set; }
+    public IEnumerable<BankModelData> data { get; set; }
+    // public Meta meta { get; set; }
+
+}
+
+public class Meta
+{
+    public string next { get; set; }
+    public object previous { get; set; }
+    public int perPage { get; set; }
+}
+
+
+public class BankModelData
+{
+    public string name { get; set; }
+    public string slug { get; set; }
+    public string code { get; set; }
+    public string longcode { get; set; }
+    public object gateway { get; set; } // Since "gateway" can be null
+    public bool pay_with_bank { get; set; }
+    public bool active { get; set; }
+    public bool is_deleted { get; set; }
+    public string country { get; set; }
+    public string currency { get; set; }
+    public string type { get; set; }
+    public int id { get; set; }
+    public DateTime createdAt { get; set; } // Change to DateTime
+    public DateTime updatedAt { get; set; } // Change to DateTime
+}
+
+
+
 
 public class PaymentGateways
 {
@@ -39,28 +101,8 @@ public class InitializeTransactionResponseModel
 }
 
 
-public class VerifyAccountNumberRequestModel
-{
-    public string AccountNumber { get; set; }
-    public string BankCode { get; set; }
 
-}
 
-public class VerifyAccountNumberData
-{
-    public string account_name { get; set; }
-    public string account_number { get; set; }
-    //public string bank_id { get; set; }
-    //"data\":{\"account_number\":\"0159192507\",\"account_name\":\"ABDULSALAM AHMAD AYOOLA\",\"bank_id\":9}
-}
-
-public class VerifyAccountNumberResponseModel
-{
-    public bool status { get; set; }
-    public string message { get; set; }
-    public VerifyAccountNumberData data { get; set; }
-    //"{\"status\":true,\"message\":\"Account number resolved\",\"data\":{\"account_number\":\"0159192507\",\"account_name\":\"ABDULSALAM AHMAD AYOOLA\",\"bank_id\":9}}"
-}
 
 //public class VerifyTransactionRequestModel
 //{

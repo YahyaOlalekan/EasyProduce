@@ -30,6 +30,7 @@ namespace Application.Dtos
 
         // public string BankName { get; set; }
         public string BankCode { get; set; }
+        public string BankName { get; set; }
         public string AccountName { get; set; }
         public string AccountNumber { get; set; }
 
@@ -91,6 +92,11 @@ namespace Application.Dtos
 
 
         [Display(Name = "Bank Name"), Required]
+        [RegularExpression(@"^[A-Za-z\s'-]*$", ErrorMessage = "Name must not contain numbers")]
+        [MaxLength(25, ErrorMessage = "Name should not contain morethan 30 letters"), MinLength(3, ErrorMessage = "Name should not contain lessthan 3 letters")]
+        public string BankName { get; set; }
+
+        [Display(Name = "Bank Code"), Required]
         //[RegularExpression(@"^[A-Za-z\s'-]*$", ErrorMessage = "Name must not contain numbers")]
         //[MaxLength(25, ErrorMessage = "Name should not contain morethan 30 letters"), MinLength(3, ErrorMessage = "Name should not contain lessthan 3 letters")]
         public string BankCode { get; set; }
