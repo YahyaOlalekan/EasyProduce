@@ -56,7 +56,7 @@ namespace Application.Dtos
     //     //public Guid UnitOfMeasurement { get; set; }
     // }
 
-    public class SellProduceTypeRequestModel/*: BaseEntity*/
+    public class InitiateProducetypeSalesRequestModel/*: BaseEntity*/
     {
         [Display(Name = "Produce Type Name")]
         public Guid ProduceTypeId { get; set; }

@@ -2,13 +2,16 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Application.Dtos;
+using Domain.Entity;
 using Domain.Enum;
 
 namespace Application.Abstractions.ServiceInterfaces
 {
     public interface ITransactionService
     {
-        Task<string> SellProduceType(Guid farmerId, SellProduceTypeRequestModel model);
+         Task<BaseResponse<Transaction>> InitiateProducetypeSales(Guid farmerId, InitiateProducetypeSalesRequestModel model);
+
+        // Task<string> SellProduceType(Guid farmerId, SellProduceTypeRequestModel model);
         // Task<BaseResponse<TransactionDto>> ApprovedAsync(Guid userId, Guid id);
         // Task<BaseResponse<TransactionDto>> DeclinedAsync(Guid userId, Guid id);
         // Task<BaseResponse<TransactionDto>> CreateAsync(CreateTransactionRequestModel model);

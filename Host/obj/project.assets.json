@@ -7031,11 +7031,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\USER PC\\Desktop\\EasyProduce\\Host\\Host.csproj",
+      "projectUniqueName": "C:\\Users\\USER PC\\Desktop\\EasyProduce\\host\\Host.csproj",
       "projectName": "Host",
-      "projectPath": "C:\\Users\\USER PC\\Desktop\\EasyProduce\\Host\\Host.csproj",
+      "projectPath": "C:\\Users\\USER PC\\Desktop\\EasyProduce\\host\\Host.csproj",
       "packagesPath": "C:\\Users\\USER PC\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\USER PC\\Desktop\\EasyProduce\\Host\\obj\\",
+      "outputPath": "C:\\Users\\USER PC\\Desktop\\EasyProduce\\host\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\USER PC\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -7113,7 +7113,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.202\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.406\\RuntimeIdentifierGraph.json"
       }
     }
   }

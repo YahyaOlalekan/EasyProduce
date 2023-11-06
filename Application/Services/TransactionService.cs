@@ -21,23 +21,36 @@ namespace Application.Services
             _transactionRepository = transactionRepository;
         }
 
-        public async Task<string> SellProduceType(Guid farmerId, SellProduceTypeRequestModel model)
+        public async Task<BaseResponse<Transaction>> InitiateProducetypeSales(Guid farmerId, InitiateProducetypeSalesRequestModel model)
         {
-            var farmer = await _farmerRepository.GetAsync(f => f.Id == farmerId);
+            var farmer = await _farmerRepository.GetAsync(f => f.UserId == farmerId);
             if (farmer == null)
             {
-                return "Farmer Not Found!";
+                return new BaseResponse<Transaction>
+                {
+                    Message = "Farmer Not Found!",
+                    Status = false
+                };
+
             }
 
             if (farmer.FarmerRegStatus != Domain.Enum.FarmerRegStatus.Approved)
             {
-                return "Sorry, You are yet to be approved as a produce type Seller";
+                return new BaseResponse<Transaction>
+                {
+                    Message = "Sorry, You are yet to be approved as a produce type Seller",
+                    Status = false
+                };
             }
 
-            var farmerProduceType = await _farmerProduceTypeRepository.GetAsync(x => x.FarmerId == farmerId && x.ProduceTypeId == model.ProduceTypeId && x.Status == Domain.Enum.Status.Approved);
+            var farmerProduceType = await _farmerProduceTypeRepository.GetAsync(x => x.FarmerId == farmer.Id && x.ProduceTypeId == model.ProduceTypeId && x.Status == Domain.Enum.Status.Approved);
             if (farmerProduceType == null)
             {
-                return "Sorry, this produce Type is not approved for you";
+                return new BaseResponse<Transaction>
+                {
+                    Message = "Sorry, this produce Type is not approved for you",
+                    Status = false
+                };
             }
 
             var transaction = new Transaction
@@ -48,15 +61,58 @@ namespace Application.Services
                 UnitOfMeasurement = model.UnitOfMeasurement,
                 TotalAmount = model.Price * (decimal)model.Quantity,
                 TransactionStatus = Domain.Enum.TransactionStatus.Initialized,
-                FarmerId = farmerId,
+                FarmerId = farmer.Id,
                 TransactionNum = await _transactionRepository.GenerateTransactionRegNumAsync()
             };
 
             await _transactionRepository.CreateTransactionAsync(transaction);
             await _transactionRepository.SaveAsync();
 
-            return "Successful";
+            return new BaseResponse<Transaction>
+            {
+                Message = "Successful",
+                Status = true
+            };
         }
+
+
+
+        // public async Task<string> InitiateProducetypeSales(Guid farmerId, InitiateProducetypeSalesRequestModel model)
+        // {
+        //     var farmer = await _farmerRepository.GetAsync(f => f.Id == farmerId);
+        //     if (farmer == null)
+        //     {
+        //         return "Farmer Not Found!";
+        //     }
+
+        //     if (farmer.FarmerRegStatus != Domain.Enum.FarmerRegStatus.Approved)
+        //     {
+        //         return "Sorry, You are yet to be approved as a produce type Seller";
+        //     }
+
+        //     var farmerProduceType = await _farmerProduceTypeRepository.GetAsync(x => x.FarmerId == farmerId && x.ProduceTypeId == model.ProduceTypeId && x.Status == Domain.Enum.Status.Approved);
+        //     if (farmerProduceType == null)
+        //     {
+        //         return "Sorry, this produce Type is not approved for you";
+        //     }
+
+        //     var transaction = new Transaction
+        //     {
+        //         ProduceTypeId = model.ProduceTypeId,
+        //         Price = model.Price,
+        //         Quantity = model.Quantity,
+        //         UnitOfMeasurement = model.UnitOfMeasurement,
+        //         TotalAmount = model.Price * (decimal)model.Quantity,
+        //         TransactionStatus = Domain.Enum.TransactionStatus.Initialized,
+        //         FarmerId = farmerId,
+        //         TransactionNum = await _transactionRepository.GenerateTransactionRegNumAsync()
+        //     };
+
+        //     await _transactionRepository.CreateTransactionAsync(transaction);
+        //     await _transactionRepository.SaveAsync();
+
+        //     return "Successful";
+        // }
 
 
         // public async Task<string> PriceConfirmAsync(Guid farmerId, PriceConfirmRequestModel model)

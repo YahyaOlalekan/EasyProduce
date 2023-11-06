@@ -44,12 +44,12 @@ namespace Host.Controllers
             return Ok(response);
         }
 
-        [HttpPut("SellProduceType/{farmerId}")]
-        public async Task<IActionResult> SellProduceTypeAsync([FromRoute] Guid farmerId, [FromBody] SellProduceTypeRequestModel model)
+        [HttpPut("InitiateProducetypeSales/{farmerId}")]
+        public async Task<IActionResult> InitiateProducetypeSalesAsync([FromRoute] Guid farmerId, [FromBody] InitiateProducetypeSalesRequestModel model)
         {
             if (ModelState.IsValid)
             {
-                var result = await _transactionService.SellProduceType(farmerId, model);
+                var result = await _transactionService.InitiateProducetypeSales(farmerId, model);
                 // TempData["message"] = result.Message;
                 if (result != null)
                 {
