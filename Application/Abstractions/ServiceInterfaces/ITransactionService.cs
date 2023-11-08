@@ -9,7 +9,9 @@ namespace Application.Abstractions.ServiceInterfaces
 {
     public interface ITransactionService
     {
-         Task<BaseResponse<Transaction>> InitiateProducetypeSales(Guid farmerId, InitiateProducetypeSalesRequestModel model);
+         Task<BaseResponse<Transaction>> InitiateProducetypeSalesAsync(Guid farmerId, InitiateProducetypeSalesRequestModel model);
+         Task<BaseResponse<IEnumerable<TransactionDto>>> GetAllInitiatedProducetypeSalesAsync();
+         Task<BaseResponse<string>> VerifyInitiatedProducetypeSalesAsync(InitiatedProducetypeSalesRequestModel model);
 
         // Task<string> SellProduceType(Guid farmerId, SellProduceTypeRequestModel model);
         // Task<BaseResponse<TransactionDto>> ApprovedAsync(Guid userId, Guid id);

@@ -1,4 +1,6 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Application.Abstractions.RepositoryInterfaces;
@@ -21,7 +23,7 @@ namespace Application.Services
             _transactionRepository = transactionRepository;
         }
 
-        public async Task<BaseResponse<Transaction>> InitiateProducetypeSales(Guid farmerId, InitiateProducetypeSalesRequestModel model)
+        public async Task<BaseResponse<Transaction>> InitiateProducetypeSalesAsync(Guid farmerId, InitiateProducetypeSalesRequestModel model)
         {
             var farmer = await _farmerRepository.GetAsync(f => f.UserId == farmerId);
             if (farmer == null)
@@ -75,6 +77,65 @@ namespace Application.Services
             };
         }
 
+
+        public async Task<BaseResponse<IEnumerable<TransactionDto>>> GetAllInitiatedProducetypeSalesAsync()
+        {
+            var initiatedProducetypeSales = await _transactionRepository.GetAllAsync();
+            if (initiatedProducetypeSales.Any())
+            {
+                return new BaseResponse<IEnumerable<TransactionDto>>
+                {
+                    Message = "Successful",
+                    Status = true,
+                    Data = initiatedProducetypeSales.Select(x => new TransactionDto
+                    {
+                        Id = x.Id,
+                        ProduceTypeId = x.ProduceTypeId,
+                        Price = x.Price,
+                        Quantity = x.Quantity,
+                        UnitOfMeasurement = x.UnitOfMeasurement,
+                        TotalAmount = x.Price * (decimal)x.Quantity,
+                        TransactionStatus = Domain.Enum.TransactionStatus.Initialized,
+                        FarmerId = x.FarmerId,
+                        RegistrationNumber = x.Farmer.RegistrationNumber,
+                        TransactionNum = x.TransactionNum
+                    })
+                };
+            }
+
+            return new BaseResponse<IEnumerable<TransactionDto>>
+            {
+                Message = "No Initiated Producetypes Sales",
+                Status = false,
+                Data = null
+            };
+
+        }
+
+
+        public async Task<BaseResponse<string>> VerifyInitiatedProducetypeSalesAsync(InitiatedProducetypeSalesRequestModel model)
+        {
+            var initiatedProducetypeSale = await _transactionRepository.GetAsync(model.Id);
+
+            if (initiatedProducetypeSale == null)
+            {
+                return new BaseResponse<string>
+                {
+                    Message = "Initiated Producetype Sales not found",
+                    Status = false,
+                };
+            }
+
+            initiatedProducetypeSale.TransactionStatus = model.TransactionStatus;
+            _transactionRepository.Update(initiatedProducetypeSale);
+            await _transactionRepository.SaveAsync();
+
+            return new BaseResponse<string>
+            {
+                Message = "Successful",
+                Status = true
+            };
+        }
 
 
         // public async Task<string> InitiateProducetypeSales(Guid farmerId, InitiateProducetypeSalesRequestModel model)

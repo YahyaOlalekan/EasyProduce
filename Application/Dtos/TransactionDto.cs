@@ -8,6 +8,7 @@ namespace Application.Dtos
     {
         public Guid Id { get; set; }
         public string TransactionNum { get; set; }
+        public string RegistrationNumber { get; set; }
         public Guid FarmerId { get; set; }
         public FarmerDto Farmer { get; set; }
         public string TypeName { get; set; }
@@ -78,6 +79,12 @@ namespace Application.Dtos
         // public Guid? ManagerId { get; set; }
 
         // public string TransactionNum { get; set; }
+    }
+
+    public class InitiatedProducetypeSalesRequestModel
+    {
+        public Guid Id { get; set; }
+        public TransactionStatus TransactionStatus { get; set; }
     }
     public class PriceConfirmRequestModel
     {
