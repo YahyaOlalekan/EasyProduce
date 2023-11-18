@@ -2,10 +2,13 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using Application.Abstractions;
 using Application.Abstractions.RepositoryInterfaces;
 using Application.Abstractions.ServiceInterfaces;
 using Application.Dtos;
+using Application.Dtos.PaymentGatewayDTOs;
 using Domain.Entity;
 
 namespace Application.Services
@@ -15,12 +18,14 @@ namespace Application.Services
         private readonly IFarmerRepository _farmerRepository;
         private readonly IFarmerProduceTypeRepository _farmerProduceTypeRepository;
         private readonly ITransactionRepository _transactionRepository;
+        private readonly IPayStackService _paystackService;
 
-        public TransactionService(IFarmerRepository farmerRepository, IFarmerProduceTypeRepository farmerProduceTypeRepository, ITransactionRepository transactionRepository)
+        public TransactionService(IFarmerRepository farmerRepository, IFarmerProduceTypeRepository farmerProduceTypeRepository, ITransactionRepository transactionRepository, IPayStackService paystackService)
         {
             _farmerRepository = farmerRepository;
             _farmerProduceTypeRepository = farmerProduceTypeRepository;
             _transactionRepository = transactionRepository;
+            _paystackService = paystackService;
         }
 
         public async Task<BaseResponse<Transaction>> InitiateProducetypeSalesAsync(Guid farmerId, InitiateProducetypeSalesRequestModel model)
@@ -136,6 +141,80 @@ namespace Application.Services
                 Status = true
             };
         }
+
+
+        public async Task<BaseResponse<string>> ProcessPaymentAsync(Guid transactionId)
+        {
+            var transaction = await _transactionRepository.GetAsync(transactionId);
+            if (transaction == null)
+            {
+                return new BaseResponse<string>
+                {
+                    Message = "Transaction is not found",
+                    Status = false,
+                };
+            }
+
+            if (transaction.TransactionStatus != Domain.Enum.TransactionStatus.Confirmed)
+            {
+                return new BaseResponse<string>
+                {
+                    Message = "This transaction has not been confirmed",
+                    Status = false,
+                };
+            }
+
+            var transferRecipientModel = new CreateTransferRecipientRequestModel
+            {
+                Name = transaction.Farmer.AccountName,
+                AccountNumber = transaction.Farmer.AccountNumber,
+                BankCode = transaction.Farmer.BankCode,
+            };
+            var transferRecipient = await _paystackService.CreateTransferRecipient(transferRecipientModel);
+
+            var transferRecipientResponseModel = new InitiateTransferRequesteModel
+            {
+                Amount = transaction.TotalAmount,
+                RecipientCode = transferRecipient.data.recipient_code
+            };
+            var initiateTransfer = await _paystackService.InitiateTransfer(transferRecipientResponseModel);
+
+            // var finalizeTransfer = await _paystackService.FinalizeTransfer(initiateTransfer.data.transfer_code, initiateTransfer);
+
+            return new BaseResponse<string>
+            {
+                Message = " ",
+                Status = true,
+                Data = initiateTransfer.data.transfer_code
+            };
+
+
+        }
+
+        public async Task<BaseResponse<string>> ReceiveAnOtpAsync(string transferCode, string otp)
+        {
+            var finalizeTransfer = await _paystackService.FinalizeTransfer(transferCode, otp);
+
+            if (finalizeTransfer.data.status.Equals("success"))
+            {
+                return new BaseResponse<string>
+                {
+                    Message = "Money sent successfuly",
+                    Status = true,
+                };
+            }
+            else
+            {
+                return new BaseResponse<string>
+                {
+                    Message = "Transfer failed ",
+                    Status = true,
+                };
+            }
+
+        }
+
+
 
 
         // public async Task<string> InitiateProducetypeSales(Guid farmerId, InitiateProducetypeSalesRequestModel model)

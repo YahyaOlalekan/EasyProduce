@@ -93,6 +93,7 @@ namespace Host.Controllers
             return Ok(customer);
         }
 
+        //  [Authorize]
         // [Authorize(Roles = "admin manager")]
         [HttpGet("GetAllCustomers")]
         public async Task<IActionResult> ListOfCustomersAsync()

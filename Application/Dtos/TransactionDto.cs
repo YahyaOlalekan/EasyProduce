@@ -86,6 +86,18 @@ namespace Application.Dtos
         public Guid Id { get; set; }
         public TransactionStatus TransactionStatus { get; set; }
     }
+
+    public class PaymentRequestModel
+    {
+        public Guid TransactionId { get; set; }
+        public decimal Amount { get; set; }
+    }
+    public class PaymentRequestModel2
+    {
+        public Guid TransactionId { get; set; }
+        public decimal Amount { get; set; }
+    }
+
     public class PriceConfirmRequestModel
     {
         [Display(Name = "Produce Type Name")]

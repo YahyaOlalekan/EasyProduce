@@ -12,6 +12,7 @@ public interface IPayStackService
     Task<BankResponseModel> GetBanksAsync();
 
     Task<CreateTransferRecipientResponseModel> CreateTransferRecipient(CreateTransferRecipientRequestModel model);
-    Task<InitiateTransferResponseModel> InitiateTransfer(CreateTransferRecipientResponseModel model);
+    Task<InitiateTransferResponseModel> InitiateTransfer(InitiateTransferRequesteModel model);
+    Task<FinalizeTransferResponseModel> FinalizeTransfer(string transferCode, string otp);
 
 }

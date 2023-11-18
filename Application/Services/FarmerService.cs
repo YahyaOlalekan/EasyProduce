@@ -86,6 +86,7 @@ namespace Application.Services
                 //CreatedBy = loginId,
                 RegistrationNumber = await GeneratefarmerRegNumAsync(),
                 FarmName = model.FarmName,
+                FarmerRegStatus = Domain.Enum.FarmerRegStatus.Pending,
                 UserId = user.Id,
                 // User = user,
                 BankCode = model.BankCode,
@@ -257,15 +258,15 @@ namespace Application.Services
             if (farmerProduceType != null)
             {
                 var approvedProduceTypes = new List<ProduceTypeDto>
-        {
-            new ProduceTypeDto
-            {
-                Id = farmerProduceType.Id,
-                TypeName = farmerProduceType.ProduceType.TypeName,
-                ProduceName = farmerProduceType.ProduceType.Produce.ProduceName,
-                NameOfCategory = farmerProduceType.ProduceType.Produce.Category.NameOfCategory
-            }
-        };
+                 {
+                        new ProduceTypeDto
+                        {
+                            Id = farmerProduceType.Id,
+                            TypeName = farmerProduceType.ProduceType.TypeName,
+                            ProduceName = farmerProduceType.ProduceType.Produce.ProduceName,
+                            NameOfCategory = farmerProduceType.ProduceType.Produce.Category.NameOfCategory
+                        }
+                 };
 
                 return new BaseResponse<FarmerProduceTypeDto>
                 {
@@ -432,6 +433,23 @@ namespace Application.Services
                 return new BaseResponse<string>
                 {
                     Message = "Farmer not found",
+                    Status = false,
+                };
+            }
+
+            var approvedProduceTypes = await _farmerProduceTypeRepository.GetAllApprovedProduceTypeOfAFarmer(model.Id);
+
+            // var farmerProduceType = await _farmerProduceTypeRepository.GetAllAsync(f => f.FarmerId == model.Id && f.ProduceType.Status == Domain.Enum.Status.Approved);
+            // var approvedProduceTypes = farmerProduceType.Select(fp => fp.ProduceType).ToList();
+
+            // var approvedProduceTypes = farmerProduceType.Select(fp => fp.ProduceType.Status == Domain.Enum.Status.Approved).ToList();
+
+            // if (approvedProduceTypes.Count() == 0)
+            if (!approvedProduceTypes.Any())
+            {
+                return new BaseResponse<string>
+                {
+                    Message = "Kindly approve producetypes before farmer approval",
                     Status = false,
                 };
             }

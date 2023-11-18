@@ -50,7 +50,9 @@ namespace Application.Dtos
         public string Email { get; set; }
 
 
-        [Required, MinLength(3, ErrorMessage = "Password should not contain lessthan 3 characters")]
+        [Required(ErrorMessage = "Password is required.")]
+        [DataType(DataType.Password)]
+        [RegularExpression(@"^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$", ErrorMessage = "Password must be at least 8 characters long and contain at least one letter and one digit.")]
         public string Password { get; set; }
 
 
@@ -71,7 +73,7 @@ namespace Application.Dtos
         public IFormFile ProfilePicture { get; set; }
 
     }
-   
+
     public class UpdateManagerRequestModel
     {
         [Display(Name = "Phone Number"), Required]

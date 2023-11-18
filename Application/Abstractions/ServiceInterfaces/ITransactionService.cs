@@ -9,9 +9,11 @@ namespace Application.Abstractions.ServiceInterfaces
 {
     public interface ITransactionService
     {
-         Task<BaseResponse<Transaction>> InitiateProducetypeSalesAsync(Guid farmerId, InitiateProducetypeSalesRequestModel model);
-         Task<BaseResponse<IEnumerable<TransactionDto>>> GetAllInitiatedProducetypeSalesAsync();
-         Task<BaseResponse<string>> VerifyInitiatedProducetypeSalesAsync(InitiatedProducetypeSalesRequestModel model);
+        Task<BaseResponse<Transaction>> InitiateProducetypeSalesAsync(Guid farmerId, InitiateProducetypeSalesRequestModel model);
+        Task<BaseResponse<IEnumerable<TransactionDto>>> GetAllInitiatedProducetypeSalesAsync();
+        Task<BaseResponse<string>> VerifyInitiatedProducetypeSalesAsync(InitiatedProducetypeSalesRequestModel model);
+        Task<BaseResponse<string>> ProcessPaymentAsync(Guid transactionId);
+        Task<BaseResponse<string>> ReceiveAnOtpAsync(string transferCode, string otp);
 
         // Task<string> SellProduceType(Guid farmerId, SellProduceTypeRequestModel model);
         // Task<BaseResponse<TransactionDto>> ApprovedAsync(Guid userId, Guid id);

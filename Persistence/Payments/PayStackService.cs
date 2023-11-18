@@ -80,10 +80,11 @@ public class PayStackService : IPayStackService
 
 
 
-
     public async Task<CreateTransferRecipientResponseModel> CreateTransferRecipient(CreateTransferRecipientRequestModel model)
     {
-        var key = _paystackOptions.APIKey;
+        // var key = _paystackOptions.APIKey;
+        var key = _configure.GetValue<string>("Paystack:TestSecreteKey");
+
         var getHttpClient = new HttpClient();
         getHttpClient.DefaultRequestHeaders.Accept.Clear();
         getHttpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
@@ -91,12 +92,14 @@ public class PayStackService : IPayStackService
         getHttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", key);
         var response = await getHttpClient.PostAsJsonAsync(getHttpClient.BaseAddress, new
         {
-            type = model.Type,
+            // type = "nuban",
+            type = "nuban",
             name = model.Name,
             account_number = model.AccountNumber,
             bank_code = model.BankCode,
-            currency = model.Currency,
-            description = model.Description,
+            // description = model.Description,
+            // currency = model.Currency,
+            // authorization_code
         });
         var responseString = await response.Content.ReadAsStringAsync();
         var responseObj = JsonSerializer.Deserialize<CreateTransferRecipientResponseModel>(responseString);
@@ -104,8 +107,75 @@ public class PayStackService : IPayStackService
         {
             return responseObj;
         }
-        return responseObj;
+        // return responseObj;
+        return null;
     }
+
+    public async Task<InitiateTransferResponseModel> InitiateTransfer(InitiateTransferRequesteModel model)
+    {
+        // var key = _paystackOptions.APIKey;
+        var key = _configure.GetValue<string>("Paystack:TestSecreteKey");
+
+        var getHttpClient = new HttpClient();
+        getHttpClient.DefaultRequestHeaders.Accept.Clear();
+        getHttpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+        var baseUri = $"https://api.paystack.co/transfer";
+        getHttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", key);
+        var response = await getHttpClient.PostAsJsonAsync(baseUri, new
+        {
+            recipient = model.RecipientCode,
+            amount = model.Amount * 100,
+            source = "balance",
+            reference = Guid.NewGuid().ToString().Replace('-', 'y'),
+            // currency = "NGN",
+            //  reason = "Calm down",
+        });
+        var responseString = await response.Content.ReadAsStringAsync();
+
+        var responseObj = JsonSerializer.Deserialize<InitiateTransferResponseModel>(responseString);
+        if (response.StatusCode == HttpStatusCode.OK)
+        {
+            return responseObj;
+        }
+        // return responseObj;
+        return null;
+    }
+
+
+    public async Task<FinalizeTransferResponseModel> FinalizeTransfer(string transferCode, string otp)
+    {
+        // var key = _paystackOptions.APIKey;
+        var key = _configure.GetValue<string>("Paystack:TestSecreteKey");
+
+        var httpClient = new HttpClient();
+        httpClient.DefaultRequestHeaders.Accept.Clear();
+        httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+        var baseUri = "https://api.paystack.co/transfer/finalize_transfer";
+
+        httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", key);
+
+        // property names in the anonymous object is thesame as in model.data,then member can be accessed directly by referencing them (omitting the property names)
+        var content = new
+        {
+           transfer_code = transferCode,
+            otp
+        };
+
+        var response = await httpClient.PostAsJsonAsync(baseUri, content);
+
+        if (response.StatusCode == HttpStatusCode.OK)
+        {
+            var responseString = await response.Content.ReadAsStringAsync();
+            var responseObj = JsonSerializer.Deserialize<FinalizeTransferResponseModel>(responseString);
+            return responseObj;
+        }
+
+        return null;
+    }
+
+
+
+
 
     public async Task<InitializeTransactionResponseModel> InitializePayment(InitializeTransactionRequestModel model)
     {
@@ -125,9 +195,6 @@ public class PayStackService : IPayStackService
             callback_url = model.CallbackUrl,
 
         }), Encoding.UTF8, "application/json");
-
-
-
 
         try
         {
@@ -163,32 +230,6 @@ public class PayStackService : IPayStackService
         }
     }
 
-    public async Task<InitiateTransferResponseModel> InitiateTransfer(CreateTransferRecipientResponseModel model)
-    {
-        var key = _paystackOptions.APIKey;
-
-        var getHttpClient = new HttpClient();
-        getHttpClient.DefaultRequestHeaders.Accept.Clear();
-        getHttpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-        var baseUri = $"https://api.paystack.co/transfer";
-        getHttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", key);
-        var response = await getHttpClient.PostAsJsonAsync(baseUri, new
-        {
-            recipient = model.data.recipient_code,
-            amount = model.data.amount * 100,
-            reference = Guid.NewGuid().ToString().Replace('-', 'y'),
-            currency = "NGN",
-            source = "balance",
-        });
-        var responseString = await response.Content.ReadAsStringAsync();
-
-        var responseObj = JsonSerializer.Deserialize<InitiateTransferResponseModel>(responseString);
-        if (response.StatusCode == HttpStatusCode.OK)
-        {
-            return responseObj;
-        }
-        return responseObj;
-    }
 
 
     // public async Task<IEnumerable<BankResponseModel>> GetBanksAsync()
