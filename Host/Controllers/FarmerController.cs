@@ -74,7 +74,7 @@ namespace Host.Controllers
         }
 
         //  [Authorize(Roles = "admin manager")]
-        [HttpGet("FarmerProfile/{id}")]
+        [HttpGet("GetFarmerAlongWithApprovedProduceType/{id}")]
         public async Task<IActionResult> GetFarmerAlongWithApprovedProduceTypeByIdAsync([FromRoute] Guid id)
         {
             var farmer = await _farmerService.GetFarmerAlongWithApprovedProduceTypeAsync(id);

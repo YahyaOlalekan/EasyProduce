@@ -57,6 +57,24 @@ namespace Persistence.RepositoryImplementations
             // .ThenInclude(a => a.ProduceType)
            .ToListAsync();
         }
+        public async Task<IEnumerable<Transaction>> GetAllInitiatedProducetypeSalesAsync()
+        {
+            return await _context.Transactions
+           .Where(a => a.TransactionStatus == Domain.Enum.TransactionStatus.Initialized && !a.IsDeleted)
+            .Include(a => a.Farmer)
+            // .Include(a => a.TransactionProduceTypes)
+            // .ThenInclude(a => a.ProduceType)
+           .ToListAsync();
+        }
+        public async Task<IEnumerable<Transaction>> GetAllConfirmedProducetypeSalesAsync()
+        {
+            return await _context.Transactions
+           .Where(a => a.TransactionStatus == Domain.Enum.TransactionStatus.Confirmed && !a.IsDeleted)
+            .Include(a => a.Farmer)
+            // .Include(a => a.TransactionProduceTypes)
+            // .ThenInclude(a => a.ProduceType)
+           .ToListAsync();
+        }
 
         public async Task<IEnumerable<Transaction>> GetSelectedAsync(List<Guid> ids)
         {

@@ -71,6 +71,17 @@ namespace Host.Controllers
             return Ok(initiatedProducetypeSales);
         }
 
+        [HttpGet("GetAllConfirmedProducetypeSales")]
+        public async Task<IActionResult> GetAllConfirmedProducetypeSalesAsync()
+        {
+            var confirmedProducetypeSales = await _transactionService.GetAllConfirmedProducetypeSalesAsync();
+            if (confirmedProducetypeSales == null)
+            {
+                return NotFound(confirmedProducetypeSales);
+            }
+            return Ok(confirmedProducetypeSales);
+        }
+
 
         [HttpPost("VerifyInitiatedProducetypeSales")]
         public async Task<IActionResult> VerifyInitiatedProducetypeSalesAsync(InitiatedProducetypeSalesRequestModel model)
@@ -84,6 +95,30 @@ namespace Host.Controllers
 
             return Ok(result);
 
+        }
+
+        [HttpGet("InitiatePayment/{transactionId}")]
+        public async Task<IActionResult> InitiatePayment([FromRoute] Guid transactionId)
+        {
+            var transferCode = await _transactionService.ProcessPaymentAsync(transactionId);
+
+            if (transferCode is not null)
+            {
+                return Ok(transferCode);
+            }
+            return NotFound(transferCode);
+        }
+
+        [HttpGet("FinalizePayment/{transactionId}")]
+        public async Task<IActionResult> FinalizePayment([FromRoute] string transferCode, string otp)
+        {
+            var result = await _transactionService.MakePaymentAsync(transferCode, otp);
+
+            if (result is not null)
+            {
+                return Ok(result);
+            }
+            return NotFound(result);
         }
 
     }

@@ -4,14 +4,14 @@
     "C:\\Users\\USER PC\\Desktop\\EasyProduce\\Persistence\\Persistence.csproj": {}
   },
   "projects": {
-    "C:\\Users\\USER PC\\Desktop\\EasyProduce\\Application\\Application.csproj": {
+    "c:\\Users\\USER PC\\Desktop\\EasyProduce\\Application\\Application.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\USER PC\\Desktop\\EasyProduce\\Application\\Application.csproj",
+        "projectUniqueName": "c:\\Users\\USER PC\\Desktop\\EasyProduce\\Application\\Application.csproj",
         "projectName": "Application",
-        "projectPath": "C:\\Users\\USER PC\\Desktop\\EasyProduce\\Application\\Application.csproj",
+        "projectPath": "c:\\Users\\USER PC\\Desktop\\EasyProduce\\Application\\Application.csproj",
         "packagesPath": "C:\\Users\\USER PC\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\USER PC\\Desktop\\EasyProduce\\Application\\obj\\",
+        "outputPath": "c:\\Users\\USER PC\\Desktop\\EasyProduce\\Application\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\USER PC\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -83,7 +83,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.406\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.202\\RuntimeIdentifierGraph.json"
         }
       }
     },
@@ -138,7 +138,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.406\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.202\\RuntimeIdentifierGraph.json"
         }
       }
     },
@@ -166,8 +166,8 @@
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "C:\\Users\\USER PC\\Desktop\\EasyProduce\\Application\\Application.csproj": {
-                "projectPath": "C:\\Users\\USER PC\\Desktop\\EasyProduce\\Application\\Application.csproj"
+              "c:\\Users\\USER PC\\Desktop\\EasyProduce\\Application\\Application.csproj": {
+                "projectPath": "c:\\Users\\USER PC\\Desktop\\EasyProduce\\Application\\Application.csproj"
               },
               "C:\\Users\\USER PC\\Desktop\\EasyProduce\\Domain\\Domain.csproj": {
                 "projectPath": "C:\\Users\\USER PC\\Desktop\\EasyProduce\\Domain\\Domain.csproj"
@@ -236,7 +236,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.406\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.202\\RuntimeIdentifierGraph.json"
         }
       }
     }

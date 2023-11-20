@@ -28,6 +28,26 @@ namespace Application.Services
             _paystackService = paystackService;
         }
 
+        // public async Task<BaseResponse<Transaction>> ConfirmPaymentAsync(string otp,)
+        // {
+        //     var transaction = await _transactionRepository.GetAsync(f => f.Id == transactionId);
+        //     if (transaction == null)
+        //     {
+        //         return new BaseResponse<Transaction>
+        //         {
+        //             Message = "Farmer Not Found!",
+        //             Status = false
+        //         };
+        //     }
+        //     var initRequest = new InitiateTransferRequesteModel 
+        //     {
+        //         Amount = transaction.TotalAmount,
+        //         RecipientCode
+
+        //     };
+        //     var init = await _paystackService.InitiateTransfer();
+        // }
+
         public async Task<BaseResponse<Transaction>> InitiateProducetypeSalesAsync(Guid farmerId, InitiateProducetypeSalesRequestModel model)
         {
             var farmer = await _farmerRepository.GetAsync(f => f.UserId == farmerId);
@@ -40,6 +60,7 @@ namespace Application.Services
                 };
 
             }
+
 
             if (farmer.FarmerRegStatus != Domain.Enum.FarmerRegStatus.Approved)
             {
@@ -85,6 +106,76 @@ namespace Application.Services
 
         public async Task<BaseResponse<IEnumerable<TransactionDto>>> GetAllInitiatedProducetypeSalesAsync()
         {
+            var initiatedProducetypeSales = await _transactionRepository.GetAllInitiatedProducetypeSalesAsync();
+            if (initiatedProducetypeSales.Any())
+            {
+                return new BaseResponse<IEnumerable<TransactionDto>>
+                {
+                    Message = "Successful",
+                    Status = true,
+                    Data = initiatedProducetypeSales.Select(x => new TransactionDto
+                    {
+                        Id = x.Id,
+                        ProduceTypeId = x.ProduceTypeId,
+                        Price = x.Price,
+                        Quantity = x.Quantity,
+                        UnitOfMeasurement = x.UnitOfMeasurement,
+                        TotalAmount = x.Price * (decimal)x.Quantity,
+                        TransactionStatus = Domain.Enum.TransactionStatus.Initialized,
+                        FarmerId = x.FarmerId,
+                        RegistrationNumber = x.Farmer.RegistrationNumber,
+                        TransactionNum = x.TransactionNum
+                    })
+                };
+            }
+
+            return new BaseResponse<IEnumerable<TransactionDto>>
+            {
+                Message = "No Initiated Producetypes Sales",
+                Status = false,
+                Data = null
+            };
+
+        }
+
+
+        public async Task<BaseResponse<IEnumerable<TransactionDto>>> GetAllConfirmedProducetypeSalesAsync()
+        {
+            var confirmedProducetypeSales = await _transactionRepository.GetAllConfirmedProducetypeSalesAsync();
+            if (confirmedProducetypeSales.Any())
+            {
+                return new BaseResponse<IEnumerable<TransactionDto>>
+                {
+                    Message = "Successful",
+                    Status = true,
+                    Data = confirmedProducetypeSales.Select(x => new TransactionDto
+                    {
+                        Id = x.Id,
+                        ProduceTypeId = x.ProduceTypeId,
+                        Price = x.Price,
+                        Quantity = x.Quantity,
+                        UnitOfMeasurement = x.UnitOfMeasurement,
+                        TotalAmount = x.Price * (decimal)x.Quantity,
+                        TransactionStatus = Domain.Enum.TransactionStatus.Confirmed,
+                        FarmerId = x.FarmerId,
+                        RegistrationNumber = x.Farmer.RegistrationNumber,
+                        TransactionNum = x.TransactionNum
+                    })
+                };
+            }
+
+            return new BaseResponse<IEnumerable<TransactionDto>>
+            {
+                Message = "No Initiated Producetypes Sales",
+                Status = false,
+                Data = null
+            };
+
+        }
+
+
+        public async Task<BaseResponse<IEnumerable<TransactionDto>>> GetAllTransactionStatusForProducetypeSalesAsync()
+        {
             var initiatedProducetypeSales = await _transactionRepository.GetAllAsync();
             if (initiatedProducetypeSales.Any())
             {
@@ -120,7 +211,8 @@ namespace Application.Services
 
         public async Task<BaseResponse<string>> VerifyInitiatedProducetypeSalesAsync(InitiatedProducetypeSalesRequestModel model)
         {
-            var initiatedProducetypeSale = await _transactionRepository.GetAsync(model.Id);
+            // var initiatedProducetypeSale = await _transactionRepository.GetAsync(model.Id);
+            var initiatedProducetypeSale = await _transactionRepository.GetAsync(t => t.Id == model.Id && t.TransactionStatus == Domain.Enum.TransactionStatus.Initialized );
 
             if (initiatedProducetypeSale == null)
             {
@@ -191,26 +283,28 @@ namespace Application.Services
 
         }
 
-        public async Task<BaseResponse<string>> ReceiveAnOtpAsync(string transferCode, string otp)
+        // public async Task<BaseResponse<string>> ReceiveAnOtpAsync(string transferCode, string otp)
+        public async Task<BaseResponse<string>> MakePaymentAsync(string transferCode, string otp)
         {
             var finalizeTransfer = await _paystackService.FinalizeTransfer(transferCode, otp);
 
             if (finalizeTransfer.data.status.Equals("success"))
             {
+                //change transaction status to paid
+
                 return new BaseResponse<string>
                 {
                     Message = "Money sent successfuly",
                     Status = true,
                 };
             }
-            else
+
+            return new BaseResponse<string>
             {
-                return new BaseResponse<string>
-                {
-                    Message = "Transfer failed ",
-                    Status = true,
-                };
-            }
+                Message = "Transfer failed ",
+                Status = true,
+            };
+
 
         }
 

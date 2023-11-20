@@ -33,6 +33,7 @@ public class FarmerProduceTypeRepository : BaseRepository<FarmerProduceType>, IF
             .ThenInclude(a => a.Category)
             .Where(a => a.FarmerId == id && !a.IsDeleted).ToListAsync();
         }
+      
 
         public async Task<IEnumerable<FarmerProduceType>> GetAllAsync(Expression<Func<FarmerProduceType, bool>> expression)
         {
@@ -89,7 +90,10 @@ public class FarmerProduceTypeRepository : BaseRepository<FarmerProduceType>, IF
             return await _context.FarmerProduceTypes
             .Where(expression)
             .Include(a => a.Farmer)
+            .ThenInclude(a=> a.User)
             .Include(a => a.ProduceType)
+            .ThenInclude(a=> a.Produce)
+            .ThenInclude(a=> a.Category)
             .ToListAsync();
         }
 

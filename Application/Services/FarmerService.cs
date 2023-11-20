@@ -253,43 +253,47 @@ namespace Application.Services
 
         public async Task<BaseResponse<FarmerProduceTypeDto>> GetFarmerAlongWithApprovedProduceTypeAsync(Guid id)
         {
-            var farmerProduceType = await _farmerProduceTypeRepository.GetAsync(f => f.Id == id || f.Farmer.UserId == id && f.ProduceType.Status == Domain.Enum.Status.Approved);
+            var farmerProduceType = await _farmerProduceTypeRepository.GetSelectedAsync(f => f.FarmerId == id || f.Farmer.UserId == id && f.ProduceType.Status == Domain.Enum.Status.Approved);
+            // var approvedProduceTypes = farmerProduceType.Select(fp => fp.ProduceType).ToList();
 
-            if (farmerProduceType != null)
+            if (farmerProduceType.Any())
             {
-                var approvedProduceTypes = new List<ProduceTypeDto>
-                 {
-                        new ProduceTypeDto
-                        {
-                            Id = farmerProduceType.Id,
-                            TypeName = farmerProduceType.ProduceType.TypeName,
-                            ProduceName = farmerProduceType.ProduceType.Produce.ProduceName,
-                            NameOfCategory = farmerProduceType.ProduceType.Produce.Category.NameOfCategory
-                        }
-                 };
+                var firstFarmer = farmerProduceType.FirstOrDefault();
+                var firstFarmerr = farmerProduceType.First(); // Access the first element in the collection
 
-                return new BaseResponse<FarmerProduceTypeDto>
+
+                if (firstFarmer != null)
                 {
-                    Message = "successful",
-                    Status = true,
-                    Data = new FarmerProduceTypeDto
+                    return new BaseResponse<FarmerProduceTypeDto>
                     {
-                        FarmerDto = new FarmerDto
+                        Message = "successful",
+                        Status = true,
+                        Data = new FarmerProduceTypeDto
                         {
-                            Id = farmerProduceType.Farmer.Id,
-                            RegistrationNumber = farmerProduceType.Farmer.RegistrationNumber,
-                            FirstName = farmerProduceType.Farmer.User.FirstName,
-                            LastName = farmerProduceType.Farmer.User.LastName,
-                            Email = farmerProduceType.Farmer.User.Email,
-                            PhoneNumber = farmerProduceType.Farmer.User.PhoneNumber,
-                            ProfilePicture = farmerProduceType.Farmer.User.ProfilePicture,
-                            Address = farmerProduceType.Farmer.User.Address,
-                            FarmName = farmerProduceType.Farmer.FarmName,
-                            FarmerRegStatus = farmerProduceType.Farmer.FarmerRegStatus,
+                            FarmerDto = new FarmerDto
+                            {
+                                // Id = firstFarmer.Farmer?.Id, // only if Id is nullable in the FarmerDto
+                                Id = firstFarmer.Farmer?.Id ?? Guid.Empty,
+                                RegistrationNumber = firstFarmer.Farmer?.RegistrationNumber,
+                                FirstName = firstFarmer.Farmer?.User?.FirstName,
+                                LastName = firstFarmer.Farmer?.User?.LastName,
+                                Email = firstFarmer.Farmer?.User?.Email,
+                                PhoneNumber = firstFarmer.Farmer?.User?.PhoneNumber,
+                                ProfilePicture = firstFarmer.Farmer?.User?.ProfilePicture,
+                                Address = firstFarmer.Farmer?.User?.Address,
+                                FarmName = firstFarmer.Farmer?.FarmName,
+                                FarmerRegStatus = firstFarmer.Farmer.FarmerRegStatus,
+                            },
+                            ProduceTypeDto = farmerProduceType.Select(pt => new ProduceTypeDto
+                            {
+                                Id = pt.Id,
+                                TypeName = pt.ProduceType?.TypeName,
+                                ProduceName = pt.ProduceType.Produce?.ProduceName,
+                                NameOfCategory = pt.ProduceType.Produce?.Category?.NameOfCategory,
+                            }).ToList()
                         },
-                        ProduceTypeDto = approvedProduceTypes
-                    },
-                };
+                    };
+                }
             }
 
             return new BaseResponse<FarmerProduceTypeDto>
@@ -297,56 +301,11 @@ namespace Application.Services
                 Message = "farmer is not found",
                 Status = false
             };
+
         }
 
 
-
-
-        // public async Task<BaseResponse<FarmerProduceTypeDto>> GetFarmerAlongWithApprovedProduceTypeAsync(Guid id)
-        // {
-        //     var farmer = await _farmerProduceTypeRepository.GetAsync(f => f.Id == id && f.ProduceType.Status == Domain.Enum.Status.Approved);
-
-        //     if (farmer.Any())
-        //     {
-        //         var firstFarmer = farmer.First(); // Access the first element in the collection
-
-        //         return new BaseResponse<FarmerProduceTypeDto>
-        //         {
-        //             Message = "successful",
-        //             Status = true,
-        //             Data = new FarmerProduceTypeDto
-        //             {
-        //                 FarmerDto = new FarmerDto
-        //                 {
-        //                     Id = firstFarmer.Farmer.Id,
-        //                     RegistrationNumber = firstFarmer.Farmer.RegistrationNumber,
-        //                     FirstName = firstFarmer.Farmer.User.FirstName,
-        //                     LastName = firstFarmer.Farmer.User.LastName,
-        //                     Email = firstFarmer.Farmer.User.Email,
-        //                     PhoneNumber = firstFarmer.Farmer.User.PhoneNumber,
-        //                     ProfilePicture = firstFarmer.Farmer.User.ProfilePicture,
-        //                     Address = firstFarmer.Farmer.User.Address,
-        //                     FarmName = firstFarmer.Farmer.FarmName,
-        //                     FarmerRegStatus = firstFarmer.Farmer.FarmerRegStatus,
-        //                 },
-        //                 ProduceTypeDto = farmer.Select(pt => new ProduceTypeDto
-        //                 {
-        //                     Id = pt.Id,
-        //                     TypeName = pt.ProduceType.TypeName,
-        //                     ProduceName = pt.ProduceType.Produce.ProduceName,
-        //                     NameOfCategory = pt.ProduceType.Produce.Category.NameOfCategory,
-        //                 }).ToList()
-        //             },
-        //         };
-        //     }
-
-        //     return new BaseResponse<FarmerProduceTypeDto>
-        //     {
-        //         Message = "farmer is not found",
-        //         Status = false
-        //     };
-        // }
-
+       
         public async Task<BaseResponse<IEnumerable<FarmerDto>>> GetAllFarmersAsync()
         {
             var farmers = await _farmerRepository.GetAllAsync();
@@ -438,6 +397,8 @@ namespace Application.Services
             }
 
             var approvedProduceTypes = await _farmerProduceTypeRepository.GetAllApprovedProduceTypeOfAFarmer(model.Id);
+
+            // var farmerProduceType = (await _farmerProduceTypeRepository.GetAllAsync(f => f.FarmerId == model.Id && f.ProduceType.Status == Domain.Enum.Status.Approved)).Select(fp => fp.ProduceType).ToList();
 
             // var farmerProduceType = await _farmerProduceTypeRepository.GetAllAsync(f => f.FarmerId == model.Id && f.ProduceType.Status == Domain.Enum.Status.Approved);
             // var approvedProduceTypes = farmerProduceType.Select(fp => fp.ProduceType).ToList();

@@ -80,9 +80,11 @@ namespace Application.Dtos
         [RegularExpression(@"^\d{11}$", ErrorMessage = "Phone number must be 11 digits")]
         public string PhoneNumber { get; set; }
 
-        [Required, MinLength(3, ErrorMessage = "Password should not contain lessthan 3 characters")]
+        [Required(ErrorMessage = "Password is required.")]
+        [DataType(DataType.Password)]
+        [RegularExpression(@"^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$", ErrorMessage = "Password must be at least 8 characters long and contain at least one letter and one digit.")]
         public string Password { get; set; }
-
+        
         [Required, MinLength(3, ErrorMessage = "Address should not contain lessthan 3 characters")]
         public string Address { get; set; }
 
