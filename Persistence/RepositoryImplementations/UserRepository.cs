@@ -20,8 +20,9 @@ namespace Persistence.RepositoryImplementations
         {
             return await _context.Users
             .Include(a => a.Role)
+            .Include(a => a.Farmer)
             .Where(a => !a.IsDeleted)
-            .SingleOrDefaultAsync(a => a.Id == id);
+            .FirstOrDefaultAsync(a => a.Id == id);
         }
 
         public async Task<User> GetAsync(Expression<Func<User, bool>> expression)

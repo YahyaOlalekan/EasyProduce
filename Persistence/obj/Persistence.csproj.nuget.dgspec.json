@@ -4,14 +4,14 @@
     "C:\\Users\\USER PC\\Desktop\\EasyProduce\\Persistence\\Persistence.csproj": {}
   },
   "projects": {
-    "c:\\Users\\USER PC\\Desktop\\EasyProduce\\Application\\Application.csproj": {
+    "C:\\Users\\USER PC\\Desktop\\EasyProduce\\Application\\Application.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\Users\\USER PC\\Desktop\\EasyProduce\\Application\\Application.csproj",
+        "projectUniqueName": "C:\\Users\\USER PC\\Desktop\\EasyProduce\\Application\\Application.csproj",
         "projectName": "Application",
-        "projectPath": "c:\\Users\\USER PC\\Desktop\\EasyProduce\\Application\\Application.csproj",
+        "projectPath": "C:\\Users\\USER PC\\Desktop\\EasyProduce\\Application\\Application.csproj",
         "packagesPath": "C:\\Users\\USER PC\\.nuget\\packages\\",
-        "outputPath": "c:\\Users\\USER PC\\Desktop\\EasyProduce\\Application\\obj\\",
+        "outputPath": "C:\\Users\\USER PC\\Desktop\\EasyProduce\\Application\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\USER PC\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -166,8 +166,8 @@
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "c:\\Users\\USER PC\\Desktop\\EasyProduce\\Application\\Application.csproj": {
-                "projectPath": "c:\\Users\\USER PC\\Desktop\\EasyProduce\\Application\\Application.csproj"
+              "C:\\Users\\USER PC\\Desktop\\EasyProduce\\Application\\Application.csproj": {
+                "projectPath": "C:\\Users\\USER PC\\Desktop\\EasyProduce\\Application\\Application.csproj"
               },
               "C:\\Users\\USER PC\\Desktop\\EasyProduce\\Domain\\Domain.csproj": {
                 "projectPath": "C:\\Users\\USER PC\\Desktop\\EasyProduce\\Domain\\Domain.csproj"

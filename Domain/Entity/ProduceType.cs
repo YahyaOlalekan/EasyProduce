@@ -15,7 +15,6 @@ namespace Domain.Entity
         public decimal CostPrice { get; set; }
         public decimal SellingPrice { get; set; }
         public string UnitOfMeasurement { get; set; }
-        public Status Status { get; set; } = Status.Pending;
         // public TransactionStatus TransactionStatus { get; set; }
 
         // public ICollection<TransactionProduceType> TransactionProduceTypes { get; set; } = new HashSet<TransactionProduceType>();

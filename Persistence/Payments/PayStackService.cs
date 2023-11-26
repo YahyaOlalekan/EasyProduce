@@ -70,7 +70,7 @@ public class PayStackService : IPayStackService
         var response = await getHttpClient.GetAsync(getHttpClient.BaseAddress);
         var responseString = await response.Content.ReadAsStringAsync();
         var responseObj = JsonSerializer.Deserialize<VerifyAccountNumberResponseModel>(responseString);
-        if (response.StatusCode == HttpStatusCode.OK)
+        if (response.IsSuccessStatusCode)
         {
             return responseObj;
         }
@@ -103,7 +103,7 @@ public class PayStackService : IPayStackService
         });
         var responseString = await response.Content.ReadAsStringAsync();
         var responseObj = JsonSerializer.Deserialize<CreateTransferRecipientResponseModel>(responseString);
-        if (response.StatusCode == HttpStatusCode.OK)
+        if (response.IsSuccessStatusCode)
         {
             return responseObj;
         }
@@ -133,7 +133,7 @@ public class PayStackService : IPayStackService
         var responseString = await response.Content.ReadAsStringAsync();
 
         var responseObj = JsonSerializer.Deserialize<InitiateTransferResponseModel>(responseString);
-        if (response.StatusCode == HttpStatusCode.OK)
+        if (response.IsSuccessStatusCode)
         {
             return responseObj;
         }
@@ -157,13 +157,13 @@ public class PayStackService : IPayStackService
         // property names in the anonymous object is thesame as in model.data,then member can be accessed directly by referencing them (omitting the property names)
         var content = new
         {
-           transfer_code = transferCode,
+            transfer_code = transferCode,
             otp
         };
 
         var response = await httpClient.PostAsJsonAsync(baseUri, content);
 
-        if (response.StatusCode == HttpStatusCode.OK)
+        if (response.IsSuccessStatusCode)
         {
             var responseString = await response.Content.ReadAsStringAsync();
             var responseObj = JsonSerializer.Deserialize<FinalizeTransferResponseModel>(responseString);
@@ -201,11 +201,11 @@ public class PayStackService : IPayStackService
             var response = await client.PostAsync(endPoint, content);
             var resString = await response.Content.ReadAsStringAsync();
             var responseObj = JsonSerializer.Deserialize<InitializeTransactionResponseModel>(resString, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
-            if (response.StatusCode == HttpStatusCode.OK)
+            if (response.IsSuccessStatusCode)
             {
                 return responseObj;
             }
-            return responseObj;
+            return null;
         }
         catch (Exception)
         {
@@ -269,7 +269,7 @@ public class PayStackService : IPayStackService
         var response = await getHttpClient.GetAsync(getHttpClient.BaseAddress);
         var responseString = await response.Content.ReadAsStringAsync();
         var responseObj = JsonSerializer.Deserialize<VerifyTransactionResponseModel>(responseString);
-        if (response.StatusCode == HttpStatusCode.OK)
+        if (response.IsSuccessStatusCode)
         {
             return responseObj;
         }

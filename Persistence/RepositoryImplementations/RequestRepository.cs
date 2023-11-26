@@ -65,6 +65,7 @@ namespace Persistence.RepositoryImplementations
             return await _context.Requests
             .Where(expression)
             .Include(a => a.Farmer)
+            // .ThenInclude(a => a.User)
             .ThenInclude(a => a.FarmerProduceTypes)
             .ThenInclude(x=>x.ProduceType)
             .ToListAsync();

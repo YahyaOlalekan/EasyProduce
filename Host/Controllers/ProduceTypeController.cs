@@ -114,10 +114,31 @@ namespace Host.Controllers
         //     return Ok(produceTypes);
         // }
 
-        [HttpGet("GetApprovedProduceTypesForAFarmer/{farmerId}")]
-        public async Task<IActionResult> ApprovedProduceTypesForAFarmerAsync([FromRoute] Guid farmerId)
+        [HttpGet("GetApprovedProduceTypesForAFarmerByUserId/{userId}")]
+        public async Task<IActionResult> ApprovedProduceTypesForAFarmerAsync([FromRoute] Guid userId)
         {
-            var produceTypes = await _produceTypeService.GetApprovedProduceTypesForAFarmerAsync(farmerId);
+            var produceTypes = await _produceTypeService.GetAllApprovedProducetypesOfAFarmerAsync(userId);
+            if (produceTypes == null)
+            {
+                return NotFound(produceTypes);
+            }
+            return Ok(produceTypes);
+        }
+        [HttpGet("GetApprovedProduceTypesForAFarmerByFarmerId/{farmerId}")]
+        public async Task<IActionResult> ApprovedProduceTypesForAFarmerByFarmerIdAsync([FromRoute] Guid farmerId)
+        {
+            var produceTypes = await _produceTypeService.GetApprovedProduceTypesForAFarmerByFarmerIdAsync(farmerId);
+            if (produceTypes == null)
+            {
+                return NotFound(produceTypes);
+            }
+            return Ok(produceTypes);
+        }
+
+        [HttpGet("GetUnApprovedProduceTypesForAFarmerByUserId/{userId}")]
+        public async Task<IActionResult> UnapprovedProduceTypesForAFarmerAsync([FromRoute] Guid userId)
+        {
+            var produceTypes = await _produceTypeService.GetAllUnapprovedProducetypesOfAFarmerAsync(userId);
             if (produceTypes == null)
             {
                 return NotFound(produceTypes);

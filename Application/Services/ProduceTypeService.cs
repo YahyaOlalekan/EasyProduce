@@ -20,13 +20,15 @@ namespace Application.Services
         private readonly IProduceTypeRepository _produceTypeRepository;
         private readonly IHttpContextAccessor _httpAccessor;
         private readonly IFarmerRepository _farmerRepository;
+        private readonly IUserRepository _userRepository;
         private readonly IFarmerProduceTypeRepository _farmerProduceTypeRepository;
 
-        public ProduceTypeService(IProduceTypeRepository produceTypeRepository, IHttpContextAccessor httpAccessor, IFarmerRepository farmerRepository, IFarmerProduceTypeRepository farmerProduceTypeRepository)
+        public ProduceTypeService(IProduceTypeRepository produceTypeRepository, IHttpContextAccessor httpAccessor, IFarmerRepository farmerRepository, IFarmerProduceTypeRepository farmerProduceTypeRepository, IUserRepository userRepository)
         {
             _produceTypeRepository = produceTypeRepository;
             _httpAccessor = httpAccessor;
             _farmerRepository = farmerRepository;
+            _userRepository = userRepository;
             _farmerProduceTypeRepository = farmerProduceTypeRepository;
         }
 
@@ -151,9 +153,9 @@ namespace Application.Services
                 {
                     Id = c.Id,
                     TypeName = c.TypeName,
-                    UnitOfMeasurement = c.UnitOfMeasurement,
-                    CostPrice = c.CostPrice,
-                    SellingPrice = c.SellingPrice,
+                    // UnitOfMeasurement = c.UnitOfMeasurement,
+                    // CostPrice = c.CostPrice,
+                    // SellingPrice = c.SellingPrice,
 
                 })
             };
@@ -225,7 +227,7 @@ namespace Application.Services
         }
 
 
-        public async Task<BaseResponse<IEnumerable<ProduceTypeDto>>>GetProduceTypesToBeApprovedAsync(Guid farmerId)
+        public async Task<BaseResponse<IEnumerable<ProduceTypeDto>>> GetProduceTypesToBeApprovedAsync(Guid farmerId)
         {
             var produceTypes = await _farmerProduceTypeRepository.GetAllAsync(f => f.FarmerId == farmerId && f.IsDeleted == false);
 
@@ -253,7 +255,75 @@ namespace Application.Services
                 })
             };
         }
-      
+
+
+        public async Task<BaseResponse<IEnumerable<ProduceTypeDto>>> GetAllApprovedProducetypesOfAFarmerAsync(Guid userId)
+        {
+            var user = await _userRepository.GetAsync(userId);
+            var farmerId = user.Farmer.Id;
+
+            var approvedProduceTypes = await _farmerProduceTypeRepository.GetAllAsync(f => f.FarmerId == farmerId && !f.IsDeleted && f.Status == Status.Approved);
+
+            if (!approvedProduceTypes.Any())
+            {
+                return new BaseResponse<IEnumerable<ProduceTypeDto>>
+                {
+                    Message = "Not Found",
+                    Status = false,
+                };
+            }
+
+            return new BaseResponse<IEnumerable<ProduceTypeDto>>
+            {
+                Message = "Successful",
+                Status = true,
+                Data = approvedProduceTypes.Select(x => new ProduceTypeDto
+                {
+                    Id = x.ProduceType.Id,
+                    TypeName = x.ProduceType.TypeName,
+                    FarmerId = x.FarmerId,
+                    // ProduceName = x.ProduceType.Produce.ProduceName,
+                    // NameOfCategory = x.ProduceType.Produce.Category.NameOfCategory,
+
+                })
+            };
+        }
+        public async Task<BaseResponse<IEnumerable<ProduceTypeDto>>> GetAllUnapprovedProducetypesOfAFarmerAsync(Guid userId)
+        {
+            var user = await _userRepository.GetAsync(userId);
+            var farmerId = user.Farmer.Id;
+
+            var allProduceTypes = await _produceTypeRepository.GetAllAsync();
+
+            var approvedProduceTypes = await _farmerProduceTypeRepository.GetAllAsync(f => f.FarmerId == farmerId && !f.IsDeleted && f.Status == Status.Approved);
+            var approvedProduceTypesIds = approvedProduceTypes.Select(p => p.ProduceTypeId).ToList();
+            var unapprovedProduceTypes = allProduceTypes.Where(pt => !approvedProduceTypesIds.Contains(pt.Id)).ToList();
+
+            if (!unapprovedProduceTypes.Any())
+            {
+                return new BaseResponse<IEnumerable<ProduceTypeDto>>
+                {
+                    Message = "Not Found",
+                    Status = false,
+                };
+            }
+
+            return new BaseResponse<IEnumerable<ProduceTypeDto>>
+            {
+                Message = "Successful",
+                Status = true,
+                Data = unapprovedProduceTypes.Select(x => new ProduceTypeDto
+                {
+                    Id = x.Id,
+                    TypeName = x.TypeName,
+                    // FarmerId = x.FarmerId,
+                    // ProduceName = x.ProduceType.Produce.ProduceName,
+                    // NameOfCategory = x.ProduceType.Produce.Category.NameOfCategory,
+
+                })
+            };
+        }
+
 
 
         // public async Task<BaseResponse<IEnumerable<ProduceTypeDto>>> GetProduceTypesToBeApprovedAsync(ProduceTypeToBeApprovedRequestModel model)
@@ -289,11 +359,11 @@ namespace Application.Services
 
 
 
-        public async Task<BaseResponse<IEnumerable<ProduceTypeDto>>> GetApprovedProduceTypesForAFarmerAsync(Guid farmerId)
+        public async Task<BaseResponse<IEnumerable<ProduceTypeDto>>> GetApprovedProduceTypesForAFarmerByFarmerIdAsync(Guid farmerId)
         {
-            var approvedProduceType = await _farmerProduceTypeRepository.GetAllApprovedProduceTypeOfAFarmer(farmerId);
+            var approvedProduceTypes = await _farmerProduceTypeRepository.GetAllApprovedProduceTypeOfAFarmer(farmerId);
 
-            if (!approvedProduceType.Any())
+            if (!approvedProduceTypes.Any())
             {
 
                 return new BaseResponse<IEnumerable<ProduceTypeDto>>
@@ -307,9 +377,10 @@ namespace Application.Services
             {
                 Message = "Successful",
                 Status = true,
-                Data = approvedProduceType.Select(x => new ProduceTypeDto
+                Data = approvedProduceTypes.Select(x => new ProduceTypeDto
                 {
                     TypeName = x.TypeName,
+
                 })
             };
 

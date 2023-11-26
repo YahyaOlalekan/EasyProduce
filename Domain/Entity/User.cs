@@ -18,6 +18,7 @@ namespace Domain.Entity
         public string ProfilePicture { get; set; }
         public Guid RoleId { get; set; }
         public Role Role { get; set; }
+        public Farmer Farmer { get; set; }
         
     }
 }

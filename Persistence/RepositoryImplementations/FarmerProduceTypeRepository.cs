@@ -40,24 +40,26 @@ public class FarmerProduceTypeRepository : BaseRepository<FarmerProduceType>, IF
             return await _context.FarmerProduceTypes
             .Where(expression)
             .Include(a => a.Farmer)
+            .ThenInclude(a => a.User)
             .Include(a => a.ProduceType)
-            // .SingleOrDefaultAsync(expression)
+            // .ThenInclude(a => a.Produce)
+            // .ThenInclude(a => a.Category)
             .ToListAsync();
         }
         public async Task<IEnumerable<ProduceType>> GetAllApprovedProduceTypeOfAFarmer(Guid farmerId)
         {
             return await _context.FarmerProduceTypes
-            .Where(a => a.FarmerId == farmerId && a.Status == Domain.Enum.Status.Approved)
+            .Where(a => a.FarmerId == farmerId && a.Status == Domain.Enum.Status.Approved && !a.IsDeleted)
              .Select(a => a.ProduceType)
              .ToListAsync();
         }
         public async Task<FarmerProduceType> GetAsync(Expression<Func<FarmerProduceType, bool>> expression)
         {
             return await _context.FarmerProduceTypes
+            .Where(expression)
             .Include(a => a.Farmer)
             .ThenInclude(a=> a.User)
             .Include(a => a.ProduceType)
-            .Where(expression)
             .FirstOrDefaultAsync();
         }
         public async Task<FarmerProduceType> GetAsync(Guid farmerId, Guid produceTypeId)
@@ -97,8 +99,5 @@ public class FarmerProduceTypeRepository : BaseRepository<FarmerProduceType>, IF
             .ToListAsync();
         }
 
-    // Task<FarmerProduceType> IFarmerProduceTypeRepository.GetAsync(Guid id)
-    // {
-    //     throw new NotImplementedException();
-    // }
+   
 }

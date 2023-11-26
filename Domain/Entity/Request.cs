@@ -7,11 +7,12 @@ namespace Domain.Entity
     {
         public Guid FarmerId { get; set; }
         public Guid ProduceTypeId { get; set; }
+        public ProduceType ProduceType { get; set; }
         public string RegistrationNumber { get; set; }
         public RequestType RequestType { get; set; }
         public RequestStatus RequestStatus { get; set; }
         public string? RejectionReason { get; set; }
-        public string ReasonForStopSelling { get; set; }
+        public string? ReasonForStopSelling { get; set; }
         public Farmer Farmer { get; set; }
         public string RequestNumber { get; set; }
         public string Email { get; set; }

@@ -31,6 +31,7 @@ namespace Application.Services
             _farmerRepository = farmerRepository;
             _roleRepository = roleRepository;
             _userRepository = userRepository;
+            _userRepository = userRepository;
             _fileUploadServiceForWWWRoot = fileUploadServiceForWWWRoot;
             _produceTypeRepository = produceTypeRepository;
             _farmerProduceTypeRepository = farmerProduceTypeRepository;
@@ -253,7 +254,11 @@ namespace Application.Services
 
         public async Task<BaseResponse<FarmerProduceTypeDto>> GetFarmerAlongWithApprovedProduceTypeAsync(Guid id)
         {
-            var farmerProduceType = await _farmerProduceTypeRepository.GetSelectedAsync(f => f.FarmerId == id || f.Farmer.UserId == id && f.ProduceType.Status == Domain.Enum.Status.Approved);
+            var user = await _userRepository.GetAsync(id);
+            var farmerId = user.Farmer.Id;
+            var farmerProduceType = await _farmerProduceTypeRepository.GetSelectedAsync(f => f.FarmerId == farmerId && f.Status == Domain.Enum.Status.Approved);
+
+            // var farmerProduceTypee = await _farmerProduceTypeRepository.GetSelectedAsync(f => f.FarmerId == id && f.Status == Domain.Enum.Status.Approved);
             // var approvedProduceTypes = farmerProduceType.Select(fp => fp.ProduceType).ToList();
 
             if (farmerProduceType.Any())
@@ -266,7 +271,7 @@ namespace Application.Services
                 {
                     return new BaseResponse<FarmerProduceTypeDto>
                     {
-                        Message = "successful",
+                        Message = "Successful",
                         Status = true,
                         Data = new FarmerProduceTypeDto
                         {
@@ -298,14 +303,14 @@ namespace Application.Services
 
             return new BaseResponse<FarmerProduceTypeDto>
             {
-                Message = "farmer is not found",
+                Message = "You are not yet approved as a farmer",
                 Status = false
             };
 
         }
 
 
-       
+
         public async Task<BaseResponse<IEnumerable<FarmerDto>>> GetAllFarmersAsync()
         {
             var farmers = await _farmerRepository.GetAllAsync();
@@ -345,8 +350,18 @@ namespace Application.Services
         public async Task<BaseResponse<FarmerDto>> UpdateFarmerAsync(Guid id, UpdateFarmerRequestModel model)
         {
             var farmer = await _farmerRepository.GetAsync(a => a.Id == id || a.UserId == id);
+
             if (farmer is not null)
             {
+                if (farmer.FarmerRegStatus != Domain.Enum.FarmerRegStatus.Approved)
+                {
+                    return new BaseResponse<FarmerDto>
+                    {
+                        Message = "Sorry, You are yet to be approved as a farmer",
+                        Status = false
+                    };
+                }
+
                 if (model.ProfilePicture != null)
                 {
                     var profilePicture = await _fileUploadServiceForWWWRoot.UploadFileAsync(model.ProfilePicture);
@@ -398,12 +413,8 @@ namespace Application.Services
 
             var approvedProduceTypes = await _farmerProduceTypeRepository.GetAllApprovedProduceTypeOfAFarmer(model.Id);
 
-            // var farmerProduceType = (await _farmerProduceTypeRepository.GetAllAsync(f => f.FarmerId == model.Id && f.ProduceType.Status == Domain.Enum.Status.Approved)).Select(fp => fp.ProduceType).ToList();
-
-            // var farmerProduceType = await _farmerProduceTypeRepository.GetAllAsync(f => f.FarmerId == model.Id && f.ProduceType.Status == Domain.Enum.Status.Approved);
+            // var farmerProduceType = await _farmerProduceTypeRepository.GetAllAsync(f => f.FarmerId == model.Id && f.Status == Domain.Enum.Status.Approved);
             // var approvedProduceTypes = farmerProduceType.Select(fp => fp.ProduceType).ToList();
-
-            // var approvedProduceTypes = farmerProduceType.Select(fp => fp.ProduceType.Status == Domain.Enum.Status.Approved).ToList();
 
             // if (approvedProduceTypes.Count() == 0)
             if (!approvedProduceTypes.Any())

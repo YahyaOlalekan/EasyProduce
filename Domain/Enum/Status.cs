@@ -4,6 +4,7 @@ namespace Domain.Enum
     {
         Pending = 1,
         Approved,
-        NotApproved
+        NotApproved,
+        Deactivated
     }
 }

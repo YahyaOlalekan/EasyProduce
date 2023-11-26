@@ -47,7 +47,8 @@ namespace Persistence.RepositoryImplementations
        
         public async Task<IEnumerable<ProduceType>> GetAllAsync()
         {
-            return await _context.ProduceTypes.AsNoTracking()
+            // return await _context.ProduceTypes.AsNoTracking()
+            return await _context.ProduceTypes
             .Where(a => !a.IsDeleted)
             .Include(a => a.Produce)
             .ThenInclude(a => a.Category)

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Application.Dtos;
+using Domain.Entity;
 
 namespace Application.Abstractions.ServiceInterfaces
 {
@@ -21,7 +22,12 @@ namespace Application.Abstractions.ServiceInterfaces
         Task<BaseResponse<IEnumerable<ProduceTypeDto>>> GetByProduceIdAsync(Guid ProduceId);
         Task<BaseResponse<IEnumerable<ProduceTypeDto>>> GetByCategoryIdAsync(Guid categoryId);
         Task<BaseResponse<ProduceTypeDto>> DeleteAsync(Guid id);
-        Task<BaseResponse<IEnumerable<ProduceTypeDto>>> GetApprovedProduceTypesForAFarmerAsync(Guid farmerId);
+            //  Task<IEnumerable<ProduceType>> GetAllApprovedProduceTypeOfAFarmer(Guid farmerId);
+
+        Task<BaseResponse<IEnumerable<ProduceTypeDto>>> GetApprovedProduceTypesForAFarmerByFarmerIdAsync(Guid farmerId);
+        Task<BaseResponse<IEnumerable<ProduceTypeDto>>> GetAllApprovedProducetypesOfAFarmerAsync(Guid farmerId);
+        Task<BaseResponse<IEnumerable<ProduceTypeDto>>> GetAllUnapprovedProducetypesOfAFarmerAsync(Guid farmerId);
+
 
 
     }

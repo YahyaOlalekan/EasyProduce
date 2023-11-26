@@ -15,7 +15,7 @@ namespace Application.Dtos
         public RequestType RequestType { get; set; }
         public RequestStatus RequestStatus { get; set; }
         public string? RejectionReason { get; set; }
-        public string ReasonForStopSelling { get; set; }
+        public string? ReasonForStopSelling { get; set; }
         public string Email { get; set; }
     }
 
