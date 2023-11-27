@@ -5,9 +5,9 @@ namespace Domain.Entity
 {
     public class Product : BaseEntity
     {
-        public string ProduceName { get; set; }
-        public Guid CategoryId { get; set; }
-        public Category Category { get; set; }
+        public string ProductName { get; set; }
+        public Guid GroupId { get; set; }
+        public Group Group { get; set; }
         public ICollection<ProductType> ProductTypes { get; set; } = new HashSet<ProductType>();
         
     }

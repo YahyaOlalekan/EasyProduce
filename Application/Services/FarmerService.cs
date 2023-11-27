@@ -256,6 +256,7 @@ namespace Application.Services
         {
             var user = await _userRepository.GetAsync(id);
             var farmerId = user.Farmer.Id;
+            
             var farmerProduceType = await _farmerProduceTypeRepository.GetSelectedAsync(f => f.FarmerId == farmerId && f.Status == Domain.Enum.Status.Approved);
 
             // var farmerProduceTypee = await _farmerProduceTypeRepository.GetSelectedAsync(f => f.FarmerId == id && f.Status == Domain.Enum.Status.Approved);

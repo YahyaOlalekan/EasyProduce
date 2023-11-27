@@ -14,5 +14,10 @@ namespace Domain.Entity
         public string UnitOfMeasurement { get; set; } = default!;
         public Guid UserId { get; set; }
         public User User { get; set; }
+
+
+        //  public Guid ProductTypeId { get; set; }
+        // public ProductType ProductType { get; set; }
+       
     }
 }

@@ -207,38 +207,37 @@ namespace Application.Services
 
             if (request.RequestType == Domain.Enum.RequestType.AddNewProduceType)
             {
-                if (request.RequestStatus == Domain.Enum.RequestStatus.Approved)
+                if (model.RequestStatus == Domain.Enum.RequestStatus.Approved)
                 {
-                    var farmerProduceType = (await _farmerProduceTypeRepository.GetSelectedAsync(f => f.FarmerId == request.FarmerId && f.ProduceTypeId == request.ProduceTypeId && !(f.Status == Domain.Enum.Status.Approved))).FirstOrDefault();
-                    if (farmerProduceType != null)
+                    var unapprovedProducetype = (await _farmerProduceTypeRepository.GetSelectedAsync(f => f.FarmerId == request.FarmerId && f.ProduceTypeId == request.ProduceTypeId && !(f.Status == Domain.Enum.Status.Approved))).FirstOrDefault();
+                    if (unapprovedProducetype != null)
                     {
-                        farmerProduceType.Status = Domain.Enum.Status.Approved;
-                        _farmerProduceTypeRepository.Update(farmerProduceType);
+                        unapprovedProducetype.Status = Domain.Enum.Status.Approved;
+                        _farmerProduceTypeRepository.Update(unapprovedProducetype);
                     }
-                }
-                else
-                {
-                    var newProduceType = new FarmerProduceType
+                    else
                     {
-                        FarmerId = request.FarmerId,
-                        ProduceTypeId = request.ProduceTypeId,
-                        Status = Domain.Enum.Status.Approved,
-                    };
+                        var newProduceType = new FarmerProduceType
+                        {
+                            FarmerId = request.FarmerId,
+                            ProduceTypeId = request.ProduceTypeId,
+                            Status = Domain.Enum.Status.Approved,
+                        };
 
-                    await _farmerProduceTypeRepository.CreateAsync(newProduceType);
+                        await _farmerProduceTypeRepository.CreateAsync(newProduceType);
+
+                    }
 
                 }
-
-
-
+              
 
             }
             else
             {
-                if (request.RequestStatus == Domain.Enum.RequestStatus.Approved)
+                if (model.RequestStatus == Domain.Enum.RequestStatus.Approved)
                 {
-                    var farmerProduceType = (await _farmerProduceTypeRepository.GetSelectedAsync(f => f.FarmerId == request.FarmerId && f.ProduceTypeId == request.ProduceTypeId && f.Status == Domain.Enum.Status.Approved)).FirstOrDefault();
-                    if (farmerProduceType == null)
+                    var approvedProducetype = (await _farmerProduceTypeRepository.GetSelectedAsync(f => f.FarmerId == request.FarmerId && f.ProduceTypeId == request.ProduceTypeId && f.Status == Domain.Enum.Status.Approved)).FirstOrDefault();
+                    if (approvedProducetype == null)
                     {
                         return new BaseResponse<Request>
                         {
@@ -246,28 +245,12 @@ namespace Application.Services
                             Status = false
                         };
                     }
-                    farmerProduceType.Status = Domain.Enum.Status.Deactivated;
-                    _farmerProduceTypeRepository.Update(farmerProduceType);
+                    approvedProducetype.Status = Domain.Enum.Status.Deactivated;
+                    _farmerProduceTypeRepository.Update(approvedProducetype);
 
 
                 }
-                
-                // if (request.RequestStatus == Domain.Enum.RequestStatus.Approved)
-                // {
-                //     var farmerProduceType = (await _farmerProduceTypeRepository.GetSelectedAsync(f => f.FarmerId == request.FarmerId && f.ProduceTypeId == request.ProduceTypeId && f.Status == Domain.Enum.Status.Approved)).FirstOrDefault();
-                //     if (farmerProduceType == null)
-                //     {
-                //         return new BaseResponse<Request>
-                //         {
-                //             Message = "Producetype Not found",
-                //             Status = false
-                //         };
-                //     }
-                //     farmerProduceType.Status = Domain.Enum.Status.Deactivated;
-                //     _farmerProduceTypeRepository.Update(farmerProduceType);
-
-
-                // }
+              
             }
 
             request.RejectionReason = model.RejectionReason;

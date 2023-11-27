@@ -16,7 +16,7 @@ namespace Persistence
             {
                 var _context = service.ServiceProvider.GetService<Context>();
                 // _context.Database.EnsureCreated();
-                await _context.Database.MigrateAsync();
+                // await _context.Database.MigrateAsync();
                 if (!_context.Users.Any())
                 {
                     var role = new Role

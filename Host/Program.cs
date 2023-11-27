@@ -142,7 +142,7 @@ builder.Services.AddScoped<ICustomerService, CustomerService>();
 builder.Services.AddScoped<ICartItemRepository, CartItemRepository>();
 //builder.Services.AddScoped<ICartItemService, CartItemService>();
 
-builder.Services.AddScoped<ICartItemForOrderRepository, CartItemForOrderRepository>();
+// builder.Services.AddScoped<ICartItemForOrderRepository, CartItemForOrderRepository>();
 //builder.Services.AddScoped<ICartItemForOrderService, CartItemForOrderService>();
 
 builder.Services.AddScoped<IFarmerProduceTypeRepository, FarmerProduceTypeRepository>();
