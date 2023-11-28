@@ -9,6 +9,7 @@ namespace Domain.Entity
         public Guid CustomerId { get; set; }
         public Customer Customer { get; set; }
         // public decimal TotalAmount { get; set; }
+        // public OrderStatus OrderStatus { get; set; }
         public double TotalQuantity { get; set; }
         public ICollection<OrderProductType> OrderProductTypes { get; set; } = new HashSet<OrderProductType>();
     }
