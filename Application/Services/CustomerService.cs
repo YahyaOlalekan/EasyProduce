@@ -60,7 +60,7 @@ namespace Application.Services
                 // ConfirmPassword = BCrypt.Net.BCrypt.HashPassword(model.ConfirmPassword),
                 Address = model.Address,
                 Email = model.Email,
-                ProfilePicture = profilePicture,
+                ProfilePicture = profilePicture.name,
                 Gender = model.Gender,
                 Role = role,
                 RoleId = role.Id,
@@ -190,7 +190,7 @@ namespace Application.Services
                 if (model.ProfilePicture != null)
                 {
                     var profilePicture = await _fileUploadServiceForWWWRoot.UploadFileAsync(model.ProfilePicture);
-                   customer.User.ProfilePicture = profilePicture;
+                   customer.User.ProfilePicture = profilePicture.name;
                 }
 
                customer.User.Address = model.Address;

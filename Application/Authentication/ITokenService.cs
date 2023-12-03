@@ -4,5 +4,6 @@ namespace Application.Authentication;
 
 public interface ITokenService1
 {
-    string CreateToken(UserDto model);
+    // string CreateToken(UserDto model);
+    string CreateToken(JwtUserTokenClaims model);
 }

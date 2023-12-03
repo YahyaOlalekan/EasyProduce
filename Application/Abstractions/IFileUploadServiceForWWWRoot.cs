@@ -8,6 +8,6 @@ namespace Application.Abstractions
 {
     public interface IFileUploadServiceForWWWRoot
     {
-         Task<string> UploadFileAsync(IFormFile file);
+         Task<(bool status, string name)> UploadFileAsync(IFormFile file);
     }
 }

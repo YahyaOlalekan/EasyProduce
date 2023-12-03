@@ -7,6 +7,7 @@ namespace Application.Dtos
     public class UserDto
     {
         public Guid Id { get; set; }
+        public Guid UserId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string PhoneNumber { get; set; }
@@ -21,6 +22,16 @@ namespace Application.Dtos
         public string RoleName { get; set; }
         public string RoleDescription { get; set; }
     }
+
+    public class JwtUserTokenClaims
+    {
+        public Guid UserId { get; set; }
+        public string Email { get; set; }
+        public Guid RoleId { get; set; }
+        public string RoleName { get; set; }
+
+    }
+
     public class LoginUserRequestModel
     {
         [Required]

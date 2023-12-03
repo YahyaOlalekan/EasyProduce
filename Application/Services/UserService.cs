@@ -32,49 +32,20 @@ namespace Application.Services
 
             if (user != null && BCrypt.Net.BCrypt.Verify(model.Password, user.Password))
             {
-                var userDto = new UserDto
+
+                var userClaims = new JwtUserTokenClaims
                 {
+                    UserId = user.Id,
                     Email = user.Email,
-                    Id = user.Id,
                     RoleId = user.Role.Id,
+                    RoleName = user.Role.RoleName,
                 };
-
-                // if (user.Role.RoleName.ToLower() == "farmer")
-                // {
-
-                //     var farmer = await _farmerRepository.GetAsync(f => f.UserId == user.Id);
-                //     // var firstLetterToUpperCase = $"{CultureInfo.CurrentCulture.TextInfo.ToTitleCase(farmer.FarmName)}";
-
-                //     var farmerFirstLetterOfFirstNameToUpperCase = $"{CultureInfo.CurrentCulture.TextInfo.ToTitleCase(farmer.User.FirstName)}";
-                //     var farmerFirstLetterOfLastNameToUpperCase = $"{CultureInfo.CurrentCulture.TextInfo.ToTitleCase(farmer.User.LastName)}";
-                //     var farmerFullName = farmerFirstLetterOfFirstNameToUpperCase + " " + farmerFirstLetterOfLastNameToUpperCase;
-
-                //     if (farmer.FarmerRegStatus != Domain.Enum.FarmerRegStatus.Approved)
-                //     {
-                //         if (farmer.FarmerRegStatus == Domain.Enum.FarmerRegStatus.Pending)
-                //         {
-                //             return new BaseResponse<UserDto>
-                //             {
-                //                 Message = $"Dear {farmerFullName}, approval of your application is still pending!",
-                //                 Status = false,
-                //             };
-                //         }
-                //         else if (farmer.FarmerRegStatus == Domain.Enum.FarmerRegStatus.Declined)
-                //         {
-                //             return new BaseResponse<UserDto>
-                //             {
-                //                 Message = $"Dear {farmerFullName}, Sorry, your application is declined!",
-                //                 Status = false,
-                //             };
-                //         }
-                //     }
-                // }
 
                 var userFirstLetterOfFirstNameToUpperCase = $"{CultureInfo.CurrentCulture.TextInfo.ToTitleCase(user.FirstName)}";
                 var userFirstLetterOfLastNameToUpperCase = $"{CultureInfo.CurrentCulture.TextInfo.ToTitleCase(user.LastName)}";
                 var fullName = userFirstLetterOfFirstNameToUpperCase + " " + userFirstLetterOfLastNameToUpperCase;
-      
-                var accessToken = _tokenService.CreateToken(userDto);
+
+                var accessToken = _tokenService.CreateToken(userClaims);
 
 
                 return new BaseResponse<UserDto>
@@ -215,11 +186,11 @@ namespace Application.Services
         }
 
 
-        
 
 
-        
-        
+
+
+
         // public async Task<BaseResponse<UserDto>> GetUserByTokenAsync(string token)
         // {
         //     var user = await _userRepository.GetAsync(x => x.Token == token);

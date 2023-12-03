@@ -13,7 +13,7 @@ namespace Persistence.Authentication;
 public class TokenService : ITokenService1
 {
     private const int ExpirationMinutes = 300;
-    public string CreateToken(UserDto model)
+    public string CreateToken(JwtUserTokenClaims model)
     {
         var expiration = DateTime.UtcNow.AddMinutes(ExpirationMinutes);
         var token = CreateJwtToken(CreateClaims(model), CreateSigningCredentials(), expiration);
@@ -23,22 +23,20 @@ public class TokenService : ITokenService1
 
     private JwtSecurityToken CreateJwtToken(List<Claim> claims, SigningCredentials credentials, DateTime expiration) => new JwtSecurityToken("EasyAuthIssuer", "https://localhost:5001/", claims, expires: expiration, signingCredentials: credentials);
 
-    private List<Claim> CreateClaims(UserDto model)
+    private List<Claim> CreateClaims(JwtUserTokenClaims model)
     {
         try
         {
             var claims = new List<Claim>
                 {
-                    //new Claim(ClaimTypes.Name, model.FirstName),
-                    new Claim("testingkey", "TokenForTheApiWithAuth"),
                     new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                     new Claim(JwtRegisteredClaimNames.Iat, DateTime.UtcNow.ToString(CultureInfo.InvariantCulture)),
-                    new Claim(ClaimTypes.NameIdentifier, model.Id.ToString()),
+                    new Claim(ClaimTypes.NameIdentifier, model.UserId.ToString()),
                     new Claim(ClaimTypes.Email, model.Email),
-                    //new Claim(ClaimTypes.GivenName, model.FirstName),
-                    new Claim(ClaimTypes.Role, model.RoleId.ToString()),
-                    //new Claim(ClaimTypes.Actor, model.UserId),
-                    //new Claim(ClaimTypes.UserData, model.ProfilePicture)
+                    new Claim(ClaimTypes.Role, model.RoleName),
+                    // new Claim("RoleName", model.RoleName),
+                    // new Claim("UserId", model.UserId.ToString()),
+                    
                 };
             return claims;
         }

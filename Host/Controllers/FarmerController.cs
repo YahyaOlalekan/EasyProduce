@@ -5,6 +5,7 @@ using Application.Abstractions;
 using Application.Abstractions.ServiceInterfaces;
 using Application.Dtos;
 using Application.Dtos.PaymentGatewayDTOs;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Host.Controllers
@@ -15,22 +16,23 @@ namespace Host.Controllers
     {
         private readonly IFarmerService _farmerService;
         private readonly IPayStackService _payStackService;
+
         public FarmerController(IFarmerService farmerService, IPayStackService payStackService)
         {
             _farmerService = farmerService;
             _payStackService = payStackService;
         }
 
-
         [HttpPost("RegisterFarmer")]
         public async Task<IActionResult> RegisterAsync([FromForm] CreateFarmerRequestModel model)
         {
-
             if (!ModelState.IsValid)
             {
-                var errors = ModelState.Values.SelectMany(v => v.Errors)
-                                                .Select(e => e.ErrorMessage)
-                                                .ToList();
+                var errors = ModelState
+                    .Values
+                    .SelectMany(v => v.Errors)
+                    .Select(e => e.ErrorMessage)
+                    .ToList();
                 return BadRequest(errors);
             }
 
@@ -42,14 +44,20 @@ namespace Host.Controllers
             return Ok(farmer);
         }
 
+        [Authorize(Roles = "farmer")]
         [HttpPut("UpdateFarmer/{id}")]
-        public async Task<IActionResult> UpdateAsync([FromRoute] Guid id, [FromForm] UpdateFarmerRequestModel model)
+        public async Task<IActionResult> UpdateAsync(
+            [FromRoute] Guid id,
+            [FromForm] UpdateFarmerRequestModel model
+        )
         {
             if (!ModelState.IsValid)
             {
-                var errors = ModelState.Values.SelectMany(v => v.Errors)
-                                                .Select(e => e.ErrorMessage)
-                                                .ToList();
+                var errors = ModelState
+                    .Values
+                    .SelectMany(v => v.Errors)
+                    .Select(e => e.ErrorMessage)
+                    .ToList();
                 return BadRequest(errors);
             }
 
@@ -61,9 +69,11 @@ namespace Host.Controllers
             return Ok(farmer);
         }
 
-        //  [Authorize(Roles = "admin manager")]
+        [Authorize(Roles = "admin")]
         [HttpGet("GetFarmerAlongWithRegisteredProduceType/{id}")]
-        public async Task<IActionResult> GetFarmerAlongWithRegisteredProduceTypeByIdAsync([FromRoute] Guid id)
+        public async Task<IActionResult> GetFarmerAlongWithRegisteredProduceTypeByIdAsync(
+            [FromRoute] Guid id
+        )
         {
             var farmer = await _farmerService.GetFarmerAlongWithRegisteredProduceTypeAsync(id);
             if (!farmer.Status)
@@ -73,9 +83,11 @@ namespace Host.Controllers
             return Ok(farmer);
         }
 
-        //  [Authorize(Roles = "admin manager")]
+        [Authorize(Roles = "farmer")]
         [HttpGet("GetFarmerAlongWithApprovedProduceType/{id}")]
-        public async Task<IActionResult> GetFarmerAlongWithApprovedProduceTypeByIdAsync([FromRoute] Guid id)
+        public async Task<IActionResult> GetFarmerAlongWithApprovedProduceTypeByIdAsync(
+            [FromRoute] Guid id
+        )
         {
             var farmer = await _farmerService.GetFarmerAlongWithApprovedProduceTypeAsync(id);
             if (!farmer.Status)
@@ -97,7 +109,7 @@ namespace Host.Controllers
             return Ok(farmer);
         }
 
-        // [Authorize(Roles = "admin manager")]
+        [Authorize(Roles = "admin, manager")]
         [HttpGet("GetAllFarmers")]
         public async Task<IActionResult> ListOfFarmersAsync()
         {
@@ -108,7 +120,6 @@ namespace Host.Controllers
             }
             return Ok(farmers);
         }
-
 
         [HttpGet("GetAllBanks")]
         public async Task<IActionResult> GetBanksAsync()
@@ -121,10 +132,10 @@ namespace Host.Controllers
             return Ok(banks);
         }
 
-
-
         [HttpGet("VerifyAccountNumber")]
-        public async Task<IActionResult> VerifyAccountNumberAsync([FromQuery] VerifyAccountNumberRequestModel model)
+        public async Task<IActionResult> VerifyAccountNumberAsync(
+            [FromQuery] VerifyAccountNumberRequestModel model
+        )
         {
             var result = await _payStackService.VerifyAccountNumber(model);
 
@@ -136,6 +147,7 @@ namespace Host.Controllers
             return Ok(result);
         }
 
+        [Authorize(Roles = "admin")]
         [HttpPost("VerifyFarmer")]
         public async Task<IActionResult> VerifyAsync(ApproveFarmerDto model)
         {
@@ -147,21 +159,7 @@ namespace Host.Controllers
             }
 
             return Ok(result);
-
         }
-
-
-        // [HttpPost("GetFarmersByStatus")]
-        // public async Task<IActionResult> GetFarmersByStatusAsync(FarmerStatusRequestModel model)
-        // {
-        //     var result = await _farmerService.GetFarmersByStatusAsync(model);
-        //     if (result == null)
-        //     {
-        //         return NotFound(result);
-        //     }
-        //     return Ok(result);
-        // }
-
 
         // [Authorize(Roles = "admin manager")]
         [HttpGet("GetFarmerAccountDetails/{id}")]
@@ -175,23 +173,21 @@ namespace Host.Controllers
             return Ok(farmer);
         }
 
-        //    Console.WriteLine(model.AccountName);
-        //    Console.WriteLine(model.AccountNumber);
-        //    Console.WriteLine(model.LastName);
-        //    Console.WriteLine(model.FirstName);
-        //    Console.WriteLine(model.FarmName);
-        //    Console.WriteLine(model.Gender);
-        //    Console.WriteLine(model.Address);
-        //    Console.WriteLine(model.BankCode);
-        //    Console.WriteLine(model.Email);
-        //    Console.WriteLine(model.Password);
-        //    Console.WriteLine(model.PhoneNumber);
-        //    Console.WriteLine(model.ProfilePicture);
+        // [HttpPost("GetFarmersByStatus")]
+        // public async Task<IActionResult> GetFarmersByStatusAsync(FarmerStatusRequestModel model)
+        // {
+        //     var result = await _farmerService.GetFarmersByStatusAsync(model);
+        //     if (result == null)
+        //     {
+        //         return NotFound(result);
+        //     }
+        //     return Ok(result);
+        // }
+
         //    Console.WriteLine(model.ConfirmPassword);
         //    foreach (var item in model.ProduceTypes)
         //    {
         //      Console.WriteLine(item);
         //    }
-
     }
 }

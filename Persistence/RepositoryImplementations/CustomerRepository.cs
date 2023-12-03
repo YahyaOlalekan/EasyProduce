@@ -22,7 +22,7 @@ namespace Persistence.RepositoryImplementations
             return await _context.Customers
             .Include(a => a.Orders)
              .Include(a => a.User)
-             .SingleOrDefaultAsync(a => a.UserId == id && !a.IsDeleted);
+             .FirstOrDefaultAsync(a => a.UserId == id && !a.IsDeleted);
         }
 
         public async Task<Customer> GetAsync(Expression<Func<Customer, bool>> expression)
@@ -31,7 +31,7 @@ namespace Persistence.RepositoryImplementations
             .Where(a => !a.IsDeleted)
             .Include(a => a.Orders)
             .Include(a => a.User)
-            .SingleOrDefaultAsync(expression);
+            .FirstOrDefaultAsync(expression);
         }
 
         public async Task<IEnumerable<Customer>> GetAllAsync(Expression<Func<Customer, bool>> expression)

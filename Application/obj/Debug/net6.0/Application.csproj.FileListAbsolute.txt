@@ -1,20 +1,3 @@
-C:\Users\USER PC\Desktop\EasyProduce\Application\bin\Debug\net6.0\Application.deps.json
-C:\Users\USER PC\Desktop\EasyProduce\Application\bin\Debug\net6.0\Application.runtimeconfig.json
-C:\Users\USER PC\Desktop\EasyProduce\Application\bin\Debug\net6.0\Application.dll
-C:\Users\USER PC\Desktop\EasyProduce\Application\bin\Debug\net6.0\Application.pdb
-C:\Users\USER PC\Desktop\EasyProduce\Application\bin\Debug\net6.0\Domain.dll
-C:\Users\USER PC\Desktop\EasyProduce\Application\bin\Debug\net6.0\Domain.pdb
-C:\Users\USER PC\Desktop\EasyProduce\Application\obj\Debug\net6.0\Application.csproj.AssemblyReference.cache
-C:\Users\USER PC\Desktop\EasyProduce\Application\obj\Debug\net6.0\Application.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\USER PC\Desktop\EasyProduce\Application\obj\Debug\net6.0\Application.AssemblyInfoInputs.cache
-C:\Users\USER PC\Desktop\EasyProduce\Application\obj\Debug\net6.0\Application.AssemblyInfo.cs
-C:\Users\USER PC\Desktop\EasyProduce\Application\obj\Debug\net6.0\Application.csproj.CoreCompileInputs.cache
-C:\Users\USER PC\Desktop\EasyProduce\Application\obj\Debug\net6.0\Application.csproj.CopyComplete
-C:\Users\USER PC\Desktop\EasyProduce\Application\obj\Debug\net6.0\Application.dll
-C:\Users\USER PC\Desktop\EasyProduce\Application\obj\Debug\net6.0\refint\Application.dll
-C:\Users\USER PC\Desktop\EasyProduce\Application\obj\Debug\net6.0\Application.pdb
-C:\Users\USER PC\Desktop\EasyProduce\Application\obj\Debug\net6.0\Application.genruntimeconfig.cache
-C:\Users\USER PC\Desktop\EasyProduce\Application\obj\Debug\net6.0\ref\Application.dll
 C:\Users\Abdul\source\repos\frnd\Host\Application\obj\Debug\net6.0\Application.csproj.AssemblyReference.cache
 C:\Users\Abdul\source\repos\frnd\Host\Application\obj\Debug\net6.0\Application.GeneratedMSBuildEditorConfig.editorconfig
 C:\Users\Abdul\source\repos\frnd\Host\Application\obj\Debug\net6.0\Application.AssemblyInfoInputs.cache
@@ -49,3 +32,20 @@ C:\Users\Abdul\OneDrive\Documents\Bluetooth\EasyProduce\Application\bin\Debug\ne
 C:\Users\Abdul\OneDrive\Documents\Bluetooth\EasyProduce\Application\obj\Debug\net6.0\Application.csproj.CopyComplete
 C:\Users\Abdul\OneDrive\Documents\Bluetooth\EasyProduce\Application\obj\Debug\net6.0\Application.genruntimeconfig.cache
 C:\Users\Abdul\OneDrive\Documents\Bluetooth\EasyProduce\Application\obj\Debug\net6.0\ref\Application.dll
+C:\Users\USER PC\Desktop\EasyProduce\Application\obj\Debug\net6.0\Application.csproj.AssemblyReference.cache
+C:\Users\USER PC\Desktop\EasyProduce\Application\obj\Debug\net6.0\Application.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\USER PC\Desktop\EasyProduce\Application\obj\Debug\net6.0\Application.AssemblyInfoInputs.cache
+C:\Users\USER PC\Desktop\EasyProduce\Application\obj\Debug\net6.0\Application.AssemblyInfo.cs
+C:\Users\USER PC\Desktop\EasyProduce\Application\obj\Debug\net6.0\Application.csproj.CoreCompileInputs.cache
+C:\Users\USER PC\Desktop\EasyProduce\Application\bin\Debug\net6.0\Application.deps.json
+C:\Users\USER PC\Desktop\EasyProduce\Application\bin\Debug\net6.0\Application.runtimeconfig.json
+C:\Users\USER PC\Desktop\EasyProduce\Application\bin\Debug\net6.0\Application.dll
+C:\Users\USER PC\Desktop\EasyProduce\Application\bin\Debug\net6.0\Application.pdb
+C:\Users\USER PC\Desktop\EasyProduce\Application\bin\Debug\net6.0\Domain.dll
+C:\Users\USER PC\Desktop\EasyProduce\Application\bin\Debug\net6.0\Domain.pdb
+C:\Users\USER PC\Desktop\EasyProduce\Application\obj\Debug\net6.0\Application.csproj.CopyComplete
+C:\Users\USER PC\Desktop\EasyProduce\Application\obj\Debug\net6.0\Application.dll
+C:\Users\USER PC\Desktop\EasyProduce\Application\obj\Debug\net6.0\refint\Application.dll
+C:\Users\USER PC\Desktop\EasyProduce\Application\obj\Debug\net6.0\Application.pdb
+C:\Users\USER PC\Desktop\EasyProduce\Application\obj\Debug\net6.0\Application.genruntimeconfig.cache
+C:\Users\USER PC\Desktop\EasyProduce\Application\obj\Debug\net6.0\ref\Application.dll

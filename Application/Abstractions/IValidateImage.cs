@@ -8,7 +8,7 @@ namespace Application.Abstractions
 {
     public interface IValidateImage
     {
-       string Validate(IFormFile file);
+       (bool status, string message) Validate(IFormFile file);
 
     }
 }
