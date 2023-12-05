@@ -97,7 +97,7 @@ namespace Host.Controllers
             return Ok(farmer);
         }
 
-        // [Authorize(Roles = "admin")]
+        [Authorize(Roles = "admin")]
         [HttpDelete("DeleteFarmer/{id}")]
         public async Task<IActionResult> DeleteAsync([FromRoute] Guid id)
         {
@@ -161,7 +161,7 @@ namespace Host.Controllers
             return Ok(result);
         }
 
-        // [Authorize(Roles = "admin manager")]
+         [Authorize(Roles = "admin, manager")]
         [HttpGet("GetFarmerAccountDetails/{id}")]
         public async Task<IActionResult> GetFarmerAccountDetailsByIdAsync([FromRoute] Guid id)
         {
@@ -173,17 +173,7 @@ namespace Host.Controllers
             return Ok(farmer);
         }
 
-        // [HttpPost("GetFarmersByStatus")]
-        // public async Task<IActionResult> GetFarmersByStatusAsync(FarmerStatusRequestModel model)
-        // {
-        //     var result = await _farmerService.GetFarmersByStatusAsync(model);
-        //     if (result == null)
-        //     {
-        //         return NotFound(result);
-        //     }
-        //     return Ok(result);
-        // }
-
+       
         //    Console.WriteLine(model.ConfirmPassword);
         //    foreach (var item in model.ProduceTypes)
         //    {

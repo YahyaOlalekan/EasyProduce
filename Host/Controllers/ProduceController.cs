@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Application.Abstractions.ServiceInterfaces;
 using Application.Dtos;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Host.Controllers
@@ -17,7 +18,7 @@ namespace Host.Controllers
             _produceService = produceService;
         }
 
-
+        [Authorize(Roles = "admin")]
         [HttpPost("CreateProduce")]
         public async Task<IActionResult> CreateAsync([FromForm] CreateProduceRequestModel model)
         {
@@ -37,12 +38,11 @@ namespace Host.Controllers
             return BadRequest(produce);
         }
 
-        
+        [Authorize(Roles = "admin")]
         [HttpDelete("DeleteProduce/{id}")]
         public async Task<IActionResult> DeleteAsync([FromRoute] Guid id)
         {
             var produce = await _produceService.DeleteAsync(id);
-            // TempData["message"] = produce.Message;
             if (produce.Status)
             {
                 return Ok(produce);
@@ -50,6 +50,7 @@ namespace Host.Controllers
             return BadRequest(produce);
         }
 
+        [Authorize(Roles = "admin")]
         [HttpGet("GetProduceDetails/{id}")]
         public async Task<IActionResult> DetailsAsync([FromRoute] Guid id)
         {
@@ -62,7 +63,7 @@ namespace Host.Controllers
             return NotFound(produce);
         }
 
-
+        [Authorize(Roles = "admin")]
         [HttpGet("GetAllProduce")]
         public async Task<IActionResult> ListAsync()
         {
@@ -74,6 +75,7 @@ namespace Host.Controllers
             return Ok(produce);
         }
 
+        [Authorize(Roles = "admin")]
         [HttpGet("GetAllProduceByCategoryId/{id}")]
         public async Task<IActionResult> GetAllProduceByCategoryIdAsync([FromRoute] Guid id)
         {
@@ -86,7 +88,7 @@ namespace Host.Controllers
         }
 
 
-
+        [Authorize(Roles = "admin")]
         [HttpPut("UpdateProduce/{id}")]
         public async Task<IActionResult> UpdateAsync([FromRoute] Guid id, [FromForm] UpdateProduceRequestModel model)
         {
@@ -99,7 +101,6 @@ namespace Host.Controllers
             }
 
             var result = await _produceService.UpdateAsync(id, model);
-            // TempData["message"] = result.Message;
             if (result.Status)
             {
                 return Ok(result);

@@ -18,7 +18,7 @@ namespace Host.Controllers
             _roleService = roleService;
         }
 
-
+        [Authorize(Roles = "admin")]
         [HttpPost("AddRole")]
         public async Task<IActionResult> AddAsync([FromForm] CreateRoleRequestModel model)
         {
@@ -40,7 +40,7 @@ namespace Host.Controllers
             return StatusCode(400, role);
         }
 
-
+        [Authorize(Roles = "admin")]
         [HttpDelete("DeleteRole/{id}")]
         public async Task<IActionResult> DeleteAsync([FromRoute] Guid id)
         {
@@ -53,6 +53,7 @@ namespace Host.Controllers
             return BadRequest(role);
         }
 
+        [Authorize(Roles = "admin")]
         [HttpGet("GetRoleDetails/{id}")]
         public async Task<IActionResult> DetailsAsync([FromRoute] Guid id)
         {
@@ -65,7 +66,7 @@ namespace Host.Controllers
             return NotFound(role);
         }
 
-        // [Authorize]
+        [Authorize(Roles = "admin")]
         [HttpGet("GetAllRoles")]
         public async Task<IActionResult> ListAsync()
         {
@@ -78,7 +79,7 @@ namespace Host.Controllers
         }
 
 
-
+        [Authorize(Roles = "admin")]
         [HttpPut("UpdateRole/{id}")]
         public async Task<IActionResult> UpdateAsync([FromRoute] Guid id, [FromForm] UpdateRoleRequestModel model)
         {

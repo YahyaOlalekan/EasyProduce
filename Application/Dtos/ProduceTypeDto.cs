@@ -67,8 +67,6 @@ namespace Application.Dtos
         [Display(Name = "Category")]
         public Guid CategoryId { get; set; }
 
-        // public SelectList CategoryList { get; set; }
-
         [Required]
         [Display(Name = "Produce Type Name")]
         public List<Guid> ProduceTypeId { get; set; }
@@ -87,49 +85,8 @@ namespace Application.Dtos
         public Guid FarmerId { get; set; }
         public int Status { get; set; }
     }
-    // public class ProduceTypeToBeApprovedRequestModelTesting
-    // {
-    //     [Display(Name = "Produce Type Name")]
-    //     public Guid ProduceTypeId { get; set; }
-    //     public Guid FarmerId { get; set; }
-    //     public Status Status { get; set; }
-    // }
-
-    // public class ProduceTypeToBeApprovedModel
-    // {
-    //     [Display(Name = "Produce Type Name")]
-    //     public Guid ProduceTypeId { get; set; }
-    //     public Guid FarmerId { get; set; }
-    //     public Status Status { get; set; }
-    // }
-    // public class ProduceTypeToBeApprovedRequestModel
-    // {
-    //    public List<ProduceTypeToBeApprovedModel> Producetypes {get; set;}
-    // }
    
-
-
-    // public class ProduceTypeDetailsToBeSoldByTheFarmerRequestModel
-    // {
-    //     [Display(Name = "Produce Type Name")]
-    //     public Guid Id { get; set; }
-
-    //     // [Display(Name = "Produce Name")]
-    //     // public Guid ProduceId { get; set; }
-
-    //     [Required]
-    //     [Display(Name = "Selling Price")]
-    //     public decimal Price { get; set; }
-
-    //     [Required]
-    //     [Display(Name = "Available Quantity")]
-    //     public double Quantity { get; set; }
-
-    //     [Required]
-    //     [Display(Name = "Unit Of Measurement")]
-    //     public string UnitOfMeasurement { get; set; }
-    // }
-
+   
     public class AddToApprovedProduceTypeRequestModel
     {
         [Display(Name = "Produce Type Name")]

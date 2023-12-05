@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Application.Abstractions.ServiceInterfaces;
 using Application.Dtos;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Host.Controllers
@@ -17,7 +18,7 @@ namespace Host.Controllers
             _categoryService = categoryService;
         }
 
-
+        [Authorize(Roles = "admin")]
         [HttpPost("CreateCategory")]
         public async Task<IActionResult> CreateAsync([FromForm] CreateCategoryRequestModel model)
         {
@@ -38,12 +39,11 @@ namespace Host.Controllers
             return BadRequest(category);
         }
 
-
+        [Authorize(Roles = "admin")]
         [HttpDelete("DeleteCategory/{id}")]
         public async Task<IActionResult> DeleteAsync([FromRoute] Guid id)
         {
             var category = await _categoryService.DeleteAsync(id);
-            // TempData["message"] = category.Message;
             if (category.Status)
             {
                 return Ok(category);
@@ -51,6 +51,7 @@ namespace Host.Controllers
             return BadRequest(category);
         }
 
+        [Authorize(Roles = "admin")]
         [HttpGet("GetCategoryDetails/{id}")]
         public async Task<IActionResult> DetailsAsync([FromRoute] Guid id)
         {
@@ -62,7 +63,7 @@ namespace Host.Controllers
             return NotFound(category);
         }
 
-
+        [Authorize(Roles = "admin")]
         [HttpGet("GetAllCategories")]
         public async Task<IActionResult> ListAsync()
         {
@@ -75,7 +76,7 @@ namespace Host.Controllers
         }
 
 
-
+        [Authorize(Roles = "admin")]
         [HttpPut("UpdateCategory/{id}")]
         public async Task<IActionResult> UpdateAsync([FromRoute] Guid id, [FromForm] UpdateCategoryRequestModel model)
         {
@@ -88,7 +89,6 @@ namespace Host.Controllers
             }
 
             var result = await _categoryService.UpdateAsync(id, model);
-            // TempData["message"] = result.Message;
             if (result.Status)
             {
                 return Ok(result);

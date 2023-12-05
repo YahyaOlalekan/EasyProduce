@@ -40,15 +40,14 @@ namespace Application.Services
             {
                 var produceType = new ProduceType();
                 produceType.TypeName = model.TypeName;
+                produceType.ProduceId = model.ProduceId;
+                produceType.CreatedBy = loginId;
                 // produceType.UnitOfMeasurement = model.UnitOfMeasurement;
                 // produceType.CostPrice = model.CostPrice;
                 // produceType.SellingPrice = model.SellingPrice;
-                produceType.ProduceId = model.ProduceId;
-                produceType.CreatedBy = loginId;
                 // produceType.TypePicture = model.TypePicture;
 
                 string produceTypeFirstLetterToUpperCase = $"{CultureInfo.CurrentCulture.TextInfo.ToTitleCase(produceType.TypeName)}";
-
 
                 await _produceTypeRepository.CreateAsync(produceType);
                 await _produceTypeRepository.SaveAsync();
@@ -324,41 +323,7 @@ namespace Application.Services
             };
         }
 
-
-
-        // public async Task<BaseResponse<IEnumerable<ProduceTypeDto>>> GetProduceTypesToBeApprovedAsync(ProduceTypeToBeApprovedRequestModel model)
-        // {
-        //     var produceTypes = await _farmerProduceTypeRepository.GetAllAsync(x => x.FarmerId == model.FarmerId && x.Id == model.ProduceTypeId && x.ProduceType.Status == Domain.Enum.Status.Pending);
-
-        //     if (produceTypes == null)
-        //     {
-        //         return new BaseResponse<IEnumerable<ProduceTypeDto>>
-        //         {
-        //             Message = "Not Found",
-        //             Status = false,
-        //         };
-        //     }
-
-        //     return new BaseResponse<IEnumerable<ProduceTypeDto>>
-        //     {
-        //         Message = "Successful",
-        //         Status = true,
-        //         Data = produceTypes.Select(x => new ProduceTypeDto
-        //         {
-        //             Id = x.ProduceType.Id,
-        //             TypeName = x.ProduceType.TypeName,
-        //             FarmerIds = x.ProduceType.FarmerProduceTypes
-        //                 .Select(farmerProduceType => farmerProduceType.FarmerId)
-        //                 .ToList()
-        //         })
-        //     };
-
-        // }
-
-
-
-
-
+       
         public async Task<BaseResponse<IEnumerable<ProduceTypeDto>>> GetApprovedProduceTypesForAFarmerByFarmerIdAsync(Guid farmerId)
         {
             var approvedProduceTypes = await _farmerProduceTypeRepository.GetAllApprovedProduceTypeOfAFarmer(farmerId);
@@ -407,63 +372,6 @@ namespace Application.Services
         {
             throw new NotImplementedException();
         }
-
-
-
-
-
-
-
-
-
-        //  public async Task<BaseResponse<ProduceTypeDto>> VerifyProduceTypeAsync(ApprovedProduceTypeRequestModel model)
-        // {
-        //     var farmer = await _farmerRepository.GetAsync(model.FarmerId);
-        //     var produceTypes = model.ApprovedProduceTypeModels
-        //         .Select(x => new ApprovedProduceTypeModel
-        //         {
-        //             ProduceTypeId = x.ProduceTypeId,
-        //             Status = x.Status
-        //         }).ToList();
-
-        //     if (produceTypes != null)
-        //     {
-        //         foreach (var produceType in produceTypes)
-        //         {
-        //             var availableProduceType = await _produceTypeRepository.GetAsync(a => a.Id == produceType.ProduceTypeId);
-
-        //             if (availableProduceType == null || farmer == null)
-        //             {
-        //                 return new BaseResponse<ProduceTypeDto>
-        //                 {
-        //                     Message = "Farmer not found or Produce Type does not exist",
-        //                     Status = false,
-        //                 };
-        //             }
-        //             availableProduceType.Status = produceType.Status;
-        //             _produceTypeRepository.Update(availableProduceType);
-        //             await _produceTypeRepository.SaveAsync();
-
-        //             return new BaseResponse<ProduceTypeDto>
-        //             {
-        //                 Message = "Successful",
-        //                 Status = true,
-        //                 Data = new ProduceTypeDto
-        //                 {
-        //                     Id = produceType.ProduceTypeId,
-        //                     Status = produceType.Status
-        //                 }
-        //             };
-        //         }
-        //     }
-        //     return new BaseResponse<ProduceTypeDto>
-        //     {
-        //         Message = " Not Successful",
-        //         Status = false,
-        //     };
-        // }
-
-
 
 
 

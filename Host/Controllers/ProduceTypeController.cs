@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Application.Abstractions.ServiceInterfaces;
 using Application.Dtos;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Host.Controllers
@@ -18,6 +19,7 @@ namespace Host.Controllers
         }
 
 
+        [Authorize(Roles = "admin")]
         [HttpPost("CreateProduceType")]
         public async Task<IActionResult> CreateAsync([FromForm] CreateProduceTypeRequestModel model)
         {
@@ -37,12 +39,12 @@ namespace Host.Controllers
             return BadRequest(produceType);
         }
 
-
+        [Authorize(Roles = "admin")]
         [HttpDelete("DeleteProduceType/{id}")]
         public async Task<IActionResult> DeleteAsync([FromRoute] Guid id)
         {
             var produceType = await _produceTypeService.DeleteAsync(id);
-            // TempData["message"] = produce.Message;
+
             if (produceType.Status)
             {
                 return Ok(produceType);
@@ -62,7 +64,7 @@ namespace Host.Controllers
             return NotFound(produceType);
         }
 
-
+        [Authorize(Roles = "admin")]
         [HttpGet("GetAllProduceType")]
         public async Task<IActionResult> ListAsync()
         {
@@ -75,8 +77,7 @@ namespace Host.Controllers
         }
 
 
-
-
+        [Authorize(Roles = "admin")]
         [HttpPost("VerifyProduceType")]
         public async Task<IActionResult> VerifyProduceTypeAsync(ProduceTypeToBeApprovedRequestModel model)
         {
@@ -87,10 +88,9 @@ namespace Host.Controllers
                 return BadRequest(result);
             }
             return Ok(result);
-            // return Ok();
         }
 
-       
+        [Authorize(Roles = "admin")]
         [HttpGet("GetProduceTypesToBeApprovedAsync/{farmerId}")]
         public async Task<IActionResult> GetProduceTypesToBeApprovedAsync(Guid farmerId)
         {
@@ -103,17 +103,6 @@ namespace Host.Controllers
         }
 
 
-        // [HttpGet("GetProduceTypesToBeApprovedAsync")]
-        // public async Task<IActionResult> GetProduceTypesToBeApprovedAsync(ProduceTypeToBeApprovedRequestModel model)
-        // {
-        //     var produceTypes = await _produceTypeService.GetProduceTypesToBeApprovedAsync(model);
-        //     if (produceTypes == null)
-        //     {
-        //         return NotFound(produceTypes);
-        //     }
-        //     return Ok(produceTypes);
-        // }
-
         [HttpGet("GetApprovedProduceTypesForAFarmerByUserId/{userId}")]
         public async Task<IActionResult> ApprovedProduceTypesForAFarmerAsync([FromRoute] Guid userId)
         {
@@ -124,6 +113,8 @@ namespace Host.Controllers
             }
             return Ok(produceTypes);
         }
+
+        [Authorize(Roles = "admin, manager")]
         [HttpGet("GetApprovedProduceTypesForAFarmerByFarmerId/{farmerId}")]
         public async Task<IActionResult> ApprovedProduceTypesForAFarmerByFarmerIdAsync([FromRoute] Guid farmerId)
         {
@@ -147,7 +138,7 @@ namespace Host.Controllers
         }
 
 
-
+        [Authorize(Roles = "admin")]
         [HttpPut("UpdateProduceType/{id}")]
         public async Task<IActionResult> UpdateAsync([FromRoute] Guid id, [FromForm] UpdateProduceTypeRequestModel model)
         {
@@ -160,12 +151,14 @@ namespace Host.Controllers
             }
 
             var result = await _produceTypeService.UpdateAsync(id, model);
-            // TempData["message"] = result.Message;
             if (result.Status)
             {
                 return Ok(result);
             }
             return BadRequest();
         }
+
+
+
     }
 }
