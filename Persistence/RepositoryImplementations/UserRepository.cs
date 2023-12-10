@@ -30,7 +30,7 @@ namespace Persistence.RepositoryImplementations
             return await _context.Users
            .Include(a => a.Role)
            .Where(a => !a.IsDeleted)
-           .SingleOrDefaultAsync(expression);
+           .FirstOrDefaultAsync(expression);
         }
 
         

@@ -52,6 +52,7 @@ namespace Host.Controllers
             return BadRequest(produceType);
         }
 
+        [Authorize(Roles = "admin, farmer")]
         [HttpGet("GetProduceTypeDetails/{id}")]
         public async Task<IActionResult> DetailsAsync([FromRoute] Guid id)
         {
@@ -64,7 +65,6 @@ namespace Host.Controllers
             return NotFound(produceType);
         }
 
-        [Authorize(Roles = "admin")]
         [HttpGet("GetAllProduceType")]
         public async Task<IActionResult> ListAsync()
         {
@@ -102,7 +102,7 @@ namespace Host.Controllers
             return Ok(produceTypes);
         }
 
-
+        [Authorize(Roles = "admin, farmer")]
         [HttpGet("GetApprovedProduceTypesForAFarmerByUserId/{userId}")]
         public async Task<IActionResult> ApprovedProduceTypesForAFarmerAsync([FromRoute] Guid userId)
         {
@@ -126,6 +126,7 @@ namespace Host.Controllers
             return Ok(produceTypes);
         }
 
+        [Authorize(Roles = "farmer")]
         [HttpGet("GetUnApprovedProduceTypesForAFarmerByUserId/{userId}")]
         public async Task<IActionResult> UnapprovedProduceTypesForAFarmerAsync([FromRoute] Guid userId)
         {

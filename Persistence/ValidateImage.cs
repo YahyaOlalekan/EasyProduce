@@ -13,7 +13,8 @@ namespace Persistence
     {
         private static readonly string[] AllowedExtensions = { ".jpg", ".jpeg", ".png", ".gif" };
 
-        private const long MaxFileSize = 5 * 1024 * 1024; // 5 MB
+        // private const long MaxFileSize = 5 * 1024 * 1024; // 5 MB
+        private const long MaxFileSize = 5 * 2024 * 2024; 
 
         private const int MaxWidth = 1920;
         private const int MaxHeight = 1080;

@@ -20,7 +20,7 @@ namespace Host.Controllers
         }
 
 
-        // [Authorize(Roles = "admin")]
+        [Authorize(Roles = "admin")]
         [HttpPost("RegisterManager")]
         public async Task<IActionResult> RegisterAsync([FromForm] CreateManagerRequestModel model)
         {
@@ -40,6 +40,7 @@ namespace Host.Controllers
             return Ok(manager);
         }
 
+         [Authorize(Roles = "admin, manager")]
         [HttpPut("UpdateManager/{id}")]
         public async Task<IActionResult> UpdateAsync([FromRoute] Guid id, [FromForm] UpdateManagerRequestModel model)
         {
@@ -59,7 +60,6 @@ namespace Host.Controllers
             return Ok(manager);
         }
 
-        // [Authorize(Roles = "admin")]
         [HttpGet("GetManagerById/{id}")]
         public async Task<IActionResult> GetAsync([FromRoute] Guid id)
         {
@@ -71,7 +71,7 @@ namespace Host.Controllers
             return Ok(manager);
         }
 
-        // [Authorize(Roles = "admin")]
+        [Authorize(Roles = "admin")]
         [HttpDelete("DeleteManager/{id}")]
         public async Task<IActionResult> DeleteAsync([FromRoute] Guid id)
         {
@@ -83,7 +83,7 @@ namespace Host.Controllers
             return Ok(manager);
         }
 
-        // [Authorize(Roles = "admin")]
+        [Authorize(Roles = "admin")]
         [HttpGet("GetAllManagers")]
         public async Task<IActionResult> ListOfManagersAsync()
         {

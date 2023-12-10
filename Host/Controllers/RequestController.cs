@@ -2,6 +2,7 @@ using System;
 using System.Threading.Tasks;
 using Application.Abstractions.ServiceInterfaces;
 using Application.Dtos;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Host.Controllers
@@ -16,6 +17,7 @@ namespace Host.Controllers
             _requestService = requestService;
         }
 
+        [Authorize(Roles = "farmer")]
         [HttpPost("AddNewProduceType/{farmerId}/{produceTypeId}")]
         public async Task<IActionResult> AddNewProduceTypeAsync([FromRoute]Guid farmerId, [FromRoute]Guid produceTypeId)
         {
@@ -30,21 +32,8 @@ namespace Host.Controllers
             return BadRequest(request);
         }
         
-        // [HttpPost("AddNewProduceType/{farmerId}")]
-        // public async Task<IActionResult> AddNewProduceTypeAsync([FromRoute]Guid farmerId, [FromForm] AddNewProduceTypeRequestModel model)
-        // {
-        //     var request = await _requestService.AddNewProduceTypeAsync(farmerId, model);
-        //     if (ModelState.IsValid)
-        //     {
-        //         if (request != null)
-        //         {
-        //             return Ok(request);
-        //         }
-        //     }
-        //     return BadRequest(request);
-        // }
-       
-       
+              
+       [Authorize(Roles = "farmer")]
         [HttpPost("RemoveExistingProduceType/{farmerId}")]
         public async Task<IActionResult> RemoveExistingProduceTypeAsync([FromRoute]Guid farmerId, [FromForm] RemoveExistingProduceTypeRequestModel model)
         {
@@ -61,7 +50,7 @@ namespace Host.Controllers
 
 
       
-
+        [Authorize(Roles = "admin")]
         [HttpPost("GetAllProduceTypeRequests")]
         public async Task<IActionResult> GetAllProduceTypeRequestAsync(GetAllProduceTypeRequestModel model)
         {
@@ -75,7 +64,7 @@ namespace Host.Controllers
 
 
 
-
+        [Authorize(Roles = "admin")]
         [HttpPost("VerifyRequest")]
         public async Task<IActionResult> VerifyRequestAsync(RequestApproveRequestModel model)
         {
