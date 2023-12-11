@@ -46,12 +46,10 @@ namespace Host.Controllers
         {
             if (!ModelState.IsValid)
             {
-                // Model validation failed; collect errors
                 var errors = ModelState.Values.SelectMany(v => v.Errors)
                                                 .Select(e => e.ErrorMessage)
                                                 .ToList();
 
-                // Return validation errors with a 400 Bad Request status code
                 return BadRequest(errors);
             }
 
@@ -81,7 +79,7 @@ namespace Host.Controllers
             return Ok(customer);
         }
 
-        // [Authorize(Roles = "admin")]
+         [Authorize(Roles = "admin")]
         [HttpDelete("DeleteCustomer/{id}")]
         public async Task<IActionResult> DeleteAsync([FromRoute] Guid id)
         {
@@ -93,8 +91,7 @@ namespace Host.Controllers
             return Ok(customer);
         }
 
-        //  [Authorize]
-        // [Authorize(Roles = "admin manager")]
+        [Authorize(Roles = "admin, manager")]
         [HttpGet("GetAllCustomers")]
         public async Task<IActionResult> ListOfCustomersAsync()
         {

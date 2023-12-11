@@ -50,7 +50,7 @@ namespace Host.Controllers
 
 
       
-        [Authorize(Roles = "admin")]
+        // [Authorize(Roles = "admin")]
         [HttpPost("GetAllProduceTypeRequests")]
         public async Task<IActionResult> GetAllProduceTypeRequestAsync(GetAllProduceTypeRequestModel model)
         {
@@ -64,7 +64,7 @@ namespace Host.Controllers
 
 
 
-        [Authorize(Roles = "admin")]
+        // [Authorize(Roles = "admin")]
         [HttpPost("VerifyRequest")]
         public async Task<IActionResult> VerifyRequestAsync(RequestApproveRequestModel model)
         {
