@@ -1,10 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "OsDSy7CjvBvgnq/PXlTTKdErDAK0wjT5hH2c9lOA11qpgdJwJKcMkIuUciCF+L6DXoWQ7LNnV5KHdoqkt+RNYw==",
+  "dgSpecHash": "KQSQjlGoabVBDG5UBPULI3uP2jl5urZgaLCpBhGMUrzcOWqeWdEpJIQUGAvWZceToNk169EQz4Xqc23M0RYFTw==",
   "success": true,
   "projectFilePath": "C:\\Users\\USER PC\\Desktop\\EasyProduce\\host\\Host.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\USER PC\\.nuget\\packages\\bcrypt.net-next\\4.0.3\\bcrypt.net-next.4.0.3.nupkg.sha512",
+    "C:\\Users\\USER PC\\.nuget\\packages\\flutterwave.ravepay.net\\1.0.6-beta\\flutterwave.ravepay.net.1.0.6-beta.nupkg.sha512",
     "C:\\Users\\USER PC\\.nuget\\packages\\fubarcoder.restsharp.portable.core\\4.0.8\\fubarcoder.restsharp.portable.core.4.0.8.nupkg.sha512",
     "C:\\Users\\USER PC\\.nuget\\packages\\fubarcoder.restsharp.portable.httpclient\\4.0.8\\fubarcoder.restsharp.portable.httpclient.4.0.8.nupkg.sha512",
     "C:\\Users\\USER PC\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
@@ -46,6 +47,7 @@
     "C:\\Users\\USER PC\\.nuget\\packages\\mysqlconnector\\2.0.0\\mysqlconnector.2.0.0.nupkg.sha512",
     "C:\\Users\\USER PC\\.nuget\\packages\\netstandard.library\\1.6.0\\netstandard.library.1.6.0.nupkg.sha512",
     "C:\\Users\\USER PC\\.nuget\\packages\\newtonsoft.json\\13.0.2\\newtonsoft.json.13.0.2.nupkg.sha512",
+    "C:\\Users\\USER PC\\.nuget\\packages\\opencover\\4.6.519\\opencover.4.6.519.nupkg.sha512",
     "C:\\Users\\USER PC\\.nuget\\packages\\pomelo.entityframeworkcore.mysql\\6.0.0\\pomelo.entityframeworkcore.mysql.6.0.0.nupkg.sha512",
     "C:\\Users\\USER PC\\.nuget\\packages\\runtime.native.system\\4.0.0\\runtime.native.system.4.0.0.nupkg.sha512",
     "C:\\Users\\USER PC\\.nuget\\packages\\runtime.native.system.io.compression\\4.1.0\\runtime.native.system.io.compression.4.1.0.nupkg.sha512",

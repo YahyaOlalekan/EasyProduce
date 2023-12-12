@@ -23,5 +23,6 @@
     <PkgFubarCoder_RestSharp_Portable_Core Condition=" '$(PkgFubarCoder_RestSharp_Portable_Core)' == '' ">C:\Users\USER PC\.nuget\packages\fubarcoder.restsharp.portable.core\4.0.8</PkgFubarCoder_RestSharp_Portable_Core>
     <PkgFubarCoder_RestSharp_Portable_HttpClient Condition=" '$(PkgFubarCoder_RestSharp_Portable_HttpClient)' == '' ">C:\Users\USER PC\.nuget\packages\fubarcoder.restsharp.portable.httpclient\4.0.8</PkgFubarCoder_RestSharp_Portable_HttpClient>
     <PkgMicrosoft_EntityFrameworkCore_Tools Condition=" '$(PkgMicrosoft_EntityFrameworkCore_Tools)' == '' ">C:\Users\USER PC\.nuget\packages\microsoft.entityframeworkcore.tools\6.0.14</PkgMicrosoft_EntityFrameworkCore_Tools>
+    <PkgOpenCover Condition=" '$(PkgOpenCover)' == '' ">C:\Users\USER PC\.nuget\packages\opencover\4.6.519</PkgOpenCover>
   </PropertyGroup>
 </Project>

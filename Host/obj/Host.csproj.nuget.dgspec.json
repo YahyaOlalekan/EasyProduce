@@ -189,6 +189,10 @@
               "target": "Package",
               "version": "[4.0.3, )"
             },
+            "Flutterwave.Ravepay.Net": {
+              "target": "Package",
+              "version": "[1.0.6-beta, )"
+            },
             "Microsoft.AspNetCore.Authentication.JwtBearer": {
               "target": "Package",
               "version": "[6.0.0, )"

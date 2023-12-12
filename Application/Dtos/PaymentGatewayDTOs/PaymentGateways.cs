@@ -5,7 +5,7 @@ namespace Application.Dtos.PaymentGatewayDTOs;
 
 
 
-public class VerifyAccountNumberRequestModel
+public class    VerifyAccountNumberRequestModel
 {
     public string AccountNumber { get; set; }
     public string BankCode { get; set; }

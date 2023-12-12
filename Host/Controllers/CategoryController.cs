@@ -36,6 +36,7 @@ namespace Host.Controllers
             {
                 return Ok(category);
             }
+            
             return BadRequest(category);
         }
 
