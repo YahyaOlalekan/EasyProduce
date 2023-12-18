@@ -81,7 +81,7 @@ namespace Persistence.RepositoryImplementations
         public async Task<string> GenerateOrderNumberAsync()
         {
             var  count = await GetAllAsync();
-            return ("EP/ODR/00" + $"{count.Count() + 1}");
+            return "EP/ODR/00" + $"{count.Count() + 1}";
         }
 
        

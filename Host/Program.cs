@@ -139,7 +139,7 @@ builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
 builder.Services.AddScoped<ICustomerService, CustomerService>();
 
-builder.Services.AddScoped<ICartItemRepository, CartItemRepository>();
+builder.Services.AddScoped<ICartRepository, CartRepository>();
 //builder.Services.AddScoped<ICartItemService, CartItemService>();
 
 // builder.Services.AddScoped<ICartItemForOrderRepository, CartItemForOrderRepository>();
@@ -162,6 +162,10 @@ builder.Services.AddScoped<IRequestRepository, RequestRepository>();
 builder.Services.AddScoped<IRequestService, RequestService>();
 
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
+// builder.Services.AddSingleton<FlutterwaveService>();
+builder.Services.AddScoped<FlutterwaveService>();
+
 #endregion
 
 #region mdw

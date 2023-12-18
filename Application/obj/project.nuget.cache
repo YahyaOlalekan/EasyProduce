@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "fmbJYqxU0JH9syNpIHzqy7UBBPRuG+/AIp/ZFmdJb3Tbwood/r7AXfUMrdu8MisNZssRzskduH/J6DVz5m3zYw==",
+  "dgSpecHash": "AyOXXQ+0L7H5R+szvQiWOFgN6P4zu05nGLIvCFmfw4mmken1fl2gIbL3RoWrzQjyehxn2MtPEMRxq4sdZkHoEg==",
   "success": true,
   "projectFilePath": "C:\\Users\\USER PC\\Desktop\\EasyProduce\\Application\\Application.csproj",
   "expectedPackageFiles": [
@@ -29,6 +29,7 @@
     "C:\\Users\\USER PC\\.nuget\\packages\\microsoft.net.http.headers\\2.2.0\\microsoft.net.http.headers.2.2.0.nupkg.sha512",
     "C:\\Users\\USER PC\\.nuget\\packages\\mysqlconnector\\2.0.0\\mysqlconnector.2.0.0.nupkg.sha512",
     "C:\\Users\\USER PC\\.nuget\\packages\\pomelo.entityframeworkcore.mysql\\6.0.0\\pomelo.entityframeworkcore.mysql.6.0.0.nupkg.sha512",
+    "C:\\Users\\USER PC\\.nuget\\packages\\restsharp\\106.11.7\\restsharp.106.11.7.nupkg.sha512",
     "C:\\Users\\USER PC\\.nuget\\packages\\system.buffers\\4.5.0\\system.buffers.4.5.0.nupkg.sha512",
     "C:\\Users\\USER PC\\.nuget\\packages\\system.collections.immutable\\6.0.0\\system.collections.immutable.6.0.0.nupkg.sha512",
     "C:\\Users\\USER PC\\.nuget\\packages\\system.diagnostics.diagnosticsource\\6.0.0\\system.diagnostics.diagnosticsource.6.0.0.nupkg.sha512",

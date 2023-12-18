@@ -2,7 +2,7 @@ using System;
 
 namespace Domain.Entity
 {
-    public class CartItem : BaseEntity
+    public class Cart : BaseEntity
     {
         public Guid ProduceTypeId { get; set; }
         public ProduceType ProduceType { get; set; }

@@ -159,7 +159,12 @@ namespace Application.Services
                         TransactionStatus = Domain.Enum.TransactionStatus.Confirmed,
                         FarmerId = x.FarmerId,
                         RegistrationNumber = x.Farmer.RegistrationNumber,
-                        TransactionNum = x.TransactionNum
+                        TransactionNum = x.TransactionNum,
+                        // AccountName = x.Farmer.AccountName,
+                        // BankName = x.Farmer.BankName,
+                        // AccountNumber = x.Farmer.AccountNumber,
+                        // BankCode = x.Farmer.BankCode,
+                    
                     })
                 };
             }

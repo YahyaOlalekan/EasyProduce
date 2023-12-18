@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Application.Dtos
 {
-    public class CartItemDto
+    public class CartDto
     {
         public Guid Id { get; set; }
         public Guid ProduceTypeId { get; set; }
@@ -16,7 +16,7 @@ namespace Application.Dtos
 
     }
 
-    public class CreateCartItemRequestModel
+    public class CreateCartRequestModel
     {
         [Required, MinLength(3), MaxLength(50)]
         [Display(Name = "Produce Type Name")]

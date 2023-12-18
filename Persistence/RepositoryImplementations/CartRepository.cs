@@ -10,21 +10,21 @@ using Persistence.AppDbContext;
 
 namespace Persistence.RepositoryImplementations
 {
-    public class CartItemRepository : BaseRepository<CartItem>, ICartItemRepository
+    public class CartRepository : BaseRepository<Cart>, ICartRepository
     {
-        public CartItemRepository(Context context)
+        public CartRepository(Context context)
         {
             _context = context;
         }
 
-        public async Task<CartItem> GetAsync(Guid id)
+        public async Task<Cart> GetAsync(Guid id)
         {
             return await _context.CartItems
             .Include(c => c.ProduceType)
             .SingleOrDefaultAsync(a => a.Id == id && !a.IsDeleted);
         }
 
-        public async Task<CartItem> GetAsync(Expression<Func<CartItem, bool>> expression)
+        public async Task<Cart> GetAsync(Expression<Func<Cart, bool>> expression)
         {
             return await _context.CartItems
             .Where(a => !a.IsDeleted)
@@ -32,7 +32,7 @@ namespace Persistence.RepositoryImplementations
             .SingleOrDefaultAsync(expression);
         }
 
-       public async Task<IEnumerable<CartItem>> GetAllAsync()
+       public async Task<IEnumerable<Cart>> GetAllAsync()
         {
             return await _context.CartItems.AsNoTracking()
            .Where(a => !a.IsDeleted)
@@ -40,7 +40,7 @@ namespace Persistence.RepositoryImplementations
            .ToListAsync();
         }
 
-        public async Task<IEnumerable<CartItem>>  GetSelectedAsync(List<Guid> ids)
+        public async Task<IEnumerable<Cart>>  GetSelectedAsync(List<Guid> ids)
         {
             return await _context.CartItems
             .Where(a => ids.Contains(a.Id) && !a.IsDeleted)
@@ -48,10 +48,10 @@ namespace Persistence.RepositoryImplementations
             .ToListAsync();
         }
 
-        public async Task<IEnumerable<CartItem>> GetSelectedAsync(Expression<Func<CartItem, bool>> expression)
+        public async Task<IEnumerable<Cart>> GetSelectedAsync(Expression<Func<Cart, bool>> expression)
         {
             return await _context.CartItems
-            .Where(expression)
+            // .Where(expression)
             .Include(c => c.ProduceType)
             .ToListAsync();
         }

@@ -35,7 +35,7 @@ namespace Persistence.RepositoryImplementations
             .Include(a => a.Farmer)
             // .Include(a => a.TransactionProduceTypes)
             // .ThenInclude(a => a.ProduceType)
-            .SingleOrDefaultAsync(a => a.Id == id && !a.IsDeleted);
+            .FirstOrDefaultAsync(a => a.Id == id && !a.IsDeleted);
         }
 
         public async Task<Transaction> GetAsync(Expression<Func<Transaction, bool>> expression)
@@ -45,7 +45,7 @@ namespace Persistence.RepositoryImplementations
             .Include(a => a.Farmer)
             // .Include(a => a.TransactionProduceTypes)
             // .ThenInclude(a => a.ProduceType)
-            .SingleOrDefaultAsync(expression);
+            .FirstOrDefaultAsync(expression);
         }
 
         public async Task<IEnumerable<Transaction>> GetAllAsync()

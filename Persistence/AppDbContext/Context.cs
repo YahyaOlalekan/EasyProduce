@@ -27,7 +27,7 @@ namespace Persistence.AppDbContext
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<Group> Groups { get; set; }
-        public DbSet<CartItem> CartItems { get; set; }
+        public DbSet<Cart> CartItems { get; set; }
         public DbSet<FarmerProduceType> FarmerProduceTypes { get; set; }
         public DbSet<Chat> Chats { get; set; }
         public DbSet<Request> Requests { get; set; }

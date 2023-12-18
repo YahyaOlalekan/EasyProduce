@@ -23,6 +23,10 @@ namespace Application.Dtos
         public DateTime ModifiedOn { get; set; }
         public Guid? ManagerId { get; set; }
         public Guid ProduceTypeId { get; set; }
+        public string BankCode { get; set; }
+        public string AccountNumber { get; set; }
+        public string BankName { get; set; }
+        public string AccountName { get; set; }
 
         // public List<TransactionProduceTypeDto> TransactionProduceTypes { get; set; }
 

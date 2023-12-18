@@ -14,6 +14,7 @@ namespace Domain.Entity
         public string UnitOfMeasurement { get; set; }
         public double QuantityAvailable { get; set; }
         public bool IsAvailable { get; set; }
+         public string ProducttypePicture { get; set; }
         public ICollection<OrderProductType> OrderProductTypes { get; set; } = new HashSet<OrderProductType>();
 
         // public Guid ProduceId { get; set; }
