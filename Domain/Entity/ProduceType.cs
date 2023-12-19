@@ -17,6 +17,7 @@ namespace Domain.Entity
         public string UnitOfMeasurement { get; set; }
         // public TransactionStatus TransactionStatus { get; set; }
 
+        //  public ICollection<Transaction> Transactions { get; set; } = new HashSet<Transaction>();
         // public ICollection<TransactionProduceType> TransactionProduceTypes { get; set; } = new HashSet<TransactionProduceType>();
 
         public ICollection<FarmerProduceType> FarmerProduceTypes {get;set;} = new HashSet<FarmerProduceType>();

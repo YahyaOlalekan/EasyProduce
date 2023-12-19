@@ -16,66 +16,76 @@ namespace Persistence.Payments
 
         public FlutterwaveService(ITransactionRepository transactionRepository)
         {
-
             _transactionRepository = transactionRepository;
         }
 
- 
-
-public async Task<PayoutResponse> InitiatePayoutAsync(string publicKey, string secretKey, Guid transactionId)
-{
-    var client = new RestClient($"{baseUrl}/transfers");
-    var request = new RestRequest(Method.POST);
-    request.AddHeader("Authorization", $"Bearer {secretKey}");
-    request.AddHeader("Content-Type", "application/json");
-
-    var transaction = await _transactionRepository.GetAsync(transactionId);
-    if (transaction == null)
-    {
-        return new PayoutResponse
+        public async Task<PayoutResponse> InitiatePayoutAsync(
+            string publicKey,
+            string secretKey,
+            Guid transactionId
+        )
         {
-            IsSuccessful = false,
-            ErrorMessage = "Transaction is not found",
-            OriginalResponse = null
-        };
-    }
+            var client = new RestClient($"{baseUrl}/transfers");
+            var request = new RestRequest(Method.POST);
+            request.AddHeader("Authorization", $"Bearer {secretKey}");
+            request.AddHeader("Content-Type", "application/json");
 
-    if (transaction.TransactionStatus != Domain.Enum.TransactionStatus.Confirmed)
-    {
-        return new PayoutResponse
-        {
-            IsSuccessful = false,
-            ErrorMessage = "This transaction has not been confirmed",
-            OriginalResponse = null
-        };
-    }
+            var transaction = await _transactionRepository.GetAsync(transactionId);
+            if (transaction == null)
+            {
+                return new PayoutResponse
+                {
+                    IsSuccessful = false,
+                    ErrorMessage = "Transaction is not found",
+                    OriginalResponse = null
+                };
+            }
 
-    var model = new PayoutModel
-    {
-        account_bank = "044",
-        account_number = "0690000040",
-        amount = transaction.TotalAmount,
-        narration = "Payment for producetype purchased",
-        currency = "NGN",
-        reference = Guid.NewGuid().ToString() + "_PMCKDU_1",
-        callback_url = "https://www.flutterwave.com/ng/",
-        debit_currency = "NGN"
-    };
+            if (transaction.TransactionStatus != Domain.Enum.TransactionStatus.Confirmed)
+            {
+                return new PayoutResponse
+                {
+                    IsSuccessful = false,
+                    ErrorMessage = "This transaction has not been confirmed",
+                    OriginalResponse = null
+                };
+            }
 
-    request.AddJsonBody(model);
+            var model = new PayoutModel
+            {
+                account_bank = "044",
+                account_number = "0690000040",
+                amount = transaction.TotalAmount,
+                narration = "Payment for producetype purchased",
+                currency = "NGN",
+                reference = Guid.NewGuid().ToString() + "_PMCKDU_1",
+                callback_url = "https://www.flutterwave.com/ng/",
+                debit_currency = "NGN"
+            };
 
-    var originalResponse = client.Execute(request);
+            request.AddJsonBody(model);
 
-    return new PayoutResponse
-    {
-        IsSuccessful = originalResponse.IsSuccessful,
-        ErrorMessage = originalResponse.ErrorMessage,
-        OriginalResponse = originalResponse
-    };
-}
+            var originalResponse = client.Execute(request);
 
+            if (originalResponse.IsSuccessful)
+            {
+                transaction.TransactionStatus = Domain.Enum.TransactionStatus.Paid;
+                await _transactionRepository.SaveAsync();
+            }
 
-        public async Task<IRestResponse> InitiatePayout(string publicKey, string secretKey, Guid transactionId)
+            return new PayoutResponse
+            {
+                IsSuccessful = originalResponse.IsSuccessful,
+                ErrorMessage = originalResponse.ErrorMessage,
+                OriginalResponse = originalResponse
+            };
+        }
+
+        public async Task<IRestResponse> InitiatePayout(
+            string publicKey,
+            string secretKey,
+            Guid transactionId
+        )
         {
             var client = new RestClient($"{baseUrl}/transfers");
             var request = new RestRequest(Method.POST);
@@ -120,10 +130,11 @@ public async Task<PayoutResponse> InitiatePayoutAsync(string publicKey, string s
             return client.Execute(request);
         }
 
-
-
-
-        public async Task<PayoutInitiationResponse> InitiatePayoutForFarmer(string publicKey, string secretKey, Guid transactionId)
+        public async Task<PayoutInitiationResponse> InitiatePayoutForFarmer(
+            string publicKey,
+            string secretKey,
+            Guid transactionId
+        )
         {
             var client = new RestClient($"{baseUrl}/transfers");
             var request = new RestRequest(Method.POST);
@@ -151,17 +162,11 @@ public async Task<PayoutResponse> InitiatePayoutAsync(string publicKey, string s
 
             var response = new PayoutInitiationResponse
             {
-                OtpRequired = transaction != null, 
+                OtpRequired = transaction != null,
                 FlutterwaveResponse = client.Execute(request)
             };
 
             return response;
-
-
         }
-
-
-
-
     }
 }

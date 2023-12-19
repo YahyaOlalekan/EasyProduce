@@ -4,7 +4,7 @@ using Domain.Enum;
 
 namespace Application.Dtos
 {
-    public class TransactionDto
+    public class TransactionDto 
     {
         public Guid Id { get; set; }
         public string TransactionNum { get; set; }

@@ -17,6 +17,8 @@ namespace Application.Abstractions.ServiceInterfaces
         Task<BaseResponse<string>> ProcessPaymentAsync(Guid transactionId);
         // Task<BaseResponse<string>> ReceiveAnOtpAsync(string transferCode, string otp);
         Task<BaseResponse<string>> MakePaymentAsync(string transferCode, string otp);
+       Task<BaseResponse<TransactionDto>> GenerateReceiptAsync(Guid transactionId);
+       
 
         // Task<string> SellProduceType(Guid farmerId, SellProduceTypeRequestModel model);
         // Task<BaseResponse<TransactionDto>> ApprovedAsync(Guid userId, Guid id);

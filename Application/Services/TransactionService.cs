@@ -20,7 +20,12 @@ namespace Application.Services
         private readonly ITransactionRepository _transactionRepository;
         private readonly IPayStackService _paystackService;
 
-        public TransactionService(IFarmerRepository farmerRepository, IFarmerProduceTypeRepository farmerProduceTypeRepository, ITransactionRepository transactionRepository, IPayStackService paystackService)
+        public TransactionService(
+            IFarmerRepository farmerRepository,
+            IFarmerProduceTypeRepository farmerProduceTypeRepository,
+            ITransactionRepository transactionRepository,
+            IPayStackService paystackService
+        )
         {
             _farmerRepository = farmerRepository;
             _farmerProduceTypeRepository = farmerProduceTypeRepository;
@@ -28,27 +33,10 @@ namespace Application.Services
             _paystackService = paystackService;
         }
 
-        // public async Task<BaseResponse<Transaction>> ConfirmPaymentAsync(string otp,)
-        // {
-        //     var transaction = await _transactionRepository.GetAsync(f => f.Id == transactionId);
-        //     if (transaction == null)
-        //     {
-        //         return new BaseResponse<Transaction>
-        //         {
-        //             Message = "Farmer Not Found!",
-        //             Status = false
-        //         };
-        //     }
-        //     var initRequest = new InitiateTransferRequesteModel 
-        //     {
-        //         Amount = transaction.TotalAmount,
-        //         RecipientCode
-
-        //     };
-        //     var init = await _paystackService.InitiateTransfer();
-        // }
-
-        public async Task<BaseResponse<Transaction>> InitiateProducetypeSalesAsync(Guid farmerId, InitiateProducetypeSalesRequestModel model)
+        public async Task<BaseResponse<Transaction>> InitiateProducetypeSalesAsync(
+            Guid farmerId,
+            InitiateProducetypeSalesRequestModel model
+        )
         {
             var farmer = await _farmerRepository.GetAsync(f => f.UserId == farmerId);
             if (farmer == null)
@@ -58,9 +46,7 @@ namespace Application.Services
                     Message = "Farmer Not Found!",
                     Status = false
                 };
-
             }
-
 
             if (farmer.FarmerRegStatus != Domain.Enum.FarmerRegStatus.Approved)
             {
@@ -71,7 +57,12 @@ namespace Application.Services
                 };
             }
 
-            var farmerProduceType = await _farmerProduceTypeRepository.GetAsync(x => x.FarmerId == farmer.Id && x.ProduceTypeId == model.ProduceTypeId && x.Status == Domain.Enum.Status.Approved);
+            var farmerProduceType = await _farmerProduceTypeRepository.GetAsync(
+                x =>
+                    x.FarmerId == farmer.Id
+                    && x.ProduceTypeId == model.ProduceTypeId
+                    && x.Status == Domain.Enum.Status.Approved
+            );
             if (farmerProduceType == null)
             {
                 return new BaseResponse<Transaction>
@@ -96,36 +87,37 @@ namespace Application.Services
             await _transactionRepository.CreateTransactionAsync(transaction);
             await _transactionRepository.SaveAsync();
 
-            return new BaseResponse<Transaction>
-            {
-                Message = "Successful",
-                Status = true
-            };
+            return new BaseResponse<Transaction> { Message = "Successful", Status = true };
         }
 
-
-        public async Task<BaseResponse<IEnumerable<TransactionDto>>> GetAllInitiatedProducetypeSalesAsync()
+        public async Task<
+            BaseResponse<IEnumerable<TransactionDto>>
+        > GetAllInitiatedProducetypeSalesAsync()
         {
-            var initiatedProducetypeSales = await _transactionRepository.GetAllInitiatedProducetypeSalesAsync();
+            var initiatedProducetypeSales =
+                await _transactionRepository.GetAllInitiatedProducetypeSalesAsync();
             if (initiatedProducetypeSales.Any())
             {
                 return new BaseResponse<IEnumerable<TransactionDto>>
                 {
                     Message = "Successful",
                     Status = true,
-                    Data = initiatedProducetypeSales.Select(x => new TransactionDto
-                    {
-                        Id = x.Id,
-                        ProduceTypeId = x.ProduceTypeId,
-                        Price = x.Price,
-                        Quantity = x.Quantity,
-                        UnitOfMeasurement = x.UnitOfMeasurement,
-                        TotalAmount = x.Price * (decimal)x.Quantity,
-                        TransactionStatus = Domain.Enum.TransactionStatus.Initialized,
-                        FarmerId = x.FarmerId,
-                        RegistrationNumber = x.Farmer.RegistrationNumber,
-                        TransactionNum = x.TransactionNum
-                    })
+                    Data = initiatedProducetypeSales.Select(
+                        x =>
+                            new TransactionDto
+                            {
+                                Id = x.Id,
+                                ProduceTypeId = x.ProduceTypeId,
+                                Price = x.Price,
+                                Quantity = x.Quantity,
+                                UnitOfMeasurement = x.UnitOfMeasurement,
+                                TotalAmount = x.Price * (decimal)x.Quantity,
+                                TransactionStatus = Domain.Enum.TransactionStatus.Initialized,
+                                FarmerId = x.FarmerId,
+                                RegistrationNumber = x.Farmer.RegistrationNumber,
+                                TransactionNum = x.TransactionNum
+                            }
+                    )
                 };
             }
 
@@ -135,37 +127,40 @@ namespace Application.Services
                 Status = false,
                 Data = null
             };
-
         }
 
-
-        public async Task<BaseResponse<IEnumerable<TransactionDto>>> GetAllConfirmedProducetypeSalesAsync()
+        public async Task<
+            BaseResponse<IEnumerable<TransactionDto>>
+        > GetAllConfirmedProducetypeSalesAsync()
         {
-            var confirmedProducetypeSales = await _transactionRepository.GetAllConfirmedProducetypeSalesAsync();
+            var confirmedProducetypeSales =
+                await _transactionRepository.GetAllConfirmedProducetypeSalesAsync();
             if (confirmedProducetypeSales.Any())
             {
                 return new BaseResponse<IEnumerable<TransactionDto>>
                 {
                     Message = "Successful",
                     Status = true,
-                    Data = confirmedProducetypeSales.Select(x => new TransactionDto
-                    {
-                        Id = x.Id,
-                        ProduceTypeId = x.ProduceTypeId,
-                        Price = x.Price,
-                        Quantity = x.Quantity,
-                        UnitOfMeasurement = x.UnitOfMeasurement,
-                        TotalAmount = x.Price * (decimal)x.Quantity,
-                        TransactionStatus = Domain.Enum.TransactionStatus.Confirmed,
-                        FarmerId = x.FarmerId,
-                        RegistrationNumber = x.Farmer.RegistrationNumber,
-                        TransactionNum = x.TransactionNum,
-                        // AccountName = x.Farmer.AccountName,
-                        // BankName = x.Farmer.BankName,
-                        // AccountNumber = x.Farmer.AccountNumber,
-                        // BankCode = x.Farmer.BankCode,
-                    
-                    })
+                    Data = confirmedProducetypeSales.Select(
+                        x =>
+                            new TransactionDto
+                            {
+                                Id = x.Id,
+                                ProduceTypeId = x.ProduceTypeId,
+                                Price = x.Price,
+                                Quantity = x.Quantity,
+                                UnitOfMeasurement = x.UnitOfMeasurement,
+                                TotalAmount = x.Price * (decimal)x.Quantity,
+                                TransactionStatus = Domain.Enum.TransactionStatus.Confirmed,
+                                FarmerId = x.FarmerId,
+                                RegistrationNumber = x.Farmer.RegistrationNumber,
+                                TransactionNum = x.TransactionNum,
+                                //  AccountName = x.Farmer.AccountName,
+                                //  BankName = x.Farmer.BankName,
+                                //  AccountNumber = x.Farmer.AccountNumber,
+                                //  BankCode = x.Farmer.BankCode,
+                            }
+                    )
                 };
             }
 
@@ -175,9 +170,64 @@ namespace Application.Services
                 Status = false,
                 Data = null
             };
-
         }
 
+        public async Task<BaseResponse<TransactionDto>> GenerateReceiptAsync(Guid transactionId)
+        {
+            var transaction = await _transactionRepository.GetAsync(transactionId);
+            if (transaction == null)
+            {
+                return new BaseResponse<TransactionDto>
+                {
+                    Message = "Transaction is not found",
+                    Status = false,
+                    Data = null
+                };
+            }
+
+            // if (transaction.TransactionStatus != Domain.Enum.TransactionStatus.Confirmed)
+            // {
+            //     return new BaseResponse<TransactionDto>
+            //     {
+            //         Message = "This transaction has not been confirmed",
+            //         Status = false,
+            //     };
+            // }
+
+            if (transaction.TransactionStatus != Domain.Enum.TransactionStatus.Paid)
+            {
+                return new BaseResponse<TransactionDto>
+                {
+                    Message = "Seller has not been paid!",
+                    Status = false,
+                };
+            }
+
+            return new BaseResponse<TransactionDto>
+            {
+                Message = "Successful",
+                Status = true,
+                Data = new TransactionDto
+                {
+                    TransactionNum = transaction.TransactionNum,
+                    // TypeName = transaction.p
+                    UnitOfMeasurement = transaction.UnitOfMeasurement,
+                    Price = transaction.Price,
+                    Quantity = transaction.Quantity,
+                    TotalAmount = transaction.Price * (decimal)transaction.Quantity,
+                    TransactionStatus = Domain.Enum.TransactionStatus.Paid,
+                    RegistrationNumber = transaction.Farmer.RegistrationNumber,
+                    AccountName = transaction.Farmer.AccountName,
+                    BankName = transaction.Farmer.BankName,
+                    AccountNumber = transaction.Farmer.AccountNumber,
+                     DateCreated = DateTime.Now
+                    //  BankCode = transaction.Farmer.BankCode,
+                    // ProduceTypeId = transaction.ProduceTypeId,
+                    // FarmerId = transaction.FarmerId,
+                    // Id = transaction.Id,
+                }
+            };
+        }
 
         public async Task<BaseResponse<IEnumerable<TransactionDto>>> GetAllTransactionStatusForProducetypeSalesAsync()
         {
@@ -188,19 +238,22 @@ namespace Application.Services
                 {
                     Message = "Successful",
                     Status = true,
-                    Data = initiatedProducetypeSales.Select(x => new TransactionDto
-                    {
-                        Id = x.Id,
-                        ProduceTypeId = x.ProduceTypeId,
-                        Price = x.Price,
-                        Quantity = x.Quantity,
-                        UnitOfMeasurement = x.UnitOfMeasurement,
-                        TotalAmount = x.Price * (decimal)x.Quantity,
-                        TransactionStatus = Domain.Enum.TransactionStatus.Initialized,
-                        FarmerId = x.FarmerId,
-                        RegistrationNumber = x.Farmer.RegistrationNumber,
-                        TransactionNum = x.TransactionNum
-                    })
+                    Data = initiatedProducetypeSales.Select(
+                        x =>
+                            new TransactionDto
+                            {
+                                Id = x.Id,
+                                ProduceTypeId = x.ProduceTypeId,
+                                Price = x.Price,
+                                Quantity = x.Quantity,
+                                UnitOfMeasurement = x.UnitOfMeasurement,
+                                TotalAmount = x.Price * (decimal)x.Quantity,
+                                TransactionStatus = Domain.Enum.TransactionStatus.Initialized,
+                                FarmerId = x.FarmerId,
+                                RegistrationNumber = x.Farmer.RegistrationNumber,
+                                TransactionNum = x.TransactionNum
+                            }
+                    )
                 };
             }
 
@@ -210,14 +263,18 @@ namespace Application.Services
                 Status = false,
                 Data = null
             };
-
         }
 
-
-        public async Task<BaseResponse<string>> VerifyInitiatedProducetypeSalesAsync(InitiatedProducetypeSalesRequestModel model)
+        public async Task<BaseResponse<string>> VerifyInitiatedProducetypeSalesAsync(
+            InitiatedProducetypeSalesRequestModel model
+        )
         {
             // var initiatedProducetypeSale = await _transactionRepository.GetAsync(model.Id);
-            var initiatedProducetypeSale = await _transactionRepository.GetAsync(t => t.Id == model.Id && t.TransactionStatus == Domain.Enum.TransactionStatus.Initialized );
+            var initiatedProducetypeSale = await _transactionRepository.GetAsync(
+                t =>
+                    t.Id == model.Id
+                    && t.TransactionStatus == Domain.Enum.TransactionStatus.Initialized
+            );
 
             if (initiatedProducetypeSale == null)
             {
@@ -232,13 +289,8 @@ namespace Application.Services
             _transactionRepository.Update(initiatedProducetypeSale);
             await _transactionRepository.SaveAsync();
 
-            return new BaseResponse<string>
-            {
-                Message = "Successful",
-                Status = true
-            };
+            return new BaseResponse<string> { Message = "Successful", Status = true };
         }
-
 
         public async Task<BaseResponse<string>> ProcessPaymentAsync(Guid transactionId)
         {
@@ -267,14 +319,18 @@ namespace Application.Services
                 AccountNumber = transaction.Farmer.AccountNumber,
                 BankCode = transaction.Farmer.BankCode,
             };
-            var transferRecipient = await _paystackService.CreateTransferRecipient(transferRecipientModel);
+            var transferRecipient = await _paystackService.CreateTransferRecipient(
+                transferRecipientModel
+            );
 
             var transferRecipientResponseModel = new InitiateTransferRequesteModel
             {
                 Amount = transaction.TotalAmount,
                 RecipientCode = transferRecipient.data.recipient_code
             };
-            var initiateTransfer = await _paystackService.InitiateTransfer(transferRecipientResponseModel);
+            var initiateTransfer = await _paystackService.InitiateTransfer(
+                transferRecipientResponseModel
+            );
 
             // var finalizeTransfer = await _paystackService.FinalizeTransfer(initiateTransfer.data.transfer_code, initiateTransfer);
 
@@ -284,8 +340,6 @@ namespace Application.Services
                 Status = true,
                 Data = initiateTransfer.data.transfer_code
             };
-
-
         }
 
         // public async Task<BaseResponse<string>> ReceiveAnOtpAsync(string transferCode, string otp)
@@ -304,17 +358,8 @@ namespace Application.Services
                 };
             }
 
-            return new BaseResponse<string>
-            {
-                Message = "Transfer failed ",
-                Status = true,
-            };
-
-
+            return new BaseResponse<string> { Message = "Transfer failed ", Status = true, };
         }
-
-
-
 
         // public async Task<string> InitiateProducetypeSales(Guid farmerId, InitiateProducetypeSalesRequestModel model)
         // {
@@ -437,109 +482,24 @@ namespace Application.Services
         // }
 
 
-
-        //  public async Task<BaseResponse<IEnumerable<FarmerDto>>> GetAllFarmersAsync()
+        // public async Task<BaseResponse<Transaction>> ConfirmPaymentAsync(string otp,)
         // {
-        //     var farmers = await _farmerRepository.GetAllAsync();
-        //     if (!farmers.Any())
+        //     var transaction = await _transactionRepository.GetAsync(f => f.Id == transactionId);
+        //     if (transaction == null)
         //     {
-        //         return new BaseResponse<IEnumerable<FarmerDto>>
+        //         return new BaseResponse<Transaction>
         //         {
-        //             Message = "No farmer found",
+        //             Message = "Farmer Not Found!",
         //             Status = false
         //         };
         //     }
-
-        //     return new BaseResponse<IEnumerable<FarmerDto>>
+        //     var initRequest = new InitiateTransferRequesteModel
         //     {
-        //         Message = "Successful",
-        //         Status = true,
-        //         Data = farmers.Select(m => new FarmerDto
-        //         {
-        //             // Id = m.Id,
-        //             RegistrationNumber = m.RegistrationNumber,
-        //             FirstName = m.User.FirstName,
-        //             LastName = m.User.LastName,
-        //             Email = m.User.Email,
-        //             PhoneNumber = m.User.PhoneNumber,
-        //             Address = m.User.Address,
-        //             FarmName = m.FarmName,
+        //         Amount = transaction.TotalAmount,
+        //         RecipientCode
 
-        //             // ProfilePicture = m.User.ProfilePicture,
-        //         })
         //     };
+        //     var init = await _paystackService.InitiateTransfer();
         // }
-
-
-        //  public async Task<BaseResponse<FarmerProduceTypeDto>> ProduceTypeDetailsToBeSoldByTheFarmer(Guid farmerId, ProduceTypeDetailsToBeSoldByTheFarmerRequestModel model)
-        //         {
-        //             // var farmer = await _farmerRepository.GetAsync(f => f.Id == farmerId && f.FarmerRegStatus == Domain.Enum.FarmerRegStatus.Approved);
-        //             // var produceType = await _produceTypeRepository.GetAsync(pT => pT.Id == model.Id && pT.Status == Domain.Enum.Status.Approved);
-        //              var farmerProduceType = await _farmerProduceTypeRepository.GetAsync(x => x.FarmerId == farmerId && x.Farmer.FarmerRegStatus == Domain.Enum.FarmerRegStatus.Approved && x.ProduceTypeId == model.Id && x.Status == Domain.Enum.Status.Approved);
-
-        //             if (farmerProduceType == null)
-        //             {
-        //                 return new BaseResponse<FarmerProduceTypeDto>
-        //                 {
-        //                     Message = "Not successful",
-        //                     Status = false
-        //                 };
-        //             }
-
-        //         var produceType = new ProduceType();
-        //            produceType.Id = model.Id;
-        //            produceType.SellingPrice = model.Price;
-        //            produceType.QuantityToBuy = model.Quantity;
-        //            produceType.UnitOfMeasurement = model.UnitOfMeasurement;
-
-        //         //    await _farmerfarmerProduceTypeRepository.Update(produceType);
-        //             _produceTypeRepository.Update(produceType);
-        //            await _produceTypeRepository.SaveAsync();
-
-        //         }
-
-
-
-
-        // var approvedProduceTypes = await _farmerProduceTypeRepository.GetAllApprovedProduceTypeOfAFarmer(farmerId);
-        // if (!approvedProduceTypes.Any())
-        // {
-        //     return $"{farmer.User.FirstName}, you don't have any approved produce type for selling!";
-        // }
-
-        // foreach (var produceType in approvedProduceTypes)
-        // {
-        //     var transaction = await _transactionRepository.GetAsync(a => a.TransactionNum == model.TransactionNum);
-        //     if (transaction == null)
-        //     {
-        //         produceType.Id = model.ProduceTypeId;
-        //         produceType.SellingPrice = model.Price;
-        //         produceType.Quantity = model.Quantity;
-        //         produceType.UnitOfMeasurement = model.UnitOfMeasurement;
-
-        //  }
-        // }
-
-
-
-        // var farmerProduceType = await _farmerProduceTypeRepository.GetAsync(x => x.FarmerId == farmerId && x.ProduceTypeId == model.ProduceTypeId && x.Status == Domain.Enum.Status.Approved);
-
-        // if (farmerProduceType == null)
-        // {
-        //     return "Sorry, the produce type is yet to be approved";
-        // }
-
-        // farmerProduceType.ProduceType.ProduceId = model.ProduceTypeId;
-        // farmerProduceType.ProduceType.CostPrice = model.Price;
-        // farmerProduceType.ProduceType.Quantity = model.Quantity;
-        // farmerProduceType.ProduceType.UnitOfMeasurement = model.UnitOfMeasurement;
-        // // farmerProduceType.ProduceType.TransactionStatus = model.TransactionStatus.;
-        // // farmerProduceType.ProduceType.CreatedBy = farmer.User.FirstName;
-        // // farmerProduceType.ProduceType.DateCreated = DateTime.Now;
-
-        // _farmerProduceTypeRepository.Update(farmerProduceType);
-        // await _farmerProduceTypeRepository.SaveAsync();
-
-
     }
 }

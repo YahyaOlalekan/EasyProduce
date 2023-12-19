@@ -7,6 +7,7 @@ namespace Domain.Entity
     {
         public string TransactionNum { get; set; }
         public Guid ProduceTypeId { get; set; }
+        // public ProduceType ProduceType { get; set; }
         public string UnitOfMeasurement { get; set; }
         public TransactionStatus TransactionStatus { get; set; }
         public decimal Price { get; set; }
