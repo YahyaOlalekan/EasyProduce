@@ -19,18 +19,21 @@ namespace Application.Services
         private readonly IFarmerProduceTypeRepository _farmerProduceTypeRepository;
         private readonly ITransactionRepository _transactionRepository;
         private readonly IPayStackService _paystackService;
+        private readonly IFlutterwaveService _flutterwaveService;
 
         public TransactionService(
             IFarmerRepository farmerRepository,
             IFarmerProduceTypeRepository farmerProduceTypeRepository,
             ITransactionRepository transactionRepository,
-            IPayStackService paystackService
+            IPayStackService paystackService,
+            IFlutterwaveService flutterwaveService
         )
         {
             _farmerRepository = farmerRepository;
             _farmerProduceTypeRepository = farmerProduceTypeRepository;
             _transactionRepository = transactionRepository;
             _paystackService = paystackService;
+            _flutterwaveService = flutterwaveService;
         }
 
         public async Task<BaseResponse<Transaction>> InitiateProducetypeSalesAsync(
@@ -172,64 +175,66 @@ namespace Application.Services
             };
         }
 
-        public async Task<BaseResponse<TransactionDto>> GenerateReceiptAsync(Guid transactionId)
-        {
-            var transaction = await _transactionRepository.GetAsync(transactionId);
-            if (transaction == null)
-            {
-                return new BaseResponse<TransactionDto>
-                {
-                    Message = "Transaction is not found",
-                    Status = false,
-                    Data = null
-                };
-            }
+        // public async Task<BaseResponse<TransactionDto>> GenerateReceiptAsync(Guid transactionId)
+        // {
+        //     var transaction = await _transactionRepository.GetAsync(transactionId);
+        //     if (transaction == null)
+        //     {
+        //         return new BaseResponse<TransactionDto>
+        //         {
+        //             Message = "Transaction is not found",
+        //             Status = false,
+        //             Data = null
+        //         };
+        //     }
 
-            // if (transaction.TransactionStatus != Domain.Enum.TransactionStatus.Confirmed)
-            // {
-            //     return new BaseResponse<TransactionDto>
-            //     {
-            //         Message = "This transaction has not been confirmed",
-            //         Status = false,
-            //     };
-            // }
+        //     // if (transaction.TransactionStatus != Domain.Enum.TransactionStatus.Confirmed)
+        //     // {
+        //     //     return new BaseResponse<TransactionDto>
+        //     //     {
+        //     //         Message = "This transaction has not been confirmed",
+        //     //         Status = false,
+        //     //     };
+        //     // }
 
-            if (transaction.TransactionStatus != Domain.Enum.TransactionStatus.Paid)
-            {
-                return new BaseResponse<TransactionDto>
-                {
-                    Message = "Seller has not been paid!",
-                    Status = false,
-                };
-            }
+        //     if (transaction.TransactionStatus != Domain.Enum.TransactionStatus.Paid)
+        //     {
+        //         return new BaseResponse<TransactionDto>
+        //         {
+        //             Message = "Seller has not been paid!",
+        //             Status = false,
+        //         };
+        //     }
 
-            return new BaseResponse<TransactionDto>
-            {
-                Message = "Successful",
-                Status = true,
-                Data = new TransactionDto
-                {
-                    TransactionNum = transaction.TransactionNum,
-                    // TypeName = transaction.p
-                    UnitOfMeasurement = transaction.UnitOfMeasurement,
-                    Price = transaction.Price,
-                    Quantity = transaction.Quantity,
-                    TotalAmount = transaction.Price * (decimal)transaction.Quantity,
-                    TransactionStatus = Domain.Enum.TransactionStatus.Paid,
-                    RegistrationNumber = transaction.Farmer.RegistrationNumber,
-                    AccountName = transaction.Farmer.AccountName,
-                    BankName = transaction.Farmer.BankName,
-                    AccountNumber = transaction.Farmer.AccountNumber,
-                     DateCreated = DateTime.Now
-                    //  BankCode = transaction.Farmer.BankCode,
-                    // ProduceTypeId = transaction.ProduceTypeId,
-                    // FarmerId = transaction.FarmerId,
-                    // Id = transaction.Id,
-                }
-            };
-        }
+        //     return new BaseResponse<TransactionDto>
+        //     {
+        //         Message = "Successful",
+        //         Status = true,
+        //         Data = new TransactionDto
+        //         {
+        //             TransactionNum = transaction.TransactionNum,
+        //             // TypeName = transaction.p
+        //             UnitOfMeasurement = transaction.UnitOfMeasurement,
+        //             Price = transaction.Price,
+        //             Quantity = transaction.Quantity,
+        //             TotalAmount = transaction.Price * (decimal)transaction.Quantity,
+        //             TransactionStatus = Domain.Enum.TransactionStatus.Paid,
+        //             RegistrationNumber = transaction.Farmer.RegistrationNumber,
+        //             AccountName = transaction.Farmer.AccountName,
+        //             BankName = transaction.Farmer.BankName,
+        //             AccountNumber = transaction.Farmer.AccountNumber,
+        //              DateCreated = DateTime.Now
+        //             //  BankCode = transaction.Farmer.BankCode,
+        //             // ProduceTypeId = transaction.ProduceTypeId,
+        //             // FarmerId = transaction.FarmerId,
+        //             // Id = transaction.Id,
+        //         }
+        //     };
+        // }
 
-        public async Task<BaseResponse<IEnumerable<TransactionDto>>> GetAllTransactionStatusForProducetypeSalesAsync()
+        public async Task<
+            BaseResponse<IEnumerable<TransactionDto>>
+        > GetAllTransactionStatusForProducetypeSalesAsync()
         {
             var initiatedProducetypeSales = await _transactionRepository.GetAllAsync();
             if (initiatedProducetypeSales.Any())
@@ -269,7 +274,6 @@ namespace Application.Services
             InitiatedProducetypeSalesRequestModel model
         )
         {
-            // var initiatedProducetypeSale = await _transactionRepository.GetAsync(model.Id);
             var initiatedProducetypeSale = await _transactionRepository.GetAsync(
                 t =>
                     t.Id == model.Id
@@ -286,11 +290,55 @@ namespace Application.Services
             }
 
             initiatedProducetypeSale.TransactionStatus = model.TransactionStatus;
+
+            if (model.TransactionStatus == Domain.Enum.TransactionStatus.Confirmed)
+            {
+                var publicKey = "FLWPUBK_TEST-423f24968dece0d4bdefedc6c408094d-X";
+                var secretKey = "FLWSECK_TEST-c789b9f2217485eb647843281a337bce-X";
+                var payoutResponse = await _flutterwaveService.InitiatePayoutAsync(
+                    publicKey,
+                    secretKey,
+                    model.Id
+                );
+
+                if (!payoutResponse.IsSuccessful)
+                {
+                    return new BaseResponse<string> { Message = "Payout failed", Status = false, };
+                }
+            }
+            // initiatedProducetypeSale.TransactionStatus = model.TransactionStatus;
             _transactionRepository.Update(initiatedProducetypeSale);
             await _transactionRepository.SaveAsync();
 
             return new BaseResponse<string> { Message = "Successful", Status = true };
         }
+
+        // public async Task<BaseResponse<string>> VerifyInitiatedProducetypeSalesAsync(InitiatedProducetypeSalesRequestModel model )
+        // {
+        //     var initiatedProducetypeSale = await _transactionRepository.GetAsync( t =>
+        //             t.Id == model.Id
+        //             && t.TransactionStatus == Domain.Enum.TransactionStatus.Initialized
+        //     );
+
+        //     if (initiatedProducetypeSale == null)
+        //     {
+        //         return new BaseResponse<string>
+        //         {
+        //             Message = "Initiated Producetype Sales not found",
+        //             Status = false,
+        //         };
+        //     }
+
+        //     initiatedProducetypeSale.TransactionStatus = model.TransactionStatus;
+        //     _transactionRepository.Update(initiatedProducetypeSale);
+        //     await _transactionRepository.SaveAsync();
+
+        //     return new BaseResponse<string> { Message = "Successful", Status = true };
+        // }
+
+
+
+
 
         public async Task<BaseResponse<string>> ProcessPaymentAsync(Guid transactionId)
         {

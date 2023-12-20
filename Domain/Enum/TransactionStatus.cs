@@ -7,7 +7,7 @@ namespace Domain.Enum
         Initialized = 1,
         Confirmed,
         Declined,
-        Paid,
+        // Paid,
         // Initialized = 1,
         // PriceConfirmed,
         // Approved,

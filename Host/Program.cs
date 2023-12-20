@@ -1,6 +1,7 @@
 #region ns 
 using System;
 using System.Text;
+using Application;
 using Application.Abstractions;
 using Application.Abstractions.RepositoryInterfaces;
 using Application.Abstractions.ServiceInterfaces;
@@ -164,7 +165,7 @@ builder.Services.AddScoped<IRequestService, RequestService>();
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
 // builder.Services.AddSingleton<FlutterwaveService>();
-builder.Services.AddScoped<FlutterwaveService>();
+builder.Services.AddScoped<IFlutterwaveService, FlutterwaveService>();
 
 #endregion
 

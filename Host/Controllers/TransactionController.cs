@@ -3,6 +3,7 @@ using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
 using System.Transactions;
+using Application;
 using Application.Abstractions;
 using Application.Abstractions.RepositoryInterfaces;
 using Application.Abstractions.ServiceInterfaces;
@@ -25,13 +26,13 @@ namespace Host.Controllers
         private readonly ITransactionRepository _transactionRepo;
 
         // private readonly IHttpClientFactory _httpClientFactory;
-        private readonly FlutterwaveService _flutterwaveService;
+        private readonly IFlutterwaveService _flutterwaveService;
 
         public TransactionController(
             ITransactionService transactionService,
             IPayStackService payStackService,
             ITransactionRepository transactionRepo,
-            FlutterwaveService flutterwaveService
+            IFlutterwaveService flutterwaveService
         )
         {
             _transactionService = transactionService;
@@ -63,40 +64,40 @@ namespace Host.Controllers
             }
         }
 
-        [HttpGet("GenerateReceipt/{transactionId}")]
-        public async Task<IActionResult> GenerateReceiptAsync(Guid transactionId)
-        {
-            var transaction = await _transactionService.GenerateReceiptAsync(transactionId);
+        // [HttpGet("GenerateReceipt/{transactionId}")]
+        // public async Task<IActionResult> GenerateReceiptAsync(Guid transactionId)
+        // {
+        //     var transaction = await _transactionService.GenerateReceiptAsync(transactionId);
 
-            if (transaction == null)
-            {
-                return NotFound("Transaction not found");
-            }
-            return Ok(transaction);
-        }
+        //     if (transaction == null)
+        //     {
+        //         return NotFound("Transaction not found");
+        //     }
+        //     return Ok(transaction);
+        // }
 
-        [HttpPost("initiate/{transactionId}")]
-        public async Task<IActionResult> InitiatePayout([FromRoute] Guid transactionId)
-        {
-            var publicKey = "FLWPUBK_TEST-423f24968dece0d4bdefedc6c408094d-X";
-            var secretKey = "FLWSECK_TEST-c789b9f2217485eb647843281a337bce-X";
+        // [HttpPost("initiate/{transactionId}")]
+        // public async Task<IActionResult> InitiatePayout([FromRoute] Guid transactionId)
+        // {
+        //     var publicKey = "FLWPUBK_TEST-423f24968dece0d4bdefedc6c408094d-X";
+        //     var secretKey = "FLWSECK_TEST-c789b9f2217485eb647843281a337bce-X";
 
-            var response = await _flutterwaveService.InitiatePayout(
-                publicKey,
-                secretKey,
-                transactionId
-            );
+        //     var response = await _flutterwaveService.InitiatePayout(
+        //         publicKey,
+        //         secretKey,
+        //         transactionId
+        //     );
 
-            if (response.IsSuccessful)
-            {
-                return Ok(response.Content);
-            }
-            else
-            {
-                return BadRequest(response.ErrorMessage);
-                // return BadRequest(response.Content);
-            }
-        }
+        //     if (response.IsSuccessful)
+        //     {
+        //         return Ok(response.Content);
+        //     }
+        //     else
+        //     {
+        //         return BadRequest(response.ErrorMessage);
+        //         // return BadRequest(response.Content);
+        //     }
+        // }
 
         [Authorize(Roles = "farmer")]
         [HttpPut("InitiateProducetypeSales/{farmerId}")]
@@ -145,7 +146,7 @@ namespace Host.Controllers
             return Ok(confirmedProducetypeSales);
         }
 
-        [Authorize(Roles = "manager")]
+        // [Authorize(Roles = "manager")]
         [HttpPost("VerifyInitiatedProducetypeSales")]
         public async Task<IActionResult> VerifyInitiatedProducetypeSalesAsync(
             InitiatedProducetypeSalesRequestModel model
