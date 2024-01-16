@@ -41,64 +41,6 @@ namespace Host.Controllers
             _flutterwaveService = flutterwaveService;
         }
 
-        [HttpPost("InitiatePayoutAsync/{transactionId}")]
-        public async Task<IActionResult> InitiatePayoutAsync([FromRoute] Guid transactionId)
-        {
-            var publicKey = "FLWPUBK_TEST-423f24968dece0d4bdefedc6c408094d-X";
-            var secretKey = "FLWSECK_TEST-c789b9f2217485eb647843281a337bce-X";
-
-            var response = await _flutterwaveService.InitiatePayoutAsync(
-                publicKey,
-                secretKey,
-                transactionId
-            );
-
-            if (response.IsSuccessful)
-            {
-                return Ok(response.OriginalResponse.Content);
-            }
-            else
-            {
-                return BadRequest(response.ErrorMessage);
-                // return BadRequest(response.Content);
-            }
-        }
-
-        // [HttpGet("GenerateReceipt/{transactionId}")]
-        // public async Task<IActionResult> GenerateReceiptAsync(Guid transactionId)
-        // {
-        //     var transaction = await _transactionService.GenerateReceiptAsync(transactionId);
-
-        //     if (transaction == null)
-        //     {
-        //         return NotFound("Transaction not found");
-        //     }
-        //     return Ok(transaction);
-        // }
-
-        // [HttpPost("initiate/{transactionId}")]
-        // public async Task<IActionResult> InitiatePayout([FromRoute] Guid transactionId)
-        // {
-        //     var publicKey = "FLWPUBK_TEST-423f24968dece0d4bdefedc6c408094d-X";
-        //     var secretKey = "FLWSECK_TEST-c789b9f2217485eb647843281a337bce-X";
-
-        //     var response = await _flutterwaveService.InitiatePayout(
-        //         publicKey,
-        //         secretKey,
-        //         transactionId
-        //     );
-
-        //     if (response.IsSuccessful)
-        //     {
-        //         return Ok(response.Content);
-        //     }
-        //     else
-        //     {
-        //         return BadRequest(response.ErrorMessage);
-        //         // return BadRequest(response.Content);
-        //     }
-        // }
-
         [Authorize(Roles = "farmer")]
         [HttpPut("InitiateProducetypeSales/{farmerId}")]
         public async Task<IActionResult> InitiateProducetypeSalesAsync(
@@ -133,19 +75,6 @@ namespace Host.Controllers
             return Ok(initiatedProducetypeSales);
         }
 
-        [Authorize(Roles = "manager")]
-        [HttpGet("GetAllConfirmedProducetypeSales")]
-        public async Task<IActionResult> GetAllConfirmedProducetypeSalesAsync()
-        {
-            var confirmedProducetypeSales =
-                await _transactionService.GetAllConfirmedProducetypeSalesAsync();
-            if (confirmedProducetypeSales == null)
-            {
-                return NotFound(confirmedProducetypeSales);
-            }
-            return Ok(confirmedProducetypeSales);
-        }
-
         // [Authorize(Roles = "manager")]
         [HttpPost("VerifyInitiatedProducetypeSales")]
         public async Task<IActionResult> VerifyInitiatedProducetypeSalesAsync(
@@ -159,6 +88,70 @@ namespace Host.Controllers
                 return BadRequest(result);
             }
 
+            return Ok(result);
+        }
+
+        [HttpGet("GenerateReceipt/{transactionId}")]
+        public async Task<IActionResult> GenerateReceiptAsync(Guid transactionId)
+        {
+            var transaction = await _transactionService.GenerateReceiptAsync(transactionId);
+
+            if (transaction == null)
+            {
+                return NotFound("Transaction not found");
+            }
+            return Ok(transaction);
+        }
+
+        [Authorize(Roles = "manager")]
+        [HttpGet("GetAllConfirmedProducetypeSales")]
+        public async Task<IActionResult> GetAllConfirmedProducetypeSalesAsync()
+        {
+            var confirmedProducetypeSales =
+                await _transactionService.GetAllConfirmedProducetypeSalesAsync();
+            if (confirmedProducetypeSales == null)
+            {
+                return NotFound(confirmedProducetypeSales);
+            }
+            return Ok(confirmedProducetypeSales);
+        }
+
+        [HttpPost("InitiatePayoutAsync/{transactionId}")]
+        public async Task<IActionResult> InitiatePayoutAsync([FromRoute] Guid transactionId)
+        {
+            var response = await _flutterwaveService.InitiatePayoutAsync(transactionId);
+
+            if (response.IsSuccessful)
+            {
+                return Ok(response.OriginalResponse.Content);
+            }
+            else
+            {
+                return BadRequest(response.ErrorMessage);
+            }
+        }
+
+        [HttpGet("GenerateOTPAsync")]
+        public async Task<IActionResult> GenerateOTPAsync()
+        {
+            var otp = await _flutterwaveService.GenerateOTPAsync();
+
+            if (otp == null)
+            {
+                return NotFound("OTP is not received");
+            }
+            return Ok(otp);
+        }
+
+        [HttpGet("ValidateOtpAsync")]
+        public async Task<IActionResult> ValidateOtpAsync(string otp)
+        {
+            var result = await _flutterwaveService.ValidateOtpAsync(otp);
+
+            if (result == null)
+            {
+                return BadRequest("OTP is not valid");
+            }
             return Ok(result);
         }
 
@@ -188,44 +181,5 @@ namespace Host.Controllers
             }
             return NotFound(result);
         }
-
-        // [HttpPost("InitiatePayoutForFarmer/{transactionId}")]
-        // public async Task<IActionResult> InitiatePayoutForFarmer([FromRoute] Guid transactionId,[FromBody] OtpInputModel otpInput)
-        // {
-        //     var publicKey = "FLWPUBK_TEST-423f24968dece0d4bdefedc6c408094d-X";
-        //     var secretKey = "FLWSECK_TEST-c789b9f2217485eb647843281a337bce-X";
-
-        //     var response = await _flutterwaveService.InitiatePayoutForFarmer(publicKey, secretKey, transactionId);
-
-
-        //     // if (response.OtpRequired)
-        //     // {
-        //     //     return StatusCode(428, "OTP is required for payout initiation.");
-        //     // }
-
-        //     if (response.OtpRequired)
-        //     {
-        //         if (string.IsNullOrWhiteSpace(otpInput?.Otp))
-        //         {
-        //             // If OTP is required but not provided, return a specific status code
-        //             return StatusCode(428, "OTP is required for payout initiation.");
-        //         }
-
-        //         // Include the OTP in the Flutterwave service call
-        //         response = await _flutterwaveService.CompletePayoutWithOtp(response, otpInput.Otp);
-        //     }
-
-
-        //     if (response.FlutterwaveResponse.IsSuccessful)
-        //     {
-        //         return Ok(response.FlutterwaveResponse.Content);
-        //     }
-        //     else
-        //     {
-        //         return BadRequest(response.FlutterwaveResponse.ErrorMessage);
-        //     }
-
-
-        // }
     }
 }

@@ -1,5 +1,6 @@
 using System;
 using System.ComponentModel.DataAnnotations;
+using Application.Dtos.PaymentGatewayDTOs;
 using Domain.Enum;
 
 namespace Application.Dtos
@@ -90,6 +91,13 @@ namespace Application.Dtos
         public Guid Id { get; set; }
         public TransactionStatus TransactionStatus { get; set; }
     }
+
+    // public class InitiatedProducetypeSalesRequestModel
+    // {
+    //     public Guid Id { get; set; }
+    //     public TransactionStatus TransactionStatus { get; set; }
+    //     public Customer Customer { get; set; }
+    // }
 
     public class PaymentRequestModel
     {
