@@ -42,7 +42,7 @@ public class MailService : IMailService
                 emailReciever
             };
 
-        var replyTo = new SendSmtpEmailReplyTo("treehays90@gmail.com", "Do not reply");
+        var replyTo = new SendSmtpEmailReplyTo("mybluvedcreator@gmail.com", "Do not reply");
 
 
         var sendEmail = new SendSmtpEmail
@@ -60,9 +60,10 @@ public class MailService : IMailService
 
             return "ok";
         }
-        catch (System.Exception e)
+        catch (Exception e)
         {
-            return "ok";
+            // return "ok";
+            return e.Message;
 
         }
     }

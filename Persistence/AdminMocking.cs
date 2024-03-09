@@ -37,7 +37,7 @@ namespace Persistence
                         LastName = "Bisi",
                         PhoneNumber = "08132759937",
                         Email = "mybluvedcreator@gmail.com",
-                        Password = BCrypt.Net.BCrypt.HashPassword("1234567a"),
+                        Password = BCrypt.Net.BCrypt.HashPassword("Password@1"),
                         Address = "Abk",
                         ProfilePicture = "admin.jpg",
                         RoleId = role.Id,

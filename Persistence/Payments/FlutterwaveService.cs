@@ -105,6 +105,7 @@ namespace Persistence.Payments
                 };
 
                 var client = new HttpClient();
+                
                 client.DefaultRequestHeaders.Add("Authorization", $"Bearer {secretKey}");
                 client
                     .DefaultRequestHeaders

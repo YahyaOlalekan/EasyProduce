@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Host.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("/api/[controller]")]
     public class ProduceTypeController : ControllerBase
     {
         private readonly IProduceTypeService _produceTypeService;
