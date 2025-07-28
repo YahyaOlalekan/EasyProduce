@@ -11,8 +11,8 @@ using Persistence.AppDbContext;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20231019121556_initial")]
-    partial class initial
+    [Migration("20240312145108_Init")]
+    partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -52,7 +52,7 @@ namespace Persistence.Migrations
                     b.ToTable("Admin");
                 });
 
-            modelBuilder.Entity("Domain.Entity.CartItem", b =>
+            modelBuilder.Entity("Domain.Entity.Cart", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -104,60 +104,6 @@ namespace Persistence.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("CartItems");
-                });
-
-            modelBuilder.Entity("Domain.Entity.CartItemForOrder", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
-
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("longtext");
-
-                    b.Property<DateTime>("DateCreated")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("tinyint(1)");
-
-                    b.Property<string>("ModifiedBy")
-                        .HasColumnType("longtext");
-
-                    b.Property<DateTime>("ModifiedOn")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<string>("NameOfCategory")
-                        .HasColumnType("longtext");
-
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(65,30)");
-
-                    b.Property<string>("ProduceName")
-                        .HasColumnType("longtext");
-
-                    b.Property<Guid>("ProductTypeId")
-                        .HasColumnType("char(36)");
-
-                    b.Property<double>("Quantity")
-                        .HasColumnType("double");
-
-                    b.Property<decimal>("TotalPrice")
-                        .HasColumnType("decimal(65,30)");
-
-                    b.Property<string>("UnitOfMeasurement")
-                        .HasColumnType("longtext");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("char(36)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProductTypeId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("CartItemForOrders");
                 });
 
             modelBuilder.Entity("Domain.Entity.Category", b =>
@@ -266,7 +212,8 @@ namespace Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserId")
+                        .IsUnique();
 
                     b.ToTable("Customers");
                 });
@@ -280,10 +227,13 @@ namespace Persistence.Migrations
                     b.Property<string>("AccountName")
                         .HasColumnType("longtext");
 
-                    b.Property<int>("AccountNumber")
-                        .HasColumnType("int");
+                    b.Property<string>("AccountNumber")
+                        .HasColumnType("longtext");
 
                     b.Property<string>("BankCode")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("BankName")
                         .HasColumnType("longtext");
 
                     b.Property<string>("CreatedBy")
@@ -315,7 +265,8 @@ namespace Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserId")
+                        .IsUnique();
 
                     b.ToTable("Farmers");
                 });
@@ -420,9 +371,6 @@ namespace Persistence.Migrations
                     b.Property<string>("OrderNumber")
                         .HasColumnType("longtext");
 
-                    b.Property<decimal>("TotalAmount")
-                        .HasColumnType("decimal(65,30)");
-
                     b.Property<double>("TotalQuantity")
                         .HasColumnType("double");
 
@@ -457,14 +405,8 @@ namespace Persistence.Migrations
                     b.Property<Guid>("OrderId")
                         .HasColumnType("char(36)");
 
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(65,30)");
-
                     b.Property<Guid>("ProductTypeId")
                         .HasColumnType("char(36)");
-
-                    b.Property<double>("Quantity")
-                        .HasColumnType("double");
 
                     b.HasKey("Id");
 
@@ -539,103 +481,8 @@ namespace Persistence.Migrations
                     b.Property<Guid>("ProduceId")
                         .HasColumnType("char(36)");
 
-                    b.Property<double>("Quantity")
+                    b.Property<double>("TotalQuantityBought")
                         .HasColumnType("double");
-
-                    b.Property<decimal>("SellingPrice")
-                        .HasColumnType("decimal(65,30)");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
-
-                    b.Property<string>("TypeName")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("UnitOfMeasurement")
-                        .HasColumnType("longtext");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProduceId");
-
-                    b.ToTable("ProduceTypes");
-                });
-
-            modelBuilder.Entity("Domain.Entity.Product", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
-
-                    b.Property<Guid>("CategoryId")
-                        .HasColumnType("char(36)");
-
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("longtext");
-
-                    b.Property<DateTime>("DateCreated")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("tinyint(1)");
-
-                    b.Property<string>("ModifiedBy")
-                        .HasColumnType("longtext");
-
-                    b.Property<DateTime>("ModifiedOn")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<string>("ProduceName")
-                        .HasColumnType("longtext");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CategoryId");
-
-                    b.ToTable("Products");
-                });
-
-            modelBuilder.Entity("Domain.Entity.ProductType", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
-
-                    b.Property<decimal>("CostPrice")
-                        .HasColumnType("decimal(65,30)");
-
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("longtext");
-
-                    b.Property<DateTime>("DateCreated")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<bool>("IsAvailable")
-                        .HasColumnType("tinyint(1)");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("tinyint(1)");
-
-                    b.Property<string>("ModifiedBy")
-                        .HasColumnType("longtext");
-
-                    b.Property<DateTime>("ModifiedOn")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<Guid>("ProduceId")
-                        .HasColumnType("char(36)");
-
-                    b.Property<Guid?>("ProductId")
-                        .HasColumnType("char(36)");
-
-                    b.Property<double>("QuantityToBuy")
-                        .HasColumnType("double");
-
-                    b.Property<decimal>("SellingPrice")
-                        .HasColumnType("decimal(65,30)");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
 
                     b.Property<string>("TypeName")
                         .HasColumnType("longtext");
@@ -650,7 +497,43 @@ namespace Persistence.Migrations
 
                     b.HasIndex("ProduceId");
 
-                    b.HasIndex("ProductId");
+                    b.ToTable("ProduceTypes");
+                });
+
+            modelBuilder.Entity("Domain.Entity.ProductType", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime>("ModifiedOn")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<Guid>("ProduceTypeId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<decimal>("SellingPrice")
+                        .HasColumnType("decimal(65,30)");
+
+                    b.Property<double>("TotalQuantityAvailable")
+                        .HasColumnType("double");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProduceTypeId")
+                        .IsUnique();
 
                     b.ToTable("ProductTypes");
                 });
@@ -706,6 +589,8 @@ namespace Persistence.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("FarmerId");
+
+                    b.HasIndex("ProduceTypeId");
 
                     b.ToTable("Requests");
                 });
@@ -865,7 +750,7 @@ namespace Persistence.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Domain.Entity.CartItem", b =>
+            modelBuilder.Entity("Domain.Entity.Cart", b =>
                 {
                     b.HasOne("Domain.Entity.ProduceType", "ProduceType")
                         .WithMany()
@@ -880,25 +765,6 @@ namespace Persistence.Migrations
                         .IsRequired();
 
                     b.Navigation("ProduceType");
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("Domain.Entity.CartItemForOrder", b =>
-                {
-                    b.HasOne("Domain.Entity.ProductType", "ProductType")
-                        .WithMany()
-                        .HasForeignKey("ProductTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Domain.Entity.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("ProductType");
 
                     b.Navigation("User");
                 });
@@ -925,8 +791,8 @@ namespace Persistence.Migrations
             modelBuilder.Entity("Domain.Entity.Customer", b =>
                 {
                     b.HasOne("Domain.Entity.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
+                        .WithOne("Customer")
+                        .HasForeignKey("Domain.Entity.Customer", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -936,8 +802,8 @@ namespace Persistence.Migrations
             modelBuilder.Entity("Domain.Entity.Farmer", b =>
                 {
                     b.HasOne("Domain.Entity.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
+                        .WithOne("Farmer")
+                        .HasForeignKey("Domain.Entity.Farmer", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -1026,30 +892,15 @@ namespace Persistence.Migrations
                     b.Navigation("Produce");
                 });
 
-            modelBuilder.Entity("Domain.Entity.Product", b =>
-                {
-                    b.HasOne("Domain.Entity.Category", "Category")
-                        .WithMany()
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Category");
-                });
-
             modelBuilder.Entity("Domain.Entity.ProductType", b =>
                 {
-                    b.HasOne("Domain.Entity.Produce", "Produce")
-                        .WithMany()
-                        .HasForeignKey("ProduceId")
+                    b.HasOne("Domain.Entity.ProduceType", "ProduceType")
+                        .WithOne("ProductType")
+                        .HasForeignKey("Domain.Entity.ProductType", "ProduceTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Domain.Entity.Product", null)
-                        .WithMany("ProductTypes")
-                        .HasForeignKey("ProductId");
-
-                    b.Navigation("Produce");
+                    b.Navigation("ProduceType");
                 });
 
             modelBuilder.Entity("Domain.Entity.Request", b =>
@@ -1060,7 +911,15 @@ namespace Persistence.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Domain.Entity.ProduceType", "ProduceType")
+                        .WithMany()
+                        .HasForeignKey("ProduceTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Farmer");
+
+                    b.Navigation("ProduceType");
                 });
 
             modelBuilder.Entity("Domain.Entity.Transaction", b =>
@@ -1132,11 +991,8 @@ namespace Persistence.Migrations
             modelBuilder.Entity("Domain.Entity.ProduceType", b =>
                 {
                     b.Navigation("FarmerProduceTypes");
-                });
 
-            modelBuilder.Entity("Domain.Entity.Product", b =>
-                {
-                    b.Navigation("ProductTypes");
+                    b.Navigation("ProductType");
                 });
 
             modelBuilder.Entity("Domain.Entity.ProductType", b =>
@@ -1147,6 +1003,13 @@ namespace Persistence.Migrations
             modelBuilder.Entity("Domain.Entity.Role", b =>
                 {
                     b.Navigation("Users");
+                });
+
+            modelBuilder.Entity("Domain.Entity.User", b =>
+                {
+                    b.Navigation("Customer");
+
+                    b.Navigation("Farmer");
                 });
 #pragma warning restore 612, 618
         }

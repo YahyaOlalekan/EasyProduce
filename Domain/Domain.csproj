@@ -6,6 +6,12 @@
     <Nullable>disable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="Entity\Group.cs" />
+    <Compile Remove="Entity\Product.cs" />
+    <Compile Remove="Entity\TransactionProduceType.cs" />
+  </ItemGroup>
+
 <!-- <ItemGroup>
     <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.14" />

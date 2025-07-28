@@ -6,6 +6,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
+using Application.Abstractions;
 using Application.Abstractions.RepositoryInterfaces;
 using Application.Abstractions.ServiceInterfaces;
 using Application.Dtos;
@@ -22,14 +23,16 @@ namespace Application.Services
         private readonly IFarmerRepository _farmerRepository;
         private readonly IUserRepository _userRepository;
         private readonly IFarmerProduceTypeRepository _farmerProduceTypeRepository;
+        private readonly IFileUploadServiceForWWWRoot _fileUploadServiceForWWWRoot;
 
-        public ProduceTypeService(IProduceTypeRepository produceTypeRepository, IHttpContextAccessor httpAccessor, IFarmerRepository farmerRepository, IFarmerProduceTypeRepository farmerProduceTypeRepository, IUserRepository userRepository)
+        public ProduceTypeService(IProduceTypeRepository produceTypeRepository, IHttpContextAccessor httpAccessor, IFarmerRepository farmerRepository, IFarmerProduceTypeRepository farmerProduceTypeRepository, IUserRepository userRepository, IFileUploadServiceForWWWRoot fileUploadServiceForWWWRoot)
         {
             _produceTypeRepository = produceTypeRepository;
             _httpAccessor = httpAccessor;
             _farmerRepository = farmerRepository;
             _userRepository = userRepository;
             _farmerProduceTypeRepository = farmerProduceTypeRepository;
+            _fileUploadServiceForWWWRoot = fileUploadServiceForWWWRoot;
         }
 
         public async Task<BaseResponse<ProduceTypeDto>> CreateAsync(CreateProduceTypeRequestModel model)
@@ -42,10 +45,15 @@ namespace Application.Services
                 produceType.TypeName = model.TypeName;
                 produceType.ProduceId = model.ProduceId;
                 produceType.CreatedBy = loginId;
+
                 // produceType.UnitOfMeasurement = model.UnitOfMeasurement;
                 // produceType.CostPrice = model.CostPrice;
                 // produceType.SellingPrice = model.SellingPrice;
-                // produceType.TypePicture = model.TypePicture;
+
+                var typePicture = await _fileUploadServiceForWWWRoot.UploadFileAsync(
+               model.TypePicture
+           );
+                 produceType.TypePicture = typePicture.name;
 
                 string produceTypeFirstLetterToUpperCase = $"{CultureInfo.CurrentCulture.TextInfo.ToTitleCase(produceType.TypeName)}";
 
@@ -125,7 +133,7 @@ namespace Application.Services
                     TypeName = produceType.TypeName,
                     UnitOfMeasurement = produceType.UnitOfMeasurement,
                     CostPrice = produceType.CostPrice,
-                    SellingPrice = produceType.SellingPrice,
+                   // SellingPrice = produceType.SellingPrice,
 
                 }
             };
@@ -187,7 +195,7 @@ namespace Application.Services
                         TypeName = produceType.TypeName,
                         UnitOfMeasurement = produceType.UnitOfMeasurement,
                         CostPrice = produceType.CostPrice,
-                        SellingPrice = produceType.SellingPrice,
+                        //SellingPrice = produceType.SellingPrice,
 
                     }
                 };

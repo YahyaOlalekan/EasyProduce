@@ -9,11 +9,13 @@ using Application.Authentication;
 using Application.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Persistence;
@@ -25,6 +27,7 @@ using Persistence.RepositoryImplementations;
 
 #region bc
 var builder = WebApplication.CreateBuilder(args);
+
 
 // Add services to the container.
 
@@ -89,8 +92,9 @@ builder.Services
              };
          });
 
+string connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
-string connectionString = builder.Configuration.GetConnectionString("EasyProduceConnectionString");
+//string connectionString = builder.Configuration.GetConnectionString("EasyProduceConnectionString");
 builder.Services.AddDbContextPool<Context>(option => option.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
 
 //builder.Services.AddDbContext<Context>();
@@ -116,10 +120,10 @@ builder.Services.AddScoped<ITransactionService, TransactionService>();
 builder.Services.AddScoped<IProduceRepository, ProduceRepository>();
 builder.Services.AddScoped<IProduceService, ProduceService>();
 
-builder.Services.AddScoped<IProductTypeRepository, ProductTypeRepository>();
+//builder.Services.AddScoped<IProductTypeRepository, ProductTypeRepository>();
 //builder.Services.AddScoped<IProductTypeService, ProductTypeService>();
 
-builder.Services.AddScoped<IProductRepository, ProductRepository>();
+//builder.Services.AddScoped<IProductRepository, ProductRepository>();
 //builder.Services.AddScoped<IProductService, ProductService>();
 
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
@@ -171,6 +175,9 @@ builder.Services.AddScoped<IFlutterwaveService, FlutterwaveService>();
 
 #region mdw
 var app = builder.Build();
+
+app.Logger.LogInformation("Application running on: {Urls}", string.Join(", ", app.Urls));
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

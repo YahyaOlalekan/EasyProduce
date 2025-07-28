@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Domain.Entity;
 using Domain.Enum;
+using Microsoft.AspNetCore.Http;
 
 namespace Application.Dtos
 {
@@ -10,7 +11,7 @@ namespace Application.Dtos
     {
         public Guid Id { get; set; }
         public string TypeName { get; set; }
-        // public string TypePicture { get; set; }
+         public string TypePicture { get; set; }
         public Guid FarmerId { get; set; }
         public List<Guid> FarmerIds { get; set; }
         public Guid ProduceId { get; set; }
@@ -24,7 +25,7 @@ namespace Application.Dtos
         public TransactionStatus TransactionStatus { get; set; }
         public Guid CategoryId { get; set; }
         public string DescriptionOfProduce { get; set; }
-        public List<TransactionProduceTypeDto> TransactionProduceTypes { get; set; }
+        //public List<TransactionProduceTypeDto> TransactionProduceTypes { get; set; }
         public List<FarmerProduceType> FarmerProduceTypes { get; set; }
 
     }
@@ -38,6 +39,10 @@ namespace Application.Dtos
 
         [Display(Name = "Produce"), Required]
         public Guid ProduceId { get; set; }
+
+        [Required]
+        public IFormFile TypePicture { get; set; }
+
 
         // [Required]
         // [Display(Name = "Cost Price")]

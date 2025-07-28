@@ -80,6 +80,23 @@ namespace Application.Services
                 };
             }
 
+            if (model.Price <= decimal.Zero)
+            {
+                return new BaseResponse<Transaction>
+                {
+                    Message = $"{model.Price} is not a valid price!",
+                    Status = false
+                };
+            }
+
+            if (model.Quantity <= 0.0)
+            {
+                return new BaseResponse<Transaction>
+                {
+                    Message = "Enter a valid quantity!",
+                    Status = false
+                };
+            }
             var transaction = new Transaction
             {
                 ProduceTypeId = model.ProduceTypeId,
@@ -300,7 +317,8 @@ namespace Application.Services
                     AccountName = transaction.Farmer.AccountName,
                     BankName = transaction.Farmer.BankName,
                     AccountNumber = transaction.Farmer.AccountNumber,
-                     DateCreated = DateTime.Now
+                     DateCreated = DateTime.Now,
+                    //DateCreated = DateTime.Now.ToString("dddd, dd MMMM yyyy HH:mm:ss"),
                     //  BankCode = transaction.Farmer.BankCode,
                     // ProduceTypeId = transaction.ProduceTypeId,
                     // FarmerId = transaction.FarmerId,

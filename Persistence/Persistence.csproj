@@ -5,6 +5,11 @@
 		<Nullable>disable</Nullable>
 	</PropertyGroup>
 	<ItemGroup>
+	  <Compile Remove="RepositoryImplementations\GroupRepository.cs" />
+	  <Compile Remove="RepositoryImplementations\ProductRepository.cs" />
+	  <Compile Remove="RepositoryImplementations\TransactionProduceTypeRepository.cs" />
+	</ItemGroup>
+	<ItemGroup>
 		<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.25.1" />
 		<PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
 		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.0" />

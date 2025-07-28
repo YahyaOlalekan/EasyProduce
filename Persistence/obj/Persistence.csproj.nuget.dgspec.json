@@ -1,20 +1,24 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\USER PC\\Desktop\\EasyProduce\\Persistence\\Persistence.csproj": {}
+    "C:\\Users\\USER\\Desktop\\MyFolder\\EasyProduce\\Persistence\\Persistence.csproj": {}
   },
   "projects": {
-    "C:\\Users\\USER PC\\Desktop\\EasyProduce\\Application\\Application.csproj": {
+    "C:\\Users\\USER\\Desktop\\MyFolder\\EasyProduce\\Application\\Application.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\USER PC\\Desktop\\EasyProduce\\Application\\Application.csproj",
+        "projectUniqueName": "C:\\Users\\USER\\Desktop\\MyFolder\\EasyProduce\\Application\\Application.csproj",
         "projectName": "Application",
-        "projectPath": "C:\\Users\\USER PC\\Desktop\\EasyProduce\\Application\\Application.csproj",
-        "packagesPath": "C:\\Users\\USER PC\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\USER PC\\Desktop\\EasyProduce\\Application\\obj\\",
+        "projectPath": "C:\\Users\\USER\\Desktop\\MyFolder\\EasyProduce\\Application\\Application.csproj",
+        "packagesPath": "C:\\Users\\USER\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\USER\\Desktop\\MyFolder\\EasyProduce\\Application\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "C:\\Users\\USER PC\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\USER\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -28,8 +32,8 @@
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "C:\\Users\\USER PC\\Desktop\\EasyProduce\\Domain\\Domain.csproj": {
-                "projectPath": "C:\\Users\\USER PC\\Desktop\\EasyProduce\\Domain\\Domain.csproj"
+              "C:\\Users\\USER\\Desktop\\MyFolder\\EasyProduce\\Domain\\Domain.csproj": {
+                "projectPath": "C:\\Users\\USER\\Desktop\\MyFolder\\EasyProduce\\Domain\\Domain.csproj"
               }
             }
           }
@@ -38,7 +42,13 @@
           "warnAsError": [
             "NU1605"
           ]
-        }
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.100"
       },
       "frameworks": {
         "net6.0": {
@@ -87,21 +97,25 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.202\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.101\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\USER PC\\Desktop\\EasyProduce\\Domain\\Domain.csproj": {
+    "C:\\Users\\USER\\Desktop\\MyFolder\\EasyProduce\\Domain\\Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\USER PC\\Desktop\\EasyProduce\\Domain\\Domain.csproj",
+        "projectUniqueName": "C:\\Users\\USER\\Desktop\\MyFolder\\EasyProduce\\Domain\\Domain.csproj",
         "projectName": "Domain",
-        "projectPath": "C:\\Users\\USER PC\\Desktop\\EasyProduce\\Domain\\Domain.csproj",
-        "packagesPath": "C:\\Users\\USER PC\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\USER PC\\Desktop\\EasyProduce\\Domain\\obj\\",
+        "projectPath": "C:\\Users\\USER\\Desktop\\MyFolder\\EasyProduce\\Domain\\Domain.csproj",
+        "packagesPath": "C:\\Users\\USER\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\USER\\Desktop\\MyFolder\\EasyProduce\\Domain\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "C:\\Users\\USER PC\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\USER\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -121,7 +135,13 @@
           "warnAsError": [
             "NU1605"
           ]
-        }
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.100"
       },
       "frameworks": {
         "net6.0": {
@@ -142,21 +162,25 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.202\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.101\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\USER PC\\Desktop\\EasyProduce\\Persistence\\Persistence.csproj": {
+    "C:\\Users\\USER\\Desktop\\MyFolder\\EasyProduce\\Persistence\\Persistence.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\USER PC\\Desktop\\EasyProduce\\Persistence\\Persistence.csproj",
+        "projectUniqueName": "C:\\Users\\USER\\Desktop\\MyFolder\\EasyProduce\\Persistence\\Persistence.csproj",
         "projectName": "Persistence",
-        "projectPath": "C:\\Users\\USER PC\\Desktop\\EasyProduce\\Persistence\\Persistence.csproj",
-        "packagesPath": "C:\\Users\\USER PC\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\USER PC\\Desktop\\EasyProduce\\Persistence\\obj\\",
+        "projectPath": "C:\\Users\\USER\\Desktop\\MyFolder\\EasyProduce\\Persistence\\Persistence.csproj",
+        "packagesPath": "C:\\Users\\USER\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\USER\\Desktop\\MyFolder\\EasyProduce\\Persistence\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "C:\\Users\\USER PC\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\USER\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -170,11 +194,11 @@
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "C:\\Users\\USER PC\\Desktop\\EasyProduce\\Application\\Application.csproj": {
-                "projectPath": "C:\\Users\\USER PC\\Desktop\\EasyProduce\\Application\\Application.csproj"
+              "C:\\Users\\USER\\Desktop\\MyFolder\\EasyProduce\\Application\\Application.csproj": {
+                "projectPath": "C:\\Users\\USER\\Desktop\\MyFolder\\EasyProduce\\Application\\Application.csproj"
               },
-              "C:\\Users\\USER PC\\Desktop\\EasyProduce\\Domain\\Domain.csproj": {
-                "projectPath": "C:\\Users\\USER PC\\Desktop\\EasyProduce\\Domain\\Domain.csproj"
+              "C:\\Users\\USER\\Desktop\\MyFolder\\EasyProduce\\Domain\\Domain.csproj": {
+                "projectPath": "C:\\Users\\USER\\Desktop\\MyFolder\\EasyProduce\\Domain\\Domain.csproj"
               }
             }
           }
@@ -183,7 +207,13 @@
           "warnAsError": [
             "NU1605"
           ]
-        }
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.100"
       },
       "frameworks": {
         "net6.0": {
@@ -244,7 +274,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.202\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.101\\RuntimeIdentifierGraph.json"
         }
       }
     }

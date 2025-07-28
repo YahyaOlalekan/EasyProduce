@@ -308,38 +308,6 @@ namespace Persistence.Migrations
                     b.ToTable("FarmerProduceTypes");
                 });
 
-            modelBuilder.Entity("Domain.Entity.Group", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
-
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("longtext");
-
-                    b.Property<DateTime>("DateCreated")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<string>("DescriptionOfGroup")
-                        .HasColumnType("longtext");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("tinyint(1)");
-
-                    b.Property<string>("ModifiedBy")
-                        .HasColumnType("longtext");
-
-                    b.Property<DateTime>("ModifiedOn")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<string>("NameOfGroup")
-                        .HasColumnType("longtext");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Groups");
-                });
-
             modelBuilder.Entity("Domain.Entity.Manager", b =>
                 {
                     b.Property<Guid>("Id")
@@ -511,94 +479,8 @@ namespace Persistence.Migrations
                     b.Property<Guid>("ProduceId")
                         .HasColumnType("char(36)");
 
-                    b.Property<double>("Quantity")
+                    b.Property<double>("TotalQuantityBought")
                         .HasColumnType("double");
-
-                    b.Property<decimal>("SellingPrice")
-                        .HasColumnType("decimal(65,30)");
-
-                    b.Property<string>("TypeName")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("UnitOfMeasurement")
-                        .HasColumnType("longtext");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProduceId");
-
-                    b.ToTable("ProduceTypes");
-                });
-
-            modelBuilder.Entity("Domain.Entity.Product", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
-
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("longtext");
-
-                    b.Property<DateTime>("DateCreated")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<Guid>("GroupId")
-                        .HasColumnType("char(36)");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("tinyint(1)");
-
-                    b.Property<string>("ModifiedBy")
-                        .HasColumnType("longtext");
-
-                    b.Property<DateTime>("ModifiedOn")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<string>("ProductName")
-                        .HasColumnType("longtext");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("GroupId");
-
-                    b.ToTable("Products");
-                });
-
-            modelBuilder.Entity("Domain.Entity.ProductType", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
-
-                    b.Property<decimal>("CostPrice")
-                        .HasColumnType("decimal(65,30)");
-
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("longtext");
-
-                    b.Property<DateTime>("DateCreated")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<bool>("IsAvailable")
-                        .HasColumnType("tinyint(1)");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("tinyint(1)");
-
-                    b.Property<string>("ModifiedBy")
-                        .HasColumnType("longtext");
-
-                    b.Property<DateTime>("ModifiedOn")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<Guid?>("ProductId")
-                        .HasColumnType("char(36)");
-
-                    b.Property<double>("QuantityAvailable")
-                        .HasColumnType("double");
-
-                    b.Property<decimal>("SellingPrice")
-                        .HasColumnType("decimal(65,30)");
 
                     b.Property<string>("TypeName")
                         .HasColumnType("longtext");
@@ -611,7 +493,45 @@ namespace Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ProductId");
+                    b.HasIndex("ProduceId");
+
+                    b.ToTable("ProduceTypes");
+                });
+
+            modelBuilder.Entity("Domain.Entity.ProductType", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime>("ModifiedOn")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<Guid>("ProduceTypeId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<decimal>("SellingPrice")
+                        .HasColumnType("decimal(65,30)");
+
+                    b.Property<double>("TotalQuantityAvailable")
+                        .HasColumnType("double");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProduceTypeId")
+                        .IsUnique();
 
                     b.ToTable("ProductTypes");
                 });
@@ -970,22 +890,15 @@ namespace Persistence.Migrations
                     b.Navigation("Produce");
                 });
 
-            modelBuilder.Entity("Domain.Entity.Product", b =>
+            modelBuilder.Entity("Domain.Entity.ProductType", b =>
                 {
-                    b.HasOne("Domain.Entity.Group", "Group")
-                        .WithMany("Products")
-                        .HasForeignKey("GroupId")
+                    b.HasOne("Domain.Entity.ProduceType", "ProduceType")
+                        .WithOne("ProductType")
+                        .HasForeignKey("Domain.Entity.ProductType", "ProduceTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Group");
-                });
-
-            modelBuilder.Entity("Domain.Entity.ProductType", b =>
-                {
-                    b.HasOne("Domain.Entity.Product", null)
-                        .WithMany("ProductTypes")
-                        .HasForeignKey("ProductId");
+                    b.Navigation("ProduceType");
                 });
 
             modelBuilder.Entity("Domain.Entity.Request", b =>
@@ -1056,11 +969,6 @@ namespace Persistence.Migrations
                     b.Navigation("Transactions");
                 });
 
-            modelBuilder.Entity("Domain.Entity.Group", b =>
-                {
-                    b.Navigation("Products");
-                });
-
             modelBuilder.Entity("Domain.Entity.Manager", b =>
                 {
                     b.Navigation("Chats");
@@ -1081,11 +989,8 @@ namespace Persistence.Migrations
             modelBuilder.Entity("Domain.Entity.ProduceType", b =>
                 {
                     b.Navigation("FarmerProduceTypes");
-                });
 
-            modelBuilder.Entity("Domain.Entity.Product", b =>
-                {
-                    b.Navigation("ProductTypes");
+                    b.Navigation("ProductType");
                 });
 
             modelBuilder.Entity("Domain.Entity.ProductType", b =>

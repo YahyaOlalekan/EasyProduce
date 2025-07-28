@@ -2,6 +2,7 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using Application.Dtos.PaymentGatewayDTOs;
 using Domain.Enum;
+using Microsoft.AspNetCore.Http;
 
 namespace Application.Dtos
 {
@@ -13,6 +14,7 @@ namespace Application.Dtos
         public Guid FarmerId { get; set; }
         public FarmerDto Farmer { get; set; }
         public string TypeName { get; set; }
+        public string TypePicture { get; set; }
         public TransactionStatus TransactionStatus { get; set; }
         public decimal Price { get; set; }
         public double Quantity { get; set; }
@@ -64,7 +66,7 @@ namespace Application.Dtos
 
     public class InitiateProducetypeSalesRequestModel/*: BaseEntity*/
     {
-        [Display(Name = "Produce Type Name")]
+        [Display(Name = "Produce Type Name"), Required]
         public Guid ProduceTypeId { get; set; }
 
         [Required]
@@ -78,6 +80,9 @@ namespace Application.Dtos
         [Required]
         [Display(Name = "Unit Of Measurement")]
         public string UnitOfMeasurement { get; set; }
+
+        [Display(Name = "Produce Picture"), Required(ErrorMessage = "Please upload produce picture.")]
+        public IFormFile TypePicture { get; set; }
         // public decimal TotalAmount { get; set; }
         // public TransactionStatus TransactionStatus { get; set; }
 

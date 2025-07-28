@@ -18,7 +18,7 @@ namespace Persistence.AppDbContext
         public DbSet<Role> Roles { get; set; }
         public DbSet<Manager> Managers { get; set; }
         public DbSet<Produce> Produces { get; set; }
-        public DbSet<Product> Products { get; set; }
+        //public DbSet<Product> Products { get; set; }
         public DbSet<Transaction> Transactions { get; set; }
         // public DbSet<TransactionProduceType> TransactionProduceTypes { get; set; }
         public DbSet<ProduceType> ProduceTypes { get; set; }
@@ -26,7 +26,7 @@ namespace Persistence.AppDbContext
         public DbSet<OrderProductType> OrderProductTypes { get; set; }
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Order> Orders { get; set; }
-        public DbSet<Group> Groups { get; set; }
+        //public DbSet<Group> Groups { get; set; }
         public DbSet<Cart> CartItems { get; set; }
         public DbSet<FarmerProduceType> FarmerProduceTypes { get; set; }
         public DbSet<Chat> Chats { get; set; }

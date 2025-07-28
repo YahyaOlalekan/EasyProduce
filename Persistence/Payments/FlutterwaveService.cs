@@ -54,6 +54,8 @@ namespace Persistence.Payments
             {
                 account_bank = "044",
                 account_number = "0690000040",
+                //account_bank = transaction.Farmer.BankCode,
+                //account_number = transaction.Farmer.AccountNumber,
                 amount = transaction.TotalAmount,
                 narration = "Payment for producetype purchased",
                 currency = "NGN",
